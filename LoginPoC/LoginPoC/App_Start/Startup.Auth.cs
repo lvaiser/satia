@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using LoginPoC.Models;
+using System.Configuration;
 
 namespace LoginPoC
 {
@@ -56,13 +57,13 @@ namespace LoginPoC
 
             // TODO: Remover estas claves del código fuente a un archivo externo
             app.UseFacebookAuthentication(
-               appId: "230399110778330",
-               appSecret: "ac0027424cec86ad892bd46bcb76510a");
+               appId: ConfigurationManager.AppSettings["facebookAppId"],
+               appSecret: ConfigurationManager.AppSettings["facebookAppSecret"]);
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "909441101611-ec9gh6ta9m6g875kpu38cfdq6scu3a7k.apps.googleusercontent.com",
-                ClientSecret = "WCuGB9go24KIouH7rG6trv9g"
+                ClientId = ConfigurationManager.AppSettings["googleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["googleClientSecret"]
             });
         }
     }

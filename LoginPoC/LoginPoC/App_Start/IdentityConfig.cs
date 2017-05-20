@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using LoginPoC.Models;
+using System.Net.Mail;
+using System.Net;
+using System.Configuration;
 
 namespace LoginPoC
 {
@@ -18,8 +21,27 @@ namespace LoginPoC
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            MailAddress from = new MailAddress(
+                ConfigurationManager.AppSettings["mailAccount"],
+                "SATIA");
+            
+            // Set destinations for the e-mail message.
+            MailAddress to = new MailAddress(message.Destination);
+
+            var myMessage = new MailMessage(from, to);
+            myMessage.Subject = message.Subject;
+            myMessage.Body = message.Body;
+            myMessage.IsBodyHtml = true;
+
+            var client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential(
+                    ConfigurationManager.AppSettings["mailAccount"],
+                    ConfigurationManager.AppSettings["mailPassword"]),
+                EnableSsl = true
+            };
+
+            return client.SendMailAsync(myMessage);
         }
     }
 

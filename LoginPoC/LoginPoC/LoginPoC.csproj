@@ -291,6 +291,7 @@
     <Content Include="Views\ProcessType\Details.cshtml" />
     <Content Include="Views\ProcessType\Edit.cshtml" />
     <Content Include="Views\ProcessType\Index.cshtml" />
+    <Content Include="Views\Shared\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

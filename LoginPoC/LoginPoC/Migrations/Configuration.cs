@@ -40,6 +40,7 @@ namespace LoginPoC.Migrations
             //    );
             //
 
+            this.AddRole("admin", context);
             this.AddRole("agent", context);
             this.AddRole("endUser", context);
 
