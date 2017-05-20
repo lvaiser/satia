@@ -16,12 +16,12 @@ namespace LoginPoC.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        bool AddRole(ApplicationDbContext context)
+        bool AddRole(string role, ApplicationDbContext context)
         {
             IdentityResult ir;
             var rm = new RoleManager<IdentityRole>
                 (new RoleStore<IdentityRole>(context));
-            ir = rm.Create(new IdentityRole("endUser"));
+            ir = rm.Create(new IdentityRole(role));
             return ir.Succeeded;
         }
 
@@ -40,7 +40,8 @@ namespace LoginPoC.Migrations
             //    );
             //
 
-            this.AddRole(context);
+            this.AddRole("agent", context);
+            this.AddRole("endUser", context);
 
             context.ProcessTypes.AddOrUpdate(p => p.Name,
                 new ProcessType

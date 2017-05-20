@@ -11,6 +11,7 @@ using LoginPoC.Models.ProcessType;
 
 namespace LoginPoC.Controllers
 {
+    [Authorize(Roles = "agent, admin")]
     public class ProcessTypeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
