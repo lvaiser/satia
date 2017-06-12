@@ -22,7 +22,41 @@ namespace LoginPoC.Migrations
             var rm = new RoleManager<IdentityRole>
                 (new RoleStore<IdentityRole>(context));
             ir = rm.Create(new IdentityRole(role));
+
             return ir.Succeeded;
+        }
+
+        bool AddUser(string email, string password, string firstName, string lastName, string roleName, ApplicationDbContext context)
+        {
+            IdentityResult ir;
+            var um = new UserManager<ApplicationUser>
+                (new UserStore<ApplicationUser>(context));
+
+            if (!context.Users.Any(u => u.UserName == email))
+            {
+                var user = new ApplicationUser
+                {
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    UserName = email,
+                    EmailConfirmed = true
+                };
+
+                ir = um.Create(user, password);
+                if (ir.Succeeded)
+                {
+                    ir = um.AddToRole(user.Id, roleName);
+                }
+                else
+                {
+                    throw new Exception(ir.Errors.First());
+                }
+
+                return ir.Succeeded;
+            }
+
+            return false;
         }
 
         protected override void Seed(ApplicationDbContext context)
@@ -44,6 +78,8 @@ namespace LoginPoC.Migrations
             this.AddRole("agent", context);
             this.AddRole("endUser", context);
 
+            this.AddUser("admin@satia.com", "admin123", "Admin", "Admin", "admin", context);
+
             context.ProcessTypes.AddOrUpdate(p => p.Name,
                 new ProcessType
                 {
@@ -55,7 +91,7 @@ namespace LoginPoC.Migrations
                     Name = "Residencia",
                     Description = "Trámite de residencia"
                 }
-                );
+            );
         }
     }
 }
