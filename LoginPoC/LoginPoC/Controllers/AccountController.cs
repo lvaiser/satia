@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LoginPoC.Models;
+using Facebook;
 
 namespace LoginPoC.Controllers
 {
@@ -360,9 +361,22 @@ namespace LoginPoC.Controllers
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
+
+                    if (loginInfo.Login.LoginProvider == "Facebook")
+                    {
+                        GetFacebookUserData(loginInfo);
+                    }
+
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View(
+                        "ExternalLoginConfirmation", 
+                        new ExternalLoginConfirmationViewModel { 
+                            Email = loginInfo.Email,
+                            FirstName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.GivenName),
+                            LastName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Surname),
+                            HomeTown = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Locality)
+                        });
             }
         }
 
@@ -490,6 +504,29 @@ namespace LoginPoC.Controllers
                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
             return callbackUrl;
+        }
+
+        private string GetClaimValue(ClaimsIdentity claimsIdentity, string claimType)
+        {
+            string claimValue = string.Empty;
+
+            if (claimsIdentity.HasClaim(o => o.Type == claimType))
+                claimValue = claimsIdentity.Claims.SingleOrDefault(c => c.Type.Equals(claimType)).Value;
+
+            return claimValue;
+        }
+
+        private void GetFacebookUserData(ExternalLoginInfo loginInfo)
+        {
+            var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
+            var access_token = identity.FindFirstValue("FacebookAccessToken");
+            var fb = new FacebookClient(access_token);
+            dynamic myInfo = fb.Get("/me?fields=email,birthday,first_name,last_name,hometown"); // specify the email field
+            loginInfo.Email = myInfo.email;
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.DateOfBirth, myInfo.birthday));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.GivenName, myInfo.first_name));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Surname, myInfo.last_name));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Locality, myInfo.hometown.name));
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

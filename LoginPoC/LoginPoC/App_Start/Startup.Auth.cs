@@ -1,12 +1,14 @@
-﻿using System;
+﻿using LoginPoC.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using LoginPoC.Models;
+using System;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace LoginPoC
 {
@@ -55,16 +57,36 @@ namespace LoginPoC
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            // TODO: Remover estas claves del código fuente a un archivo externo
-            app.UseFacebookAuthentication(
-               appId: ConfigurationManager.AppSettings["facebookAppId"],
-               appSecret: ConfigurationManager.AppSettings["facebookAppSecret"]);
+            app.UseFacebookAuthentication(GetFacebookAuthOptions());
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = ConfigurationManager.AppSettings["googleClientId"],
                 ClientSecret = ConfigurationManager.AppSettings["googleClientSecret"]
             });
+        }
+
+        private FacebookAuthenticationOptions GetFacebookAuthOptions()
+        {
+            var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
+            {
+                AppId = ConfigurationManager.AppSettings["facebookAppId"],
+                AppSecret = ConfigurationManager.AppSettings["facebookAppSecret"],
+                Provider = new FacebookAuthenticationProvider()
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        return Task.FromResult(true);
+                    }
+                }
+            };
+
+            facebookAuthenticationOptions.Scope.Add("email");
+            facebookAuthenticationOptions.Scope.Add("user_birthday");
+            facebookAuthenticationOptions.Scope.Add("user_hometown");
+
+            return facebookAuthenticationOptions;
         }
     }
 }
