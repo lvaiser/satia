@@ -6,6 +6,7 @@ namespace LoginPoC.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -21,6 +22,7 @@ namespace LoginPoC.Models
         public string HomeTown { get; set; }
 
         [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
         public System.DateTime? BirthDate { get; set; }
     }
 
@@ -76,13 +78,8 @@ namespace LoginPoC.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : ExternalLoginConfirmationViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
