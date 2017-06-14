@@ -369,14 +369,10 @@ namespace LoginPoC.Controllers
 
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+
                     return View(
-                        "ExternalLoginConfirmation", 
-                        new ExternalLoginConfirmationViewModel { 
-                            Email = loginInfo.Email,
-                            FirstName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.GivenName),
-                            LastName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Surname),
-                            HomeTown = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Locality)
-                        });
+                        "ExternalLoginConfirmation",
+                        this.CreateExternalLoginConfirmationViewModel(loginInfo));
             }
         }
 
@@ -504,6 +500,23 @@ namespace LoginPoC.Controllers
                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
             return callbackUrl;
+        }
+
+        private ExternalLoginConfirmationViewModel CreateExternalLoginConfirmationViewModel(ExternalLoginInfo loginInfo)
+        {
+            DateTime? birthdate = null;
+            DateTime aux;
+            if (DateTime.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.DateOfBirth), CultureInfo.InvariantCulture, DateTimeStyles.None, out aux))
+                birthdate = aux;
+
+            return new ExternalLoginConfirmationViewModel
+            {
+                Email = loginInfo.Email,
+                FirstName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.GivenName),
+                LastName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Surname),
+                HomeTown = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Locality),
+                BirthDate = birthdate
+            };
         }
 
         private string GetClaimValue(ClaimsIdentity claimsIdentity, string claimType)

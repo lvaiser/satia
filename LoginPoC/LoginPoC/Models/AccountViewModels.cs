@@ -23,6 +23,7 @@ namespace LoginPoC.Models
 
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime? BirthDate { get; set; }
     }
 
