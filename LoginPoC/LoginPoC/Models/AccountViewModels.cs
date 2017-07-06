@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LoginPoC.Models.User;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LoginPoC.Models
@@ -18,13 +19,43 @@ namespace LoginPoC.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Home Town")]
-        public string HomeTown { get; set; }
+        [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
 
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime? BirthDate { get; set; }
+
+        [Display(Name = "Gender")]
+        public Gender? Gender { get; set; }
+
+        [Display(Name = "Marital Status")]
+        public MaritalStatus? MaritalStatus { get; set; }
+
+        [Display(Name = "Country")]
+        public Country Country { get; set; }
+       
+        [Display(Name = "State or province")]
+        public string StateProvince { get; set; }
+
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "Occupation")]
+        public string Occupation { get; set; }
+
+        [Display(Name = "Can Read")]
+        public bool CanRead { get; set; }
+
+        [Display(Name = "Language")]
+        public string Language { get; set; }
+
+        public System.Web.Mvc.SelectList Countries { get; set; }
     }
 
     public class ExternalLoginListViewModel

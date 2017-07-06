@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Facebook;
+using LoginPoC.Models;
+using LoginPoC.Models.User;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using LoginPoC.Models;
-using Facebook;
 
 namespace LoginPoC.Controllers
 {
@@ -18,15 +19,17 @@ namespace LoginPoC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _dbContext;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext dbContext )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            DbContext = dbContext;
         }
 
         public ApplicationSignInManager SignInManager
@@ -50,6 +53,18 @@ namespace LoginPoC.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationDbContext DbContext
+        {
+            get
+            {
+                return _dbContext ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            }
+            private set
+            {
+                _dbContext = value;
             }
         }
 
@@ -156,7 +171,14 @@ namespace LoginPoC.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var countries = this.DbContext.Countries.OrderBy(x => x.Name).ToList();
+
+            var model = new RegisterViewModel
+            {
+                Countries = new SelectList(countries, "Id", "Name")
+            };
+
+            return View(model);
         }
 
         //
@@ -168,7 +190,24 @@ namespace LoginPoC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    BirthDate = model.BirthDate,
+                    Gender = model.Gender,
+                    MaritalStatus = model.MaritalStatus,
+                    Country = model.Country,
+                    StateProvince = model.StateProvince,
+                    City = model.City,
+                    Address = model.Address,
+                    Occupation = model.Occupation,
+                    CanRead = model.CanRead
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -396,14 +435,23 @@ namespace LoginPoC.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
                     BirthDate = model.BirthDate,
-                    HomeTown = model.HomeTown
+                    Gender = model.Gender,
+                    MaritalStatus = model.MaritalStatus,
+                    Country = model.Country,
+                    StateProvince = model.StateProvince,
+                    City = model.City,
+                    Address = model.Address,
+                    Occupation = model.Occupation,
+                    CanRead = model.CanRead
                 };
 
                 var result = await UserManager.CreateAsync(user);
@@ -421,6 +469,7 @@ namespace LoginPoC.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
+            model.Countries = new SelectList(this.DbContext.Countries.OrderBy(x => x.Name).ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -505,17 +554,31 @@ namespace LoginPoC.Controllers
         private ExternalLoginConfirmationViewModel CreateExternalLoginConfirmationViewModel(ExternalLoginInfo loginInfo)
         {
             DateTime? birthdate = null;
-            DateTime aux;
-            if (DateTime.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.DateOfBirth), CultureInfo.InvariantCulture, DateTimeStyles.None, out aux))
-                birthdate = aux;
+            DateTime birthdateAux;
+            if (DateTime.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.DateOfBirth), CultureInfo.InvariantCulture, DateTimeStyles.None, out birthdateAux))
+                birthdate = birthdateAux;
+
+            Gender? gender = null;
+            Gender genderAux;
+            if (Enum.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Gender), true, out genderAux))
+                gender = genderAux;
+
+            var countries = this.DbContext.Countries.OrderBy(x => x.Name).ToList();
+            Country country = null;
+            string countryName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Country);
+            if (!string.IsNullOrEmpty(countryName))
+                 country = countries.SingleOrDefault(x => x.Name == countryName);
 
             return new ExternalLoginConfirmationViewModel
             {
                 Email = loginInfo.Email,
                 FirstName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.GivenName),
                 LastName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Surname),
-                HomeTown = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Locality),
-                BirthDate = birthdate
+                City = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Locality),
+                Country = country,
+                BirthDate = birthdate,
+                Gender = gender,
+                Countries = new SelectList(countries, "Id", "Name")
             };
         }
 
@@ -534,12 +597,16 @@ namespace LoginPoC.Controllers
             var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
             var access_token = identity.FindFirstValue("FacebookAccessToken");
             var fb = new FacebookClient(access_token);
-            dynamic myInfo = fb.Get("/me?fields=email,birthday,first_name,last_name,hometown"); // specify the email field
+
+            dynamic myInfo = fb.Get("/me?fields=email,birthday,first_name,last_name,gender,location{location}");
+            
             loginInfo.Email = myInfo.email;
             loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.DateOfBirth, myInfo.birthday));
             loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.GivenName, myInfo.first_name));
             loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Surname, myInfo.last_name));
-            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Locality, myInfo.hometown.name));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Gender, myInfo.gender));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Locality, myInfo.location.location.city));
+            loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Country, myInfo.location.location.country));
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

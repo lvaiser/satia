@@ -1,11 +1,12 @@
 namespace LoginPoC.Migrations
 {
+    using EntityFramework.Seeder;
+    using LoginPoC.Models.User;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using Models.ProcessType;
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -59,6 +60,12 @@ namespace LoginPoC.Migrations
             return false;
         }
 
+        void AddLocations(ApplicationDbContext context)
+        {
+            context.Countries.SeedFromResource("LoginPoC.Models.SeedData.countries.csv", c => c.Code);
+            context.SaveChanges();
+        }
+
         protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -73,6 +80,8 @@ namespace LoginPoC.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            this.AddLocations(context);
 
             this.AddRole("admin", context);
             this.AddRole("agent", context);

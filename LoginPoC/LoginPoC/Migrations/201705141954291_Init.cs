@@ -8,6 +8,16 @@ namespace LoginPoC.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Countries",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.ProcessTypes",
                 c => new
                     {
@@ -47,8 +57,15 @@ namespace LoginPoC.Migrations
                         Id = c.String(nullable: false, maxLength: 128),
                         FirstName = c.String(),
                         LastName = c.String(),
-                        HomeTown = c.String(),
                         BirthDate = c.DateTime(),
+                        Gender = c.Int(),
+                        MaritalStatus = c.Int(),
+                        StateProvince = c.String(),
+                        City = c.String(),
+                        Address = c.String(),
+                        Occupation = c.String(),
+                        CanRead = c.Boolean(nullable: false),
+                        CultureName = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -60,9 +77,12 @@ namespace LoginPoC.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
+                        Country_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
+                .ForeignKey("dbo.Countries", t => t.Country_Id)
+                .Index(t => t.UserName, unique: true, name: "UserNameIndex")
+                .Index(t => t.Country_Id);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -95,10 +115,12 @@ namespace LoginPoC.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "Country_Id", "dbo.Countries");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", new[] { "Country_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -109,6 +131,7 @@ namespace LoginPoC.Migrations
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.ProcessTypes");
+            DropTable("dbo.Countries");
         }
     }
 }

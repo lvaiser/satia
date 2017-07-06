@@ -1,4 +1,5 @@
 ﻿using LoginPoC.Models;
+using LoginPoC.Models.User;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -84,7 +85,7 @@ namespace LoginPoC
 
             facebookAuthenticationOptions.Scope.Add("email");
             facebookAuthenticationOptions.Scope.Add("user_birthday");
-            facebookAuthenticationOptions.Scope.Add("user_hometown");
+            facebookAuthenticationOptions.Scope.Add("user_location");
 
             return facebookAuthenticationOptions;
         }
