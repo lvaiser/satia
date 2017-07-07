@@ -14,7 +14,13 @@ namespace LoginPoC.Controllers
     [Authorize(Roles = "agent, admin")]
     public class ProcessTypeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        // GET DbContext from container
+        private ApplicationDbContext db;
+
+        public ProcessTypeController(ApplicationDbContext context)
+        {
+            db = context;
+        }
 
         // GET: ProcessType
         public ActionResult Index()

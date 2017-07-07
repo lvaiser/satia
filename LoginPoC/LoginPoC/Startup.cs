@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using LoginPoC.App_Start;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(LoginPoC.Startup))]
@@ -8,7 +9,8 @@ namespace LoginPoC
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            var container = SimpleInjectorInitializer.Initialize(app);
+            ConfigureAuth(app, container);
         }
     }
 }
