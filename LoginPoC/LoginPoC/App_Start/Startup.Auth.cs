@@ -9,6 +9,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 using System.Configuration;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace LoginPoC
@@ -58,16 +59,39 @@ namespace LoginPoC
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(GetFacebookAuthOptions());
+            app.UseFacebookAuthentication(CreateFacebookAuthOptions());
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = ConfigurationManager.AppSettings["googleClientId"],
-                ClientSecret = ConfigurationManager.AppSettings["googleClientSecret"]
-            });
+            app.UseGoogleAuthentication(CreateGoogleAuthenticationOptions());
         }
 
-        private FacebookAuthenticationOptions GetFacebookAuthOptions()
+        private static GoogleOAuth2AuthenticationOptions CreateGoogleAuthenticationOptions()
+        {
+            var googleAuthenticationOptions = new GoogleOAuth2AuthenticationOptions
+            {
+                ClientId = ConfigurationManager.AppSettings["googleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["googleClientSecret"],
+                Provider = new GoogleOAuth2AuthenticationProvider()
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new Claim(ClaimTypes.Gender, context.User.GetValue("gender").ToString()));
+                        return Task.FromResult(0);
+                    }
+                }
+            };
+
+            // default scopes
+            googleAuthenticationOptions.Scope.Add("openid");
+            googleAuthenticationOptions.Scope.Add("profile");
+            googleAuthenticationOptions.Scope.Add("email");
+
+            // additional scope(s)
+            googleAuthenticationOptions.Scope.Add("https://www.googleapis.com/auth/plus.me");
+
+            return googleAuthenticationOptions;
+        }
+
+        private FacebookAuthenticationOptions CreateFacebookAuthOptions()
         {
             var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
             {
