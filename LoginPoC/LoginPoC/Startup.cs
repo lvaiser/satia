@@ -1,9 +1,9 @@
-﻿using LoginPoC.App_Start;
+﻿using LoginPoC.Web.App_Start;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(LoginPoC.Startup))]
-namespace LoginPoC
+[assembly: OwinStartupAttribute(typeof(LoginPoC.Web.Startup))]
+namespace LoginPoC.Web
 {
     public partial class Startup
     {

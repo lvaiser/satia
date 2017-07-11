@@ -1,18 +1,14 @@
-﻿using LoginPoC.Models;
-using LoginPoC.Models.User;
+﻿using LoginPoC.DAL.Models.User;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using System;
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace LoginPoC
+namespace LoginPoC.Web
 {
     public class EmailService : IIdentityMessageService
     {

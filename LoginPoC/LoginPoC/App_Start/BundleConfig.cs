@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace LoginPoC
+namespace LoginPoC.Web
 {
     public class BundleConfig
     {

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace LoginPoC
+namespace LoginPoC.Web
 {
     public class FilterConfig
     {

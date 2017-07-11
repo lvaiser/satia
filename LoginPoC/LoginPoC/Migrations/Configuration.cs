@@ -1,16 +1,16 @@
-namespace LoginPoC.Migrations
+namespace LoginPoC.Web.Migrations
 {
     using EntityFramework.Seeder;
-    using LoginPoC.Models.User;
+    using LoginPoC.DAL;
+    using LoginPoC.DAL.Models.ProcessType;
+    using LoginPoC.DAL.Models.User;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
-    using Models.ProcessType;
     using System;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<LoginPoC.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -62,7 +62,7 @@ namespace LoginPoC.Migrations
 
         void AddLocations(ApplicationDbContext context)
         {
-            context.Countries.SeedFromResource("LoginPoC.Models.SeedData.countries.csv", c => c.Code);
+            context.Countries.SeedFromResource("LoginPoC.Web.Models.SeedData.countries.csv", c => c.Code);
             context.SaveChanges();
         }
 

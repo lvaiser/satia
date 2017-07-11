@@ -1,7 +1,7 @@
-namespace LoginPoC.App_Start
+namespace LoginPoC.Web.App_Start
 {
-    using LoginPoC.Models;
-    using LoginPoC.Models.User;
+    using LoginPoC.DAL;
+    using LoginPoC.DAL.Models.User;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
@@ -51,7 +51,7 @@ namespace LoginPoC.App_Start
 
             container.Register<ApplicationUserManager>(Lifestyle.Scoped);
 
-            container.Register<ApplicationDbContext>(() => new ApplicationDbContext(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString), Lifestyle.Scoped);
+            container.Register<ApplicationDbContext>(() => new ApplicationDbContext(), Lifestyle.Scoped);
 
             container.Register<IUserStore<ApplicationUser>>(() => 
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);

@@ -1,4 +1,4 @@
-﻿using LoginPoC.Models.User;
+﻿using LoginPoC.DAL.Models.User;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -12,7 +12,7 @@ using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace LoginPoC
+namespace LoginPoC.Web
 {
     public partial class Startup
     {
@@ -29,7 +29,7 @@ namespace LoginPoC
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString("/Security/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
