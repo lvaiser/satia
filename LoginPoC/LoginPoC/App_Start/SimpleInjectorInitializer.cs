@@ -1,25 +1,26 @@
+using LoginPoC.Core.Messaging;
+using LoginPoC.Core.User;
+using LoginPoC.DAL;
+using LoginPoC.Model.User;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.DataProtection;
+using Owin;
+using SimpleInjector;
+using SimpleInjector.Advanced;
+using SimpleInjector.Integration.Web;
+using SimpleInjector.Integration.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Web;
+using System.Web.Mvc;
+
 namespace LoginPoC.Web.App_Start
 {
-    using LoginPoC.DAL;
-    using LoginPoC.DAL.Models.User;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin;
-    using Microsoft.Owin.Security;
-    using Microsoft.Owin.Security.DataProtection;
-    using Owin;
-    using SimpleInjector;
-    using SimpleInjector.Advanced;
-    using SimpleInjector.Integration.Web;
-    using SimpleInjector.Integration.Web.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Reflection;
-    using System.Web;
-    using System.Web.Mvc;
-
     public static class SimpleInjectorInitializer
     {
         public static Container Initialize(IAppBuilder app)
@@ -55,6 +56,8 @@ namespace LoginPoC.Web.App_Start
 
             container.Register<IUserStore<ApplicationUser>>(() => 
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
+
+            container.Register<IUserService, EfUserService>(Lifestyle.Scoped);
 
             container.RegisterInitializer<ApplicationUserManager>(
                 manager => InitializeUserManager(manager, app));

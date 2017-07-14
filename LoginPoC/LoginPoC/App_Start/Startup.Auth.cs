@@ -1,4 +1,5 @@
-﻿using LoginPoC.DAL.Models.User;
+﻿using LoginPoC.Core.User;
+using LoginPoC.Model.User;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;

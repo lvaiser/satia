@@ -2,8 +2,8 @@ namespace LoginPoC.Web.Migrations
 {
     using EntityFramework.Seeder;
     using LoginPoC.DAL;
-    using LoginPoC.DAL.Models.ProcessType;
-    using LoginPoC.DAL.Models.User;
+    using LoginPoC.Model.ProcessType;
+    using LoginPoC.Model.User;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;

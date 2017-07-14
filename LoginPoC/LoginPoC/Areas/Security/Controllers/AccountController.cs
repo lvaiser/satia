@@ -1,7 +1,7 @@
 ﻿using Facebook;
+using LoginPoC.Core.User;
+using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Security.Models;
-using LoginPoC.DAL;
-using LoginPoC.DAL.Models.User;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -20,13 +20,16 @@ namespace LoginPoC.Web.Areas.Security.Controllers
     {
         private SignInManager<ApplicationUser, string> SignInManager;
         private ApplicationUserManager UserManager;
-        private ApplicationDbContext DbContext;
+        private IUserService CountryService;
 
-        public AccountController(ApplicationUserManager userManager, SignInManager<ApplicationUser, string> signInManager, ApplicationDbContext dbContext)
+        public AccountController(
+            ApplicationUserManager userManager, 
+            SignInManager<ApplicationUser, string> signInManager, 
+            IUserService countryService)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
-            DbContext = dbContext;
+            this.UserManager = userManager;
+            this.SignInManager = signInManager;
+            this.CountryService = countryService;
         }
 
         //
@@ -132,7 +135,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var countries = this.DbContext.Countries.OrderBy(x => x.Name).ToList();
+            var countries = this.CountryService.GetCountries().OrderBy(x => x.Name).ToList();
 
             var model = new RegisterViewModel
             {
@@ -430,7 +433,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            model.Countries = new SelectList(this.DbContext.Countries.OrderBy(x => x.Name).ToList(), "Id", "Name");
+            model.Countries = new SelectList(this.CountryService.GetCountries().OrderBy(x => x.Name).ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -525,7 +528,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             if (Enum.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Gender), true, out genderAux))
                 gender = genderAux;
 
-            var countries = this.DbContext.Countries.OrderBy(x => x.Name).ToList();
+            var countries = this.CountryService.GetCountries().OrderBy(x => x.Name).ToList();
             Country country = null;
             string countryName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Country);
             if (!string.IsNullOrEmpty(countryName))

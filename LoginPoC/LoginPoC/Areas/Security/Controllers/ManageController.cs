@@ -1,13 +1,13 @@
-﻿using System;
+﻿using LoginPoC.Core.User;
+using LoginPoC.Model.User;
+using LoginPoC.Web.Areas.Security.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using LoginPoC.Web.Areas.Security.Models;
-using LoginPoC.DAL.Models.User;
 
 namespace LoginPoC.Web.Areas.Security.Controllers
 {

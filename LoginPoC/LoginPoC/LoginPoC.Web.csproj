@@ -224,7 +224,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -349,9 +348,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoginPoC.Core\LoginPoC.Core.csproj">
+      <Project>{f0f8fd2e-ae5d-4cd1-a03f-221d5391914f}</Project>
+      <Name>LoginPoC.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoginPoc.DAL\LoginPoC.DAL.csproj">
       <Project>{6115aa26-257b-4eb8-84b4-50b7b8824a41}</Project>
       <Name>LoginPoC.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoginPoC.Model\LoginPoC.Model.csproj">
+      <Project>{627e5123-6b5e-4cdd-b785-3f1cd8b05549}</Project>
+      <Name>LoginPoC.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

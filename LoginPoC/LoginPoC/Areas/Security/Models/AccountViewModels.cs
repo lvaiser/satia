@@ -1,4 +1,4 @@
-﻿using LoginPoC.DAL.Models.User;
+﻿using LoginPoC.Model.User;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

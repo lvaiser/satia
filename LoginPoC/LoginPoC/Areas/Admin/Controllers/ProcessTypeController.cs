@@ -1,5 +1,5 @@
 ﻿using LoginPoC.DAL;
-using LoginPoC.DAL.Models.ProcessType;
+using LoginPoC.Model.ProcessType;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;

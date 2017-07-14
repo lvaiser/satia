@@ -57,11 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="Models\ProcessType\ProcessType.cs" />
-    <Compile Include="Models\User\ApplicationUser.cs" />
-    <Compile Include="Models\User\Country.cs" />
-    <Compile Include="Models\User\Gender.cs" />
-    <Compile Include="Models\User\MaritalStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +64,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoginPoC.Model\LoginPoC.Model.csproj">
+      <Project>{627e5123-6b5e-4cdd-b785-3f1cd8b05549}</Project>
+      <Name>LoginPoC.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
