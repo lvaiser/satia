@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginPoC.Web", "LoginPoC\LoginPoC.Web.csproj", "{6742E351-65DA-4CBD-A1AE-4FE4F671BAE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginPoC.Web", "LoginPoC.Web\LoginPoC.Web.csproj", "{6742E351-65DA-4CBD-A1AE-4FE4F671BAE6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginPoC.DAL", "LoginPoc.DAL\LoginPoC.DAL.csproj", "{6115AA26-257B-4EB8-84B4-50B7B8824A41}"
 EndProject
