@@ -1,0 +1,63 @@
+﻿@using LoginPoC.Web.Helpers
+@using LoginPoC.Model.User
+@using Newtonsoft.Json
+
+@{
+    var jsonModel = JsonConvert.SerializeObject(Model);
+    var genders = JsonConvert.SerializeObject(EnumHelper<Gender>.AsKeyValuePairs());
+    var maritalStatuses = JsonConvert.SerializeObject(EnumHelper<MaritalStatus>.AsKeyValuePairs());
+
+    ViewBag.Title = "User Information";
+}
+
+<br />
+
+<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(genders), @Html.Raw(maritalStatuses))'>
+
+    <div class="col-md-4">
+
+        <div class="panel panel-info">            
+            <div class="panel-body">
+
+                <div class="row text-center">
+                    <div class="form-group">
+                        <img src="@Url.Content("~/Content/Images/user-no-picture.png")" alt="User picture" class="img-thumbnail" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group has-feedback">
+                        <label>Nombre</label>
+                        <input ng-model="user.firstName" class="form-control" type="text" name="firstName" required placeholder="Nombre..."/>
+                    </div>
+                    <div class="col-md-6 form-group has-feedback">
+                        <label>Apellido</label>
+                        <input ng-model="user.lastName" class="form-control" type="text" name="lastName" required placeholder="Apellido..."/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 form-group has-feedback">
+                        <label>Email</label>
+                        <input ng-model="user.email" class="form-control" type="text" name="email" required placeholder="myEmail@email.com" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        <div class="panel panel-info">
+            <div class="panel-body">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Site/User/User.MyAccount.js"></script>
+}

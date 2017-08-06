@@ -12,7 +12,7 @@ namespace LoginPoC.Model.User
         public string LastName { get; set; }
         public System.DateTime? BirthDate { get; set; }
         public Gender? Gender { get; set; }
-        public MaritalStatus? MaritalStatus { get; set; }        
+        public MaritalStatus? MaritalStatus { get; set; }
         public Country Country { get; set; }
         public string StateProvince { get; set; }
         public string City { get; set; }

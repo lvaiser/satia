@@ -18,11 +18,15 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using LoginPoC.Web.Profiles;
 
 namespace LoginPoC.Web.App_Start
 {
     public static class SimpleInjectorInitializer
     {
+        public static object ActivatorUtilities { get; private set; }
+
         public static Container Initialize(IAppBuilder app)
         {
             var container = GetInitializeContainer(app);
@@ -57,7 +61,13 @@ namespace LoginPoC.Web.App_Start
             container.Register<IUserStore<ApplicationUser>>(() => 
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
 
-            container.Register<IUserService, EfUserService>(Lifestyle.Scoped);
+            container.Register<ICountryService, EfCountryService>(Lifestyle.Scoped);
+
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfiles(Assembly.GetAssembly(typeof(UserMappingProfile)));
+            });
+            container.RegisterSingleton(typeof(IMapper), mapperConfiguration.CreateMapper());
 
             container.RegisterInitializer<ApplicationUserManager>(
                 manager => InitializeUserManager(manager, app));

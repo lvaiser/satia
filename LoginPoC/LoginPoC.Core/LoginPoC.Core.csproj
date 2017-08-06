@@ -89,8 +89,8 @@
     <Compile Include="Messaging\SmsService.cs" />
     <Compile Include="User\ApplicationSignInManager.cs" />
     <Compile Include="User\ApplicationUserManager.cs" />
-    <Compile Include="User\EfUserService.cs" />
-    <Compile Include="User\IUserService.cs" />
+    <Compile Include="User\EfCountryService.cs" />
+    <Compile Include="User\ICountryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
