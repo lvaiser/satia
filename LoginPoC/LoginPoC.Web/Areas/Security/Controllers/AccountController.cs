@@ -1,4 +1,5 @@
-﻿using Facebook;
+﻿using AutoMapper;
+using Facebook;
 using LoginPoC.Core.User;
 using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Security.Models;
@@ -154,23 +155,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    BirthDate = model.BirthDate,
-                    Gender = model.Gender,
-                    MaritalStatus = model.MaritalStatus,
-                    Country = model.Country,
-                    StateProvince = model.StateProvince,
-                    City = model.City,
-                    Address = model.Address,
-                    Occupation = model.Occupation,
-                    CanRead = model.CanRead
-                };
+                var user = Mapper.Map<ApplicationUser>(model);
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -192,6 +177,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            model.Countries = new SelectList(this.CountryService.GetCountries().OrderBy(x => x.Name).ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -400,23 +386,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     return View("ExternalLoginFailure");
                 }
 
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
-                    BirthDate = model.BirthDate,
-                    Gender = model.Gender,
-                    MaritalStatus = model.MaritalStatus,
-                    Country = model.Country,
-                    StateProvince = model.StateProvince,
-                    City = model.City,
-                    Address = model.Address,
-                    Occupation = model.Occupation,
-                    CanRead = model.CanRead
-                };
+                var user = Mapper.Map<ApplicationUser>(model);
 
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.2.6.0\lib\net40-client\CsvHelper.dll</HintPath>
       <Private>True</Private>
@@ -234,14 +238,16 @@
     <Compile Include="Areas\Common\Controllers\HomeController.cs" />
     <Compile Include="Areas\Security\Controllers\ManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
+    <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
+    <Compile Include="AutoMapper\Profiles\ApplicationUserProfile.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Areas\Security\Models\AccountViewModels.cs" />
     <Compile Include="Areas\Security\Models\ManageViewModels.cs" />
-    <Compile Include="Migrations\201707102226404_Init.cs" />
-    <Compile Include="Migrations\201707102226404_Init.Designer.cs">
-      <DependentUpon>201707102226404_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201708062104161_Initial.cs" />
+    <Compile Include="Migrations\201708062104161_Initial.Designer.cs">
+      <DependentUpon>201708062104161_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -269,6 +275,9 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Areas\Security\Views\web.config" />
+    <EmbeddedResource Include="Migrations\201708062104161_Initial.resx">
+      <DependentUpon>201708062104161_Initial.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\web.config" />
@@ -360,11 +369,6 @@
       <Project>{627e5123-6b5e-4cdd-b785-3f1cd8b05549}</Project>
       <Name>LoginPoC.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707102226404_Init.resx">
-      <DependentUpon>201707102226404_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
