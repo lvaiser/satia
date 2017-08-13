@@ -25,7 +25,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         {
             var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
             var vm = mapper.Map<UserViewModel>(user);
-            return View(user);
+            return View(vm);
         }
     }
 }

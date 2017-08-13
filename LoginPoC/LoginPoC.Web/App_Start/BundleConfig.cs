@@ -9,11 +9,14 @@ namespace LoginPoC.Web
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
-
+            
             bundles.Add(new ScriptBundle("~/bundles/angular")
                    .Include("~/Scripts/angular.min.js")
                    .Include("~/Scripts/lib/notifyjs/dist/notify.js")
                    .Include("~/Scripts/lib/angular-block-ui/angular-block-ui.min.js")
+                   .Include("~/Scripts/lib/moment/min/moment.min.js")
+                   .Include("~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.js")
+                   .Include("~/Scripts/lib/angular-daterangepicker/angular-daterangepicker.min.js")
                    .Include("~/Scripts/Site/Angular-Extras/SATIA.Namespaces.js")
                    .IncludeDirectory("~/Scripts/Site/Angular-Extras/Directives", "*.js", true)
                    .IncludeDirectory("~/Scripts/Site/Angular-Extras/Services", "*.js", true)
@@ -36,7 +39,8 @@ namespace LoginPoC.Web
                       "~/Content/font-awesome.css",
                       "~/Content/bootstrap-social.css",
                       "~/Content/site.css",
-                      "~/Scripts/lib/angular-block-ui/angular-block-ui.min.css"));
+                      "~/Scripts/lib/angular-block-ui/angular-block-ui.min.css",
+                      "~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.css"));
         }
     }
 }

@@ -10,12 +10,15 @@ namespace LoginPoC.Web.Areas.Common.Models
         public DateTime? BirthDate { get; set; }
         public Gender Gender { get; set; }
         public MaritalStatus MaritalStatus { get; set; }
-        public Country Country { get; set; }
+        public int CountryId { get; set; }
+        public string Country { get; set; }
         public string StateProvince { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
         public string Occupation { get; set; }
         public bool CanRead { get; set; }
         public string CultureName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

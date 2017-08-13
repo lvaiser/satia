@@ -12,7 +12,18 @@ namespace LoginPoC.Web.Profiles
                 .ReverseMap();
 
             this.CreateMap<ApplicationUser, UserViewModel>()
+                .ForMember(dest => dest.Country, 
+                            opt => {
+                                opt.PreCondition(u => u.Country != null);
+                                opt.ResolveUsing(u => u.Country.Name);
+                            })
+                .ForMember(dest => dest.CountryId,
+                            opt => {
+                                opt.PreCondition(u => u.Country != null);
+                                opt.ResolveUsing(u => u.Country.Id);
+                            })
                 .ReverseMap();
+                //.ForMember(dest => dest.Country, opt => opt.ResolveUsing(vm => new Country() { Id = vm.CountryId, Name = vm.Country }));
         }
     }
 }
