@@ -86,8 +86,12 @@
                                     ng-options="item.key as item.value for item in form.data.maritalStatuses"></select>
                         </div>
                         <div class="form-group has-feedback">
-                            <label>Idioma principal</label>
-                            <select ng-model="user.cultureName" class="form-control"></select>
+                            @*<br />*@
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="user.canRead"> Lectura de textos
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -111,19 +115,13 @@
                         </div>
                         <div class="form-group has-feedback">
                             <label>Ocupación</label>
-                            <input ng-model="user.occupation" class="form-control" type="text" name="address" />
+                            <input ng-model="user.occupation" class="form-control" type="text" name="occupation" />
                         </div>
                         <div class="form-group has-feedback">
-                            <label>Ocupación</label>
-                            <input ng-model="user.occupation" class="form-control" type="text" name="address" />
-                        </div>
-                        <div class="form-group has-feedback">
-                            <br />
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" ng-model="user.canRead"> Lectura de textos
-                                </label>
-                            </div>
+                            <label>Idioma principal</label>
+                            <select class="form-control"
+                                    ng-model="user.cultureName"
+                                    ng-options="item.id as item.displayName for item in form.data.cultures"></select>
                         </div>
                     </div>
                 </div>
@@ -133,7 +131,7 @@
 
         <div class="panel panel-info">
             <div class="panel-body">
-                <button class="btn btn-primary pull-right">Guardar Cambios</button>
+                <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
             </div>
         </div>
 
