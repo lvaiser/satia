@@ -257,6 +257,14 @@
     <Compile Include="Migrations\201707102226404_Init.Designer.cs">
       <DependentUpon>201707102226404_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708211959446_add-countryid-to-user.cs" />
+    <Compile Include="Migrations\201708211959446_add-countryid-to-user.Designer.cs">
+      <DependentUpon>201708211959446_add-countryid-to-user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708212029233_set-countryid-nulleable.cs" />
+    <Compile Include="Migrations\201708212029233_set-countryid-nulleable.Designer.cs">
+      <DependentUpon>201708212029233_set-countryid-nulleable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -662,6 +670,12 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="Areas\Security\Views\web.config" />
+    <EmbeddedResource Include="Migrations\201708211959446_add-countryid-to-user.resx">
+      <DependentUpon>201708211959446_add-countryid-to-user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708212029233_set-countryid-nulleable.resx">
+      <DependentUpon>201708212029233_set-countryid-nulleable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\web.config" />

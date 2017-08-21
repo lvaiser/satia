@@ -16,9 +16,49 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    /*max-width: 280px;*/
+/* Validations */
+.form-group .ng-dirty.ng-invalid {
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.form-group .ng-dirty.ng-invalid:focus {
+	border-color: #843534;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+
+.form-group.has-feedback .ng-dirty.ng-invalid ~ .form-control-feedback {
+	right: 17px;
+}
+/*.form-group.has-feedback select.ng-dirty.ng-invalid ~ .form-control-feedback {
+	right: 33px;
+}*/
+tr.has-feedback .form-control-feedback,
+.panel > .panel-heading .form-control-feedback {
+	display: none;
+	position: initial;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+.panel.ng-dirty.ng-invalid {
+	border-color: #ebccd1;
+}
+.panel.ng-dirty.ng-invalid > .panel-heading {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+tr.has-feedback.ng-invalid .form-control-feedback,
+.panel.ng-dirty.ng-invalid > .panel-heading .form-control-feedback {
+	display: initial;
+}
+
+.form-group .ng-dirty.ng-invalid,
+.form-group.has-feedback .ng-dirty.ng-invalid ~ .control-label,
+.form-group.has-feedback .ng-dirty.ng-invalid ~ .form-control-feedback,
+tr.has-feedback.ng-invalid,
+.panel.ng-dirty.ng-invalid > .panel-heading {
+	color: #a94442;
 }

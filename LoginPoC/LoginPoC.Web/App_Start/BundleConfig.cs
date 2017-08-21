@@ -12,6 +12,7 @@ namespace LoginPoC.Web
             
             bundles.Add(new ScriptBundle("~/bundles/angular")
                    .Include("~/Scripts/angular.min.js")
+                   .Include("~/Scripts/lib/angular-bootstrap/ui-bootstrap-tpls.min.js")
                    .Include("~/Scripts/lib/notifyjs/dist/notify.js")
                    .Include("~/Scripts/lib/angular-block-ui/angular-block-ui.min.js")
                    .Include("~/Scripts/lib/moment/min/moment.min.js")

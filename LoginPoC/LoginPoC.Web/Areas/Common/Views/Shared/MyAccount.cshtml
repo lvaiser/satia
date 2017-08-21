@@ -14,7 +14,7 @@
 
 <br />
 
-<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(genders), @Html.Raw(maritalStatuses))'>
+<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(genders), @Html.Raw(maritalStatuses))' ng-form="pageForm">
 
     <div class="col-md-4">
 
@@ -30,18 +30,36 @@
                 <div class="row">
                     <div class="col-md-6 form-group has-feedback">
                         <label>Nombre</label>
-                        <input ng-model="user.firstName" class="form-control" type="text" name="firstName" required placeholder="Nombre..."/>
+                        <input ng-model="user.firstName" 
+                               class="form-control" 
+                               type="text" 
+                               name="firstName" 
+                               required
+                               uib-popover="Su nombre es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.firstName.$invalid && pageForm.firstName.$dirty"
+                               placeholder="Nombre..."/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.firstName.$invalid && pageForm.firstName.$dirty"></span>
                     </div>
                     <div class="col-md-6 form-group has-feedback">
                         <label>Apellido</label>
-                        <input ng-model="user.lastName" class="form-control" type="text" name="lastName" required placeholder="Apellido..."/>
+                        <input ng-model="user.lastName" 
+                               class="form-control" type="text" name="lastName" 
+                               required
+                               uib-popover="Su apellido es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.lastName.$invalid && pageForm.lastName.$dirty"
+                               placeholder="Apellido..."/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.lastName.$invalid && pageForm.lastName.$dirty"></span>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 form-group has-feedback">
                         <label>Email</label>
-                        <input ng-model="user.email" class="form-control" type="text" name="email" required placeholder="myEmail@email.com" />
+                        <input ng-model="user.email" 
+                               class="form-control" type="email" name="email" 
+                               required
+                               uib-popover="{{validators.selectErrorMessage(pageForm.email, { required: 'Su correo electrónico es requerido', email: 'Debe ingresar un correo electrónico válido.'})}}"
+                               popover-trigger="'mouseenter'" popover-enable="pageForm.email.$invalid && pageForm.email.$dirty"
+                               placeholder="myEmail@email.com" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.email.$invalid && pageForm.email.$dirty"></span>
                     </div>
                 </div>
 
