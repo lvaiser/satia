@@ -7,9 +7,9 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", new { Area = "Security" }, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesion</a></li>
     </ul>
     }
 }

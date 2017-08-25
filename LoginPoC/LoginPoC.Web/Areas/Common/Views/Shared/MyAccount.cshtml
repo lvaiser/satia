@@ -1,0 +1,161 @@
+﻿@model UserViewModel
+@using LoginPoC.Web.Helpers
+@using LoginPoC.Model.User
+@using LoginPoC.Web.Areas.Common.Models
+@using Newtonsoft.Json
+
+@{
+    var jsonModel = JsonConvert.SerializeObject(Model);
+    var genders = JsonConvert.SerializeObject(EnumHelper<Gender>.AsKeyValuePairs());
+    var maritalStatuses = JsonConvert.SerializeObject(EnumHelper<MaritalStatus>.AsKeyValuePairs());
+
+    ViewBag.Title = "User Information";
+}
+
+<br />
+
+<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(genders), @Html.Raw(maritalStatuses))' ng-form="pageForm">
+
+    <div class="col-md-4">
+
+        <div class="panel panel-info">            
+            <div class="panel-body">
+
+                <div class="row text-center">
+                    <div class="form-group">
+                        <img src="@Url.Content("~/Content/Images/user-no-picture.png")" alt="User picture" class="img-thumbnail" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group has-feedback">
+                        <label>Nombre</label>
+                        <input ng-model="user.firstName" 
+                               class="form-control" 
+                               type="text" 
+                               name="firstName" 
+                               required
+                               uib-popover="Su nombre es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.firstName.$invalid && pageForm.firstName.$dirty"
+                               placeholder="Nombre..."/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.firstName.$invalid && pageForm.firstName.$dirty"></span>
+                    </div>
+                    <div class="col-md-6 form-group has-feedback">
+                        <label>Apellido</label>
+                        <input ng-model="user.lastName" 
+                               class="form-control" type="text" name="lastName" 
+                               required
+                               uib-popover="Su apellido es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.lastName.$invalid && pageForm.lastName.$dirty"
+                               placeholder="Apellido..."/>
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.lastName.$invalid && pageForm.lastName.$dirty"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 form-group has-feedback">
+                        <label>Email</label>
+                        <input ng-model="user.email" 
+                               class="form-control" type="email" name="email" 
+                               required
+                               uib-popover="{{validators.selectErrorMessage(pageForm.email, { required: 'Su correo electrónico es requerido', email: 'Debe ingresar un correo electrónico válido.'})}}"
+                               popover-trigger="'mouseenter'" popover-enable="pageForm.email.$invalid && pageForm.email.$dirty"
+                               placeholder="myEmail@email.com" />
+                        <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.email.$invalid && pageForm.email.$dirty"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        <div class="panel panel-info">
+            <div class="panel-body">
+
+                <h3>Datos Personales</h3>
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback">
+                            <label>Genero</label>
+                            <select class="form-control" 
+                                    ng-model="user.gender"
+                                    ng-options="item.key as item.value for item in form.data.genders"></select>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Pais de origen</label>
+                            <select class="form-control"
+                                    ng-model="user.countryId"
+                                    ng-options="item.id as item.name for item in form.data.countries"></select>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Ciudad de origen</label>
+                            <input ng-model="user.city" class="form-control" type="text" name="city" required />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Número de Teléfono</label>
+                            <input ng-model="user.phoneNumber" class="form-control" type="text" name="phoneNumber" />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Estado Civil</label>
+                            <select class="form-control"
+                                    ng-model="user.maritalStatus" 
+                                    ng-options="item.key as item.value for item in form.data.maritalStatuses"></select>
+                        </div>
+                        <div class="form-group has-feedback">
+                            @*<br />*@
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="user.canRead"> Lectura de textos
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group has-feedback">
+                            <label>Fecha de nacimiento</label>
+                            <input ng-model="user.birthDate"
+                                   name="birthDate"
+								   class="form-control date-picker" 
+								   type="text" 
+								   date-range-picker
+								   options="form.data.datePickerOptions"
+                                   required placeholder="01/01/1990" />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Provincia / Estado de origen</label>
+                            <input ng-model="user.stateProvince" class="form-control" type="text" name="stateProvince" required />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Dirección actual</label>
+                            <input ng-model="user.address" class="form-control" type="text" name="address" required />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Ocupación</label>
+                            <input ng-model="user.occupation" class="form-control" type="text" name="occupation" />
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label>Idioma principal</label>
+                            <select class="form-control"
+                                    ng-model="user.cultureName"
+                                    ng-options="item.id as item.displayName for item in form.data.cultures"></select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Site/User/User.MyAccount.js"></script>
+}

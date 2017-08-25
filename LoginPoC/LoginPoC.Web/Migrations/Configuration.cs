@@ -41,7 +41,8 @@ namespace LoginPoC.Web.Migrations
                     FirstName = firstName,
                     LastName = lastName,
                     UserName = email,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    CountryId = 1
                 };
 
                 ir = um.Create(user, password);

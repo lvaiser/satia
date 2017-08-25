@@ -21,12 +21,12 @@ namespace LoginPoC.Web.Areas.Security.Controllers
     {
         private SignInManager<ApplicationUser, string> SignInManager;
         private ApplicationUserManager UserManager;
-        private IUserService CountryService;
+        private ICountryService CountryService;
 
         public AccountController(
             ApplicationUserManager userManager, 
             SignInManager<ApplicationUser, string> signInManager, 
-            IUserService countryService)
+            ICountryService countryService)
         {
             this.UserManager = userManager;
             this.SignInManager = signInManager;
@@ -134,9 +134,10 @@ namespace LoginPoC.Web.Areas.Security.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public async Task<ActionResult> Register()
         {
-            var countries = this.CountryService.GetCountries().OrderBy(x => x.Name).ToList();
+            var countries = (await this.CountryService.GetCountriesAsync())
+                                       .OrderBy(x => x.Name).ToList();
 
             var model = new RegisterViewModel
             {
@@ -177,7 +178,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            model.Countries = new SelectList(this.CountryService.GetCountries().OrderBy(x => x.Name).ToList(), "Id", "Name");
+            model.Countries = new SelectList((await this.CountryService.GetCountriesAsync()).OrderBy(x => x.Name).ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -361,7 +362,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
 
                     return View(
                         "ExternalLoginConfirmation",
-                        this.CreateExternalLoginConfirmationViewModel(loginInfo));
+                        await this.CreateExternalLoginConfirmationViewModel(loginInfo));
             }
         }
 
@@ -403,7 +404,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
-            model.Countries = new SelectList(this.CountryService.GetCountries().OrderBy(x => x.Name).ToList(), "Id", "Name");
+            model.Countries = new SelectList((await this.CountryService.GetCountriesAsync()).OrderBy(x => x.Name).ToList(), "Id", "Name");
             return View(model);
         }
 
@@ -486,7 +487,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             return callbackUrl;
         }
 
-        private ExternalLoginConfirmationViewModel CreateExternalLoginConfirmationViewModel(ExternalLoginInfo loginInfo)
+        private async Task<ExternalLoginConfirmationViewModel> CreateExternalLoginConfirmationViewModel(ExternalLoginInfo loginInfo)
         {
             DateTime? birthdate = null;
             DateTime birthdateAux;
@@ -498,7 +499,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             if (Enum.TryParse(this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Gender), true, out genderAux))
                 gender = genderAux;
 
-            var countries = this.CountryService.GetCountries().OrderBy(x => x.Name).ToList();
+            var countries = (await this.CountryService.GetCountriesAsync()).OrderBy(x => x.Name).ToList();
             Country country = null;
             string countryName = this.GetClaimValue(loginInfo.ExternalIdentity, ClaimTypes.Country);
             if (!string.IsNullOrEmpty(countryName))
