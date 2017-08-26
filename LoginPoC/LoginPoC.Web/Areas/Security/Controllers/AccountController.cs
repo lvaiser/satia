@@ -388,6 +388,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                 }
 
                 var user = Mapper.Map<ApplicationUser>(model);
+                user.UserName = model.Email;
 
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

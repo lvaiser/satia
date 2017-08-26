@@ -9,6 +9,7 @@ namespace LoginPoC.Web.AutoMapper.Profiles
         public ApplicationUserProfile()
         {
             CreateMap<ApplicationUser, RegisterViewModel>().ReverseMap();
+            CreateMap<ApplicationUser, ExternalLoginConfirmationViewModel>().ReverseMap();
         }
     }
 }
