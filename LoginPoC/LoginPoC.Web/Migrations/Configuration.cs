@@ -17,7 +17,7 @@ namespace LoginPoC.Web.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        bool AddRole(string role, ApplicationDbContext context)
+        private bool AddRole(string role, ApplicationDbContext context)
         {
             IdentityResult ir;
             var rm = new RoleManager<IdentityRole>
@@ -27,7 +27,7 @@ namespace LoginPoC.Web.Migrations
             return ir.Succeeded;
         }
 
-        bool AddUser(string email, string password, string firstName, string lastName, string roleName, ApplicationDbContext context)
+        private bool AddUser(string email, string password, string firstName, string lastName, string roleName, ApplicationDbContext context)
         {
             IdentityResult ir;
             var um = new UserManager<ApplicationUser>
@@ -61,7 +61,7 @@ namespace LoginPoC.Web.Migrations
             return false;
         }
 
-        void AddLocations(ApplicationDbContext context)
+        private void AddLocations(ApplicationDbContext context)
         {
             context.Countries.SeedFromResource("LoginPoC.Web.Models.SeedData.countries.csv", c => c.Code);
             context.SaveChanges();
@@ -84,11 +84,13 @@ namespace LoginPoC.Web.Migrations
 
             this.AddLocations(context);
 
-            this.AddRole("admin", context);
-            this.AddRole("agent", context);
-            this.AddRole("endUser", context);
+            this.AddRole(ApplicationUserRoles.Administrator, context);
+            this.AddRole(ApplicationUserRoles.Agent, context);
+            this.AddRole(ApplicationUserRoles.User, context);
 
-            this.AddUser("admin@satia.com", "admin123", "Admin", "Admin", "admin", context);
+            this.AddUser("admin@satia.com", "admin123", "Admin", "Admin", ApplicationUserRoles.Administrator, context);
+            this.AddUser("agent@satia.com", "agent123", "Saira", "Copahue", ApplicationUserRoles.Agent, context);
+            this.AddUser("user@satia.com", "user123", "Martin", "Fernandes", ApplicationUserRoles.User, context);
 
             context.ProcessTypes.AddOrUpdate(p => p.Name,
                 new ProcessType

@@ -163,7 +163,8 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                 {
                     //  Comment the following line to prevent log in until the user is confirmed.
                     //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    await UserManager.AddToRoleAsync(user.Id, ApplicationUserRoles.User);
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
 
                     // Uncomment to debug locally 
@@ -388,7 +389,6 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                 }
 
                 var user = Mapper.Map<ApplicationUser>(model);
-                user.UserName = model.Email;
 
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -396,7 +396,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await UserManager.AddToRoleAsync(user.Id, "endUser");
+                        await UserManager.AddToRoleAsync(user.Id, ApplicationUserRoles.User);
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }

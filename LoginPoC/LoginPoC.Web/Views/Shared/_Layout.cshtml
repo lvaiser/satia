@@ -21,11 +21,7 @@
                 @Html.ActionLink("SATIA", "Index", "Home", new { area = "Common" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "Common" }, new {})</li>
-                    <li>@Html.ActionLink("Process Types", "Index", "ProcessType", new { area = "Admin" }, new {})</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+                @Html.Partial("_MenuPartial")
             </div>
         </div>
     </div>
