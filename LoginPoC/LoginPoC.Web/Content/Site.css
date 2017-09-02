@@ -62,3 +62,9 @@ tr.has-feedback.ng-invalid,
 .panel.ng-dirty.ng-invalid > .panel-heading {
 	color: #a94442;
 }
+
+.nav.navbar-nav img {
+	max-height: 24px;
+	padding: initial;
+	margin-right: 4px;
+}

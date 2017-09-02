@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("logOff", "Account", new { Area = "Security" }, FormMethod.Post, new { id = "logoutForm", @class = "hidden" }))
@@ -8,11 +9,28 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false">
+
+                @*TODO: Una vez que tengamos un endpoint para recuperar las images cargadas por los usuarios, hay que actualizar el src de esta imagen*@
+                <img src="/Content/Images/user-no-picture.png" alt="User picture" class="img-thumbnail">
+                @User.Identity.Name 
+                <span class="caret"></span>
+            </a>
+            
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })</li>
+                
+                @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+                {
+                    <li><a href="#">Ver como...</a></li>
+                }
+                
+                <li role="separator" class="divider"></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesion</a></li>
+            
+            </ul>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesion</a></li>
     </ul>
-    
 }
 else
 {

@@ -4,10 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using LoginPoC.Model.User;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "agent, admin")]
+    [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
     public class ProcessTypeController : Controller
     {
         // GET DbContext from container
@@ -19,12 +20,16 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         }
 
         // GET: ProcessType
+        [OverrideAuthorization]
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.ProcessTypes.ToList());
         }
 
         // GET: ProcessType/Details/5
+        [OverrideAuthorization]
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
