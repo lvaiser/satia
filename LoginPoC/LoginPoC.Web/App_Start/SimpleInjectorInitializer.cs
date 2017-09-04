@@ -20,6 +20,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using LoginPoC.Web.Profiles;
+using LoginPoC.Core.ProcessType;
 
 namespace LoginPoC.Web.App_Start
 {
@@ -62,6 +63,8 @@ namespace LoginPoC.Web.App_Start
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
 
             container.Register<ICountryService, EfCountryService>(Lifestyle.Scoped);
+
+            container.Register<IProcessTypeService, EfProcessTypeService>(Lifestyle.Scoped);
 
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {

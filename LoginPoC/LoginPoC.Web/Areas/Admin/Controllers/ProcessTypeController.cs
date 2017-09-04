@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using LoginPoC.Model.User;
+using LoginPoC.Core.ProcessType;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
@@ -12,11 +13,11 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
     public class ProcessTypeController : Controller
     {
         // GET DbContext from container
-        private ApplicationDbContext db;
+        private IProcessTypeService ProcessTypeService { get; set; }
 
-        public ProcessTypeController(ApplicationDbContext context)
+        public ProcessTypeController(IProcessTypeService processTypeService)
         {
-            db = context;
+            this.ProcessTypeService = processTypeService;
         }
 
         // GET: ProcessType
@@ -24,7 +25,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return View(db.ProcessTypes.ToList());
+            return View(this.ProcessTypeService.GetAll());
         }
 
         // GET: ProcessType/Details/5
@@ -36,7 +37,8 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProcessType processType = db.ProcessTypes.Find(id);
+
+            ProcessType processType = this.ProcessTypeService.GetById(id.Value);
             if (processType == null)
             {
                 return HttpNotFound();
@@ -59,8 +61,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ProcessTypes.Add(processType);
-                db.SaveChanges();
+                this.ProcessTypeService.Add(processType);
                 return RedirectToAction("Index");
             }
 
@@ -74,7 +75,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProcessType processType = db.ProcessTypes.Find(id);
+            ProcessType processType = this.ProcessTypeService.GetById(id.Value);
             if (processType == null)
             {
                 return HttpNotFound();
@@ -91,8 +92,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(processType).State = EntityState.Modified;
-                db.SaveChanges();
+                this.ProcessTypeService.Update(processType);
                 return RedirectToAction("Index");
             }
             return View(processType);
@@ -105,11 +105,13 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProcessType processType = db.ProcessTypes.Find(id);
+
+            ProcessType processType = this.ProcessTypeService.GetById(id.Value);
             if (processType == null)
             {
                 return HttpNotFound();
             }
+
             return View(processType);
         }
 
@@ -118,18 +120,12 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ProcessType processType = db.ProcessTypes.Find(id);
-            db.ProcessTypes.Remove(processType);
-            db.SaveChanges();
+            this.ProcessTypeService.Delete(id);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

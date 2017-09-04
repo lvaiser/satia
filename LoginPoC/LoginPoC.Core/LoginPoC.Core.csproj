@@ -85,8 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EfGenericCrudService.cs" />
+    <Compile Include="IGenericCrudService.cs" />
     <Compile Include="Messaging\EmailService.cs" />
     <Compile Include="Messaging\SmsService.cs" />
+    <Compile Include="ProcessType\EfProcessTypeService.cs" />
+    <Compile Include="ProcessType\IProcessTypeService.cs" />
     <Compile Include="User\ApplicationSignInManager.cs" />
     <Compile Include="User\ApplicationUserManager.cs" />
     <Compile Include="User\EfCountryService.cs" />
