@@ -40,6 +40,7 @@ namespace LoginPoC.Web
                       "~/Content/font-awesome.css",
                       "~/Content/bootstrap-social.css",
                       "~/Content/site.css",
+                      "~/Content/satiaStyle.css",
                       "~/Scripts/lib/angular-block-ui/angular-block-ui.min.css",
                       "~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.css"));
         }

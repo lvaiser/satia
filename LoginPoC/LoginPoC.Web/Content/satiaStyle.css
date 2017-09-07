@@ -1,0 +1,55 @@
+﻿/*Layout*/
+* {
+    font-family: Gobold;
+}
+div.header, footer {
+    background-color: #008CC8;
+    color: white;
+    border: none;
+}
+
+.navbar-inverse .navbar-nav > li > a.header-btn-link {
+    color: #008CC8;
+    background-color: white;
+    font-size: 16px;
+    padding: 5px;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+footer {
+    height: 50px;
+}
+footer p {
+    font-family: GoboldThinItalic;
+    padding: 15px 10px 0 0;
+}
+/*Fin Layout*/
+/*Index*/
+div.home-text {
+    background-image: url("../Content/Images/fondo-abajo-01.jpg");
+}
+div.home-text h2 {
+    font-family: GoboldThinItalic;
+    color: #008CC8;
+}
+div.home-text strong {
+    font-family: HelveticaCondensed;
+}
+div.home-boton {
+    margin-top: -60px;
+}
+/*Font Faces*/
+@font-face {
+    font-family: Gobold;
+    src: url("../fonts/Gobold Regular.otf");
+}
+
+@font-face {
+    font-family: GoboldThinItalic;
+    src: url("../fonts/Gobold Thin Italic.otf");
+}
+
+@font-face {
+    font-family: HelveticaCondensed;
+    src: url("../fonts/Helvetica-Condensed.otf");
+}
