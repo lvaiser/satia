@@ -35,7 +35,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Registración", "Register", "Account", new { Area = "Security" }, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", new { Area = "Security" }, htmlAttributes: new { id = "loginLink" })</li>
+        <li class="header-btn">@Html.ActionLink("Registrarse", "Register", "Account", new { Area = "Security" }, htmlAttributes: new { @class = "header-btn-link" })</li>
+        <li class="header-btn">@Html.ActionLink("Iniciar Sesión", "Login", "Account", new { Area = "Security" }, htmlAttributes: new { @class = "header-btn-link" })</li>
     </ul>
 }

@@ -10,15 +10,10 @@
     @RenderSection("styles", required: false)
 </head>
 <body ng-app="app">
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top header">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("SATIA", "Index", "Home", new { area = "Common" }, new { @class = "navbar-brand" })
+                <a href="@Url.Action("Index", "Home", new { area = "Common" })"><img src="~/Content/Images/Logo-header-01.png"/></a>
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_MenuPartial")
@@ -28,8 +23,8 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - G407</p>
+        <footer class="text-right">
+            <p>DIRECCI&Oacute;N 1234, CABA / (00 54 11) 1234-5678 / 12345 &copy; @DateTime.Now.Year - G407</p>
         </footer>
     </div>
 
