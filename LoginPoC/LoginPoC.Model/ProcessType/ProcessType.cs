@@ -14,5 +14,10 @@ namespace LoginPoC.Model.ProcessType
         public string URLVideo { get; set; }
 
         public IEnumerable<ProcessTypeField> Fields { get; set; }
+
+        public ProcessType()
+        {
+            this.Fields = new List<ProcessTypeField>();
+        }
     }
 }
