@@ -267,6 +267,10 @@
     <Compile Include="Migrations\201708212029233_set-countryid-nulleable.Designer.cs">
       <DependentUpon>201708212029233_set-countryid-nulleable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709091428091_add_process_type_fields.cs" />
+    <Compile Include="Migrations\201709091428091_add_process_type_fields.Designer.cs">
+      <DependentUpon>201709091428091_add_process_type_fields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -680,6 +684,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708212029233_set-countryid-nulleable.resx">
       <DependentUpon>201708212029233_set-countryid-nulleable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709091428091_add_process_type_fields.resx">
+      <DependentUpon>201709091428091_add_process_type_fields.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />

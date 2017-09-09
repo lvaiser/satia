@@ -11,5 +11,18 @@ namespace LoginPoC.Core.ProcessType
         public EfProcessTypeService(ApplicationDbContext context) : base(context)
         {
         }
+
+        public override void Update(Model.ProcessType.ProcessType entityToUpdate)
+        {
+            var currentFields = context.ProcessTypeFields.Where(p => p.ProcessType.Id == entityToUpdate.Id);
+
+            foreach (ProcessTypeField field in currentFields)
+                context.ProcessTypeFields.Remove(field);
+
+            foreach (ProcessTypeField field in entityToUpdate.Fields)
+                context.ProcessTypeFields.Add(field);
+            
+            base.Update(entityToUpdate);
+        }
     }
 }
