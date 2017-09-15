@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -235,6 +236,7 @@
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
     <Compile Include="Areas\Common\Controllers\ProcessController.cs" />
     <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
@@ -247,7 +249,6 @@
     <Compile Include="Areas\Security\Controllers\AccountController.cs" />
     <Compile Include="Areas\Common\Controllers\HomeController.cs" />
     <Compile Include="Areas\Security\Controllers\ManageController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
     <Compile Include="AutoMapper\Profiles\ApplicationUserProfile.cs" />
     <Compile Include="Global.asax.cs">
@@ -735,6 +736,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\Site\User\User.MyAccount.js" />
+    <Content Include="Scripts\Site\ProcessType\ProcessType.Edit.js" />
     <Content Include="Scripts\Site\ProcessType\ProcessType.Index.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
