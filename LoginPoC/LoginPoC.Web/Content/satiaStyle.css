@@ -15,6 +15,7 @@ div.header, footer {
     padding: 5px;
     margin-top: 15px;
     margin-right: 10px;
+    font-family: Gobold;
 }
 footer {
     height: 50px;
@@ -38,6 +39,56 @@ div.home-text strong {
 div.home-boton {
     margin-top: -60px;
 }
+/*Fin Index*/
+
+/*Tipos de Tramite*/
+input.tipoTramite-buscar {
+    width: 100%;
+    padding:2% 0 2% 0;
+}
+
+div.tipoTramite-crear {
+    background-color: grey;
+    padding: 1% 0 1% 0;
+    color: white;
+}
+a.tipoTramite-textoCrear {
+    display: inline-block;
+    width: 100%;
+    margin-left: 10px;
+    text-decoration: none;
+    color: white;
+    font-family: Gobold;
+}
+
+p.tipoTramite-item {
+    display: inline-block;
+    width: 100%;
+    font-family: RobotoRegular;
+    background-color: grey;
+    color: white;
+    padding: 1%;
+    margin-bottom: 0;
+}
+
+span.tipoTramite-itemBtn {
+    text-decoration: none;
+    color: white;
+    float: right;
+    padding-left:10px;
+}
+
+div.tipoTramite-descripcion {
+    background-color: grey;
+    padding-bottom: 20px;
+
+}
+p.tipoTramite-descripcion {
+    margin: 0 20px 0 20px;
+    padding: 20px;
+    background-color: white;
+}
+/*Fin Tipos de Tramite*/
 /*Font Faces*/
 @font-face {
     font-family: Gobold;
