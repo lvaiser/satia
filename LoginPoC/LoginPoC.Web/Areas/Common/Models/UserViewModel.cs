@@ -20,5 +20,18 @@ namespace LoginPoC.Web.Areas.Common.Models
         public string CultureName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public int? PictureId { get; set; }
+        public string PictureUrl
+        {
+            get
+            {
+                if (!this.PictureId.HasValue)
+                {
+                    return null;
+                }
+
+                return $"/File/Download/{this.PictureId}";
+            }
+        }
     }
 }

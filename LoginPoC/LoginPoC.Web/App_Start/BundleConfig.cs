@@ -18,6 +18,7 @@ namespace LoginPoC.Web
                    .Include("~/Scripts/lib/moment/min/moment.min.js")
                    .Include("~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.js")
                    .Include("~/Scripts/lib/angular-daterangepicker/angular-daterangepicker.min.js")
+                   .Include("~/Scripts/ng-file-upload-all.min.js")
                    .Include("~/Scripts/Site/Angular-Extras/SATIA.Namespaces.js")
                    .IncludeDirectory("~/Scripts/Site/Angular-Extras/Directives", "*.js", true)
                    .IncludeDirectory("~/Scripts/Site/Angular-Extras/Services", "*.js", true)

@@ -68,3 +68,26 @@ tr.has-feedback.ng-invalid,
 	padding: initial;
 	margin-right: 4px;
 }
+
+.user-picture-container .form-group {
+	position:relative;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.user-picture-container .form-group label{
+	position: absolute;
+    bottom: -4px;
+    left: 0;
+    font-size: 10px;
+    background: gray;
+    color: white;
+    font-family: arial;
+    border-radius: 0 4px 0 4px;
+    padding: 2px 8px;
+	display: none;
+}
+
+.user-picture-container .form-group:hover label{
+	display: initial;
+}

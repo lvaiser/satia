@@ -8,22 +8,27 @@
     var jsonModel = JsonConvert.SerializeObject(Model);
     var genders = JsonConvert.SerializeObject(EnumHelper<Gender>.AsKeyValuePairs());
     var maritalStatuses = JsonConvert.SerializeObject(EnumHelper<MaritalStatus>.AsKeyValuePairs());
+    var defaultPictureUrl = Url.Content("~/Content/Images/user-no-picture.png");
 
     ViewBag.Title = "User Information";
 }
 
 <br />
 
-<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(genders), @Html.Raw(maritalStatuses))' ng-form="pageForm">
+<div class="row" ng-controller="User.MyAccount" ng-init='events.onInit(@Html.Raw(jsonModel), "@Html.Raw(defaultPictureUrl)", @Html.Raw(genders), @Html.Raw(maritalStatuses))' ng-form="pageForm">
 
     <div class="col-md-4">
 
         <div class="panel panel-info">            
             <div class="panel-body">
 
-                <div class="row text-center">
+                <div class="row text-center user-picture-container">
                     <div class="form-group">
-                        <img src="@Url.Content("~/Content/Images/user-no-picture.png")" alt="User picture" class="img-thumbnail" />
+                        <div style="display:inline;">
+                            <img ng-src="{{form.pictureUrl}}" alt="User picture" class="img-thumbnail" style="max-width:130px; max-height:130px;"
+                                 ngf-select="events.onFileSelected($file)" accept="image/*" ngf-max-height="1000" ngf-max-size="3MB"/>
+                            <label><span class="glyphicon glyphicon-edit"></span> Editar</label>
+                        </div>
                     </div>
                 </div>
 
@@ -80,28 +85,41 @@
                         <div class="form-group has-feedback">
                             <label>Genero</label>
                             <select class="form-control" 
+                                    name="gender"
                                     ng-model="user.gender"
                                     ng-options="item.key as item.value for item in form.data.genders"></select>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.gender.$invalid && pageForm.gender.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Pais de origen</label>
                             <select class="form-control"
+                                    name="country"
                                     ng-model="user.countryId"
                                     ng-options="item.id as item.name for item in form.data.countries"></select>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.country.$invalid && pageForm.country.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Ciudad de origen</label>
-                            <input ng-model="user.city" class="form-control" type="text" name="city" required />
+                            <input ng-model="user.city" 
+                                   class="form-control" 
+                                   type="text" 
+                                   name="city" 
+                                   required 
+                                   uib-popover="La ciudad de origen es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.city.$invalid && pageForm.city.$dirty"/>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.city.$invalid && pageForm.city.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Número de Teléfono</label>
                             <input ng-model="user.phoneNumber" class="form-control" type="text" name="phoneNumber" />
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.phoneNumber.$invalid && pageForm.phoneNumber.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Estado Civil</label>
                             <select class="form-control"
+                                    name="maritalStatuses"
                                     ng-model="user.maritalStatus" 
                                     ng-options="item.key as item.value for item in form.data.maritalStatuses"></select>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.maritalStatuses.$invalid && pageForm.maritalStatuses.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             @*<br />*@
@@ -121,25 +139,41 @@
 								   type="text" 
 								   date-range-picker
 								   options="form.data.datePickerOptions"
-                                   required placeholder="01/01/1990" />
+                                   required placeholder="01/01/1990" 
+                                   uib-popover="Su fecha de nacimiento es requerida" popover-trigger="'mouseenter'" popover-enable="pageForm.birthDate.$invalid && pageForm.birthDate.$dirty"/>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.birthDate.$invalid && pageForm.birthDate.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Provincia / Estado de origen</label>
-                            <input ng-model="user.stateProvince" class="form-control" type="text" name="stateProvince" required />
+                            <input ng-model="user.stateProvince" 
+                                   class="form-control" 
+                                   type="text" 
+                                   name="stateProvince" 
+                                   required />
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.stateProvince.$invalid && pageForm.stateProvince.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Dirección actual</label>
-                            <input ng-model="user.address" class="form-control" type="text" name="address" required />
+                            <input ng-model="user.address" 
+                                   class="form-control" 
+                                   type="text" 
+                                   name="address" 
+                                   required 
+                                   uib-popover="Su direccion es requerida" popover-trigger="'mouseenter'" popover-enable="pageForm.address.$invalid && pageForm.address.$dirty"/>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.address.$invalid && pageForm.address.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Ocupación</label>
                             <input ng-model="user.occupation" class="form-control" type="text" name="occupation" />
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.occupation.$invalid && pageForm.occupation.$dirty"></span>
                         </div>
                         <div class="form-group has-feedback">
                             <label>Idioma principal</label>
                             <select class="form-control"
+                                    name="culture"
                                     ng-model="user.cultureName"
                                     ng-options="item.id as item.displayName for item in form.data.cultures"></select>
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.culture.$invalid && pageForm.culture.$dirty"></span>
                         </div>
                     </div>
                 </div>

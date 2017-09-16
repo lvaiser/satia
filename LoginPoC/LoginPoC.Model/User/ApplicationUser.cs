@@ -21,6 +21,8 @@ namespace LoginPoC.Model.User
         public string Occupation { get; set; }
         public bool CanRead { get; set; }
         public string CultureName { get; set; }
+        public int? PictureId { get; set; }
+        public File.File Picture { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

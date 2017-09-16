@@ -1,6 +1,6 @@
 (function () {
 
-    var modules = ["ui.bootstrap", "SATIA.Services", "SATIA.Directives", "blockUI", "daterangepicker", "lr.upload"].filter(function (module) {
+    var modules = ["ui.bootstrap", "SATIA.Services", "SATIA.Directives", "blockUI", "daterangepicker", "ngFileUpload"].filter(function (module) {
         try {
             return !!angular.module(module);
         } catch (e) {

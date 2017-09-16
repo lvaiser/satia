@@ -21,6 +21,9 @@ using System.Web.Mvc;
 using AutoMapper;
 using LoginPoC.Web.Profiles;
 using LoginPoC.Core.ProcessType;
+using LoginPoC.Core;
+using System.Configuration;
+using LoginPoC.Core.File;
 
 namespace LoginPoC.Web.App_Start
 {
@@ -45,7 +48,7 @@ namespace LoginPoC.Web.App_Start
             var container = new Container();
             // Set the scoped lifestyle one directly after creating the container
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
-
+            
             container.RegisterSingleton<IAppBuilder>(app);
 
             container.Register<IAuthenticationManager>(() =>
@@ -62,9 +65,17 @@ namespace LoginPoC.Web.App_Start
             container.Register<IUserStore<ApplicationUser>>(() => 
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
 
+            container.Register<IFileService, EfFileService>(Lifestyle.Scoped);
+
             container.Register<ICountryService, EfCountryService>(Lifestyle.Scoped);
 
             container.Register<IProcessTypeService, EfProcessTypeService>(Lifestyle.Scoped);
+
+            container.Register(() => new ApplicationSettings()
+            {
+                FilesBasePath = ConfigurationManager.AppSettings["fileBasePath"].TrimEnd('\\') + '\\'
+
+            }, Lifestyle.Scoped);
 
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {

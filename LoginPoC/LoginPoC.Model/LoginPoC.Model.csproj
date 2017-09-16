@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="File\File.cs" />
     <Compile Include="ProcessType\FieldType.cs" />
     <Compile Include="ProcessType\ProcessType.cs" />
     <Compile Include="ProcessType\ProcessTypeField.cs" />

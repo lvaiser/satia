@@ -2,6 +2,7 @@
 using LoginPoC.Model.User;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using LoginPoC.Model.File;
 
 namespace LoginPoC.DAL
 {
@@ -15,5 +16,6 @@ namespace LoginPoC.DAL
         public IDbSet<ProcessType> ProcessTypes { get; set; }
         public IDbSet<ProcessTypeField> ProcessTypeFields { get; set; }
         public IDbSet<Country> Countries { get; set; }
+        public IDbSet<File> Files { get; set; }
     }
 }
