@@ -3,17 +3,17 @@
 <ul class="nav navbar-nav">
     @if (User.Identity.IsAuthenticated)
     {
-        <li>@Html.ActionLink("Tipos de tramites", "Index", "ProcessType", new { area = "Admin" }, new { })</li>
+        <li>@Html.ActionLink("Tipos de tramites", "Index", "ProcessType", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
 
         if (User.IsInRole(ApplicationUserRoles.User) || User.IsInRole(ApplicationUserRoles.Administrator))
         {
-            <li>@Html.ActionLink("Tramites Guardados", "MyProcesses", "Process", new { area = "Common" }, new { })</li>
+            <li>@Html.ActionLink("Tramites Guardados", "MyProcesses", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
         }
 
         if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
         {
-            <li>@Html.ActionLink("Tramites", "Index", "Process", new { area = "Common" }, new { })</li>
-            <li>@Html.ActionLink("Asesores", "Index", "Agent", new { area = "Admin" }, new { })</li>
+            <li>@Html.ActionLink("Tramites", "Index", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
+            <li>@Html.ActionLink("Asesores", "Index", "Agent", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
         }
     }
 </ul>

@@ -1,19 +1,45 @@
 ﻿@model LoginPoC.Model.ProcessType.ProcessType
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear Tramite";
 }
 
-<h2>Create</h2>
-
-
+<h2>Crear Tipo de Tr&aacute;mite</h2>
+<br />
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ProcessType</h4>
+        <h4>Material de Soporte</h4>
         <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            VideoTutorial
+            <div class="col-md-10">
+                <input type="file" />
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <h4>Formulario</h4>
+        <hr />
+        Paso 1 <br />
+            Preguntas
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
