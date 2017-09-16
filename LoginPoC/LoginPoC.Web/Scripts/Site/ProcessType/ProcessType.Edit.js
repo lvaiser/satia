@@ -5,9 +5,14 @@
     function controller($scope, $http) {
         $scope.processTypeFields = [];
         // TODO request field types by http
-        $scope.fieldTypes = ['integer', 'date', 'phoneNumber', 'text'];
+        $scope.fieldTypes = [
+            { id: 1, name: 'integer' },
+            { id: 2, name: 'date' },
+            { id: 3, name: 'phoneNumber' },
+            { id: 4, name: 'text' }
+        ];
  
-        const emptyProcessTypeField = {
+        $scope.emptyProcessTypeField = {
             name: null,
             type: null,
             isRequired: false,
@@ -16,6 +21,7 @@
 
         $scope.events = {
             onInit: onInit,
+            newField: newField,
             onSaveClicked: onSaveClicked
         };
 
@@ -27,7 +33,7 @@
         }
 
         function newField() {
-            $scope.processTypeFields = $scope.processTypeFields.concat(emtpyProccesTypeField);
+            $scope.processTypeFields = $scope.processTypeFields.concat(angular.copy($scope.emptyProcessTypeField));
         }
     }
 

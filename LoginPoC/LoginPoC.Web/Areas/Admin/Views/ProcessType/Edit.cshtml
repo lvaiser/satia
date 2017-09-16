@@ -41,14 +41,34 @@
 
             </div>
 
+            <div ng-repeat="field in processTypeFields track by $index">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label>Nombre</label>
+                        <input ng-model="field.name"
+                               class="form-control" type="text" name="name"
+                               required
+                               uib-popover="El nombre del campo es requerido" popover-trigger="'mouseenter'" "
+                               placeholder="Nombre..." />
+
+                    </div>
+                    <div class="col-md-3">
+                        <label>Tipo de dato</label>
+                        <select name="fieldTypes" ng-model="field.type">
+                            <option ng-repeat="type in fieldTypes" value="{{type.id}}">{{type.name}}</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-2">
+                        <label> <input type="checkbox" ng-model="field.isRequired" /> Es requerido</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary pull-right" ng-click="events.newField();">Nuevo Campo</button>
             <div class="panel panel-info">
                 <div class="panel-body">
                     <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
                 </div>
-            </div>
-
-            <div ng-repeat="field in processTypeFields">
-                {{ field }}
             </div>
         </div>
     </div>
