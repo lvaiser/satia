@@ -11,6 +11,7 @@ namespace LoginPoC.DAL
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public IDbSet<ProcessType> ProcessTypes { get; set; }
