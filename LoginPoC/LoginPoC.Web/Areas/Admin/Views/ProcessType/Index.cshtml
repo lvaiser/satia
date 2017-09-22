@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LoginPoC.Model.ProcessType.ProcessType>
+﻿@using LoginPoC.Model.User
+@using LoginPoC.Web.Areas.Admin.Models;
+@model ProcessTypeIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,9 +9,15 @@
 <h2>Tipos de Tr&aacute;mite</h2>
 <hr />
 <div class="row">
-    <div class="col-xs-6">
-        <input type="text" placeholder="Buscar tipo de trámite" class="tipoTramite-buscar" />
+    @using (Html.BeginForm("Index", "ProcessType", FormMethod.Get, new { area = "Admin" }))
+    {
+    <div class="col-xs-6 tipoTramite-buscar">
+        <input type="text" placeholder="Buscar tipo de trámite" name="name" id="name" value="@Model.SearchByName"/>
+        <button type="submit" class="fa fa-search"></button>
     </div>
+    }
+    @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+    {
     <div class="col-xs-6 tipoTramite-crear">
         <p style="margin-bottom:0">
             <a href="@Url.Action("Create")" class="tipoTramite-textoCrear">
@@ -18,10 +26,11 @@
             </a>
         </p>
     </div>
+        }
 </div>
 <br />
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var item in Model.ProcessTypes)
     {
         <div class="col-xs-6">
             <p class="tipoTramite-item">
@@ -29,8 +38,11 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </span>
                 <a href="#"><span class='fa fa-caret-down tipoTramite-itemBtn' id="tipoTramite-@item.Id"></span></a>
-                <a href="@Url.Action("Delete",new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
-                <a href="@Url.Action("Edit",new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+                {
+                <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                }
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
                 <p class="tipoTramite-descripcion">

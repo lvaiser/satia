@@ -8,5 +8,6 @@ namespace LoginPoC.Core.ProcessType
 {
     public interface IProcessTypeService : IGenericCrudService<Model.ProcessType.ProcessType>
     {
+        Task<IEnumerable<Model.ProcessType.ProcessType>> SearchAsync(string name);
     }
 }

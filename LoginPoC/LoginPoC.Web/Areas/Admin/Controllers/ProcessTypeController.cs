@@ -6,6 +6,8 @@ using System.Net;
 using System.Web.Mvc;
 using LoginPoC.Model.User;
 using LoginPoC.Core.ProcessType;
+using System.Threading.Tasks;
+using LoginPoC.Web.Areas.Admin.Models;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
@@ -23,9 +25,16 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         // GET: ProcessType
         [OverrideAuthorization]
         [Authorize]
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string name = null)
         {
-            return View(this.ProcessTypeService.GetAll());
+            var processTypes = await this.ProcessTypeService.SearchAsync(name);
+            var vm = new ProcessTypeIndexViewModel()
+            {
+                ProcessTypes = processTypes,
+                SearchByName = name
+            };
+
+            return View(vm);
         }
 
         // GET: ProcessType/Details/5

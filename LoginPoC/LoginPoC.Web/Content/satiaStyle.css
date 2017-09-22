@@ -42,9 +42,19 @@ div.home-boton {
 /*Fin Index*/
 
 /*Tipos de Tramite*/
-input.tipoTramite-buscar {
+div.tipoTramite-buscar input[type=text] {
     width: 100%;
     padding:2% 0 2% 0;
+}
+
+div.tipoTramite-buscar button[type=submit] {
+    position: absolute;
+	top: 9px;
+	right: 30px;
+    background: none;
+    border: none;
+    font-size: 23px;
+    color: #818181;
 }
 
 div.tipoTramite-crear {

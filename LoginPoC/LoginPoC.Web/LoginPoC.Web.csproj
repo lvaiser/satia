@@ -237,6 +237,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
+    <Compile Include="Areas\Admin\Models\UserViewModel.cs" />
     <Compile Include="Areas\Common\Controllers\ProcessController.cs" />
     <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
@@ -304,6 +305,7 @@
     <Content Include="Content\Images\slider2-01.jpg" />
     <Content Include="Content\Images\slider3-01.jpg" />
     <Content Include="Content\Images\user-no-picture.png" />
+    <Content Include="Content\satiaStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -802,7 +804,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Common\Views\User\" />
     <Folder Include="Areas\Security\Views\Shared\" />
