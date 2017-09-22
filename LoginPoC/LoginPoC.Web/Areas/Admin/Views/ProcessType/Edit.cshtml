@@ -48,7 +48,7 @@
                         <input ng-model="field.name"
                                class="form-control" type="text" name="name"
                                required
-                               uib-popover="El nombre del campo es requerido" popover-trigger="'mouseenter'" "
+                               uib-popover="El nombre del campo es requerido" popover-trigger="'mouseenter'"
                                placeholder="Nombre..." />
 
                     </div>
@@ -62,9 +62,32 @@
                     <div class="col-md-2">
                         <label> <input type="checkbox" ng-model="field.isRequired" /> Es requerido</label>
                     </div>
+                    <div class="col-md-1">
+                        <div ng-click="events.deleteField(field);">Borrar</div>
+                    </div>
                 </div>
             </div>
             <button class="btn btn-primary pull-right" ng-click="events.newField();">Nuevo Campo</button>
+            <div ng-repeat="document in processTypeDocuments track by $index">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label>Nombre</label>
+                        <input ng-model="document.name"
+                               class="form-control" type="text" name="name"
+                               required
+                               uib-popover="El nombre del documento es requerido" popover-trigger="'mouseenter'"
+                               placeholder="Nombre..." />
+
+                    </div>
+                    <div class="col-md-2">
+                        <label> <input type="checkbox" ng-model="document.isRequired" /> Es requerido</label>
+                    </div>
+                    <div class="col-md-1">
+                        <div ng-click="events.deleteDocument(document);">Borrar</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary pull-right" ng-click="events.newDocument();">Nuevo Documento</button>
             <div class="panel panel-info">
                 <div class="panel-body">
                     <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
