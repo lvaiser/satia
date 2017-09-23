@@ -58,7 +58,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         // GET: ProcessType/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Edit");
         }
 
         // POST: ProcessType/Create
