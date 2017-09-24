@@ -1,15 +1,17 @@
-﻿@model LoginPoC.Model.ProcessType.ProcessType
-@using LoginPoC.Model.ProcessType
+﻿@using LoginPoC.Model.ProcessType
 @using LoginPoC.Web.Areas.Common.Models
 @using Newtonsoft.Json
+@using LoginPoC.Web.Helpers
 
+@model LoginPoC.Model.ProcessType.ProcessType
 @{
     var jsonModel = JsonConvert.SerializeObject(Model);
+    var fieldTypes = JsonConvert.SerializeObject(EnumHelper<FieldType>.AsKeyValuePairs());
 
     ViewBag.Title = "User Information";
 }
 
-<div ng-controller="ProcessType.Edit" ng-init='events.onInit(@Html.Raw(jsonModel))'>
+<div ng-controller="ProcessType.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(fieldTypes))'>
     <div class="form-horizontal">
         <h4>ProcessType</h4>
         <div class="form-group">
@@ -53,8 +55,9 @@
                         </div>
                         <div class="col-md-3">
                             <label>Tipo de dato</label>
-                            <select name="fieldTypes" ng-model="field.type">
-                                <option ng-repeat="type in fieldTypes" value="{{type.id}}">{{type.name}}</option>
+                            <select name="fieldTypes" 
+                                    ng-model="field.type"
+                                    ng-options="item.key as item.value for item in fieldTypes">
                             </select>
 
                         </div>

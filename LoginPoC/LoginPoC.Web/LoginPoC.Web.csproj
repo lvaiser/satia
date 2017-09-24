@@ -258,6 +258,7 @@
     </Compile>
     <Compile Include="Areas\Security\Models\AccountViewModels.cs" />
     <Compile Include="Areas\Security\Models\ManageViewModels.cs" />
+    <Compile Include="Helpers\ModelStateDictionaryHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="Migrations\201708062104161_Initial.cs" />
@@ -279,6 +280,10 @@
     <Compile Include="Migrations\201709162141375_user-picture.cs" />
     <Compile Include="Migrations\201709162141375_user-picture.Designer.cs">
       <DependentUpon>201709162141375_user-picture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709241641133_processType-to-Fields.cs" />
+    <Compile Include="Migrations\201709241641133_processType-to-Fields.Designer.cs">
+      <DependentUpon>201709241641133_processType-to-Fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
@@ -711,6 +716,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709162141375_user-picture.resx">
       <DependentUpon>201709162141375_user-picture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241641133_processType-to-Fields.resx">
+      <DependentUpon>201709241641133_processType-to-Fields.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />

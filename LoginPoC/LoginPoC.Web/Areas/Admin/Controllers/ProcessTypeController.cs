@@ -8,6 +8,7 @@ using LoginPoC.Model.User;
 using LoginPoC.Core.ProcessType;
 using System.Threading.Tasks;
 using LoginPoC.Web.Areas.Admin.Models;
+using LoginPoC.Web.Helpers;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
@@ -65,16 +66,21 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] ProcessType processType)
+        public ActionResult Create(ProcessType processType)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                this.ProcessTypeService.Add(processType);
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
             }
 
-            return View(processType);
+            if(processType.Id != 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+            }
+
+            this.ProcessTypeService.Add(processType);
+
+            return this.JsonNet(processType);
         }
 
         // GET: ProcessType/Edit/5
@@ -84,6 +90,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ProcessType processType = this.ProcessTypeService.GetById(id.Value);
             if (processType == null)
             {
@@ -96,15 +103,15 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] ProcessType processType)
+        public ActionResult Edit(ProcessType processType)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid || processType.Id == 0)
             {
-                this.ProcessTypeService.Update(processType);
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
             }
-            return View(processType);
+
+            this.ProcessTypeService.Update(processType);
+            return this.JsonNet(processType);
         }
 
         // GET: ProcessType/Delete/5
