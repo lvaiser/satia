@@ -1,5 +1,6 @@
-﻿@using LoginPoC.Web.Areas.Common.Models;
-@model ProcessIndexViewModel
+﻿@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
+@using LoginPoC.Web.Areas.Common.Models;
 
 @{
     ViewBag.Title = "Tramites";
@@ -29,7 +30,16 @@
             </label>
         </div>
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <button type="submit" class="btn btn-primary pull-right">Enviar a verificar</button>
+
+        @if (User.IsInRole(ApplicationUserRoles.Agent))
+        {
+            <button type="submit" class="btn btn-primary pull-right">Asignarme</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+            <button type="submit" class="btn btn-success pull-right">Validar</button>
+        }
     </form>
 
 </div>

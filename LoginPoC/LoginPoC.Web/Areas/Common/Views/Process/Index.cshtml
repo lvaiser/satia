@@ -1,4 +1,6 @@
 ﻿@using LoginPoC.Web.Areas.Common.Models;
+@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
 @model ProcessIndexViewModel
 
 @{
@@ -10,19 +12,11 @@
 <div class="row">
     @using (Html.BeginForm("Index", "Process", FormMethod.Get, new { area = "Common" }))
     {
-        <div class="col-xs-6 tipoTramite-buscar">
+        <div class="col-xs-offset-2 col-xs-8 tipoTramite-buscar">
             <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
             <button type="submit" class="fa fa-search"></button>
         </div>
     }
-    <div class="col-xs-6 tipoTramite-crear">
-        <p style="margin-bottom:0">
-            <a href="@Url.Action("Create")" class="tipoTramite-textoCrear">
-                Crear Nuevo Trámite
-                <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
-            </a>
-        </p>
-    </div>
 </div>
 <br />
 <div class="row">
@@ -33,8 +27,24 @@
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
                     @item.Name
                 </span>
-                <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
-                <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+
+                @if (User.IsInRole(ApplicationUserRoles.Administrator))
+                {
+                    <a href="#"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignar</span></a>
+                }
+                else
+                {
+                    if (item.Id == 1)
+                    {
+                        <a href="#"><span class='badge pull-right' style="background-color: #fff; color: #777; margin-left: 10px;">Desasignarme</span></a>
+                    }
+                    else
+                    {
+                        <a href="#"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignarme</span></a>
+                    }
+                }
+
+                <a href="@Url.Action("View", new { id = item.Id })"><span class='fa fa-eye tipoTramite-itemBtn'></span></a>
 
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">

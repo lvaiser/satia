@@ -1,24 +1,24 @@
 ﻿@using LoginPoC.Web.Areas.Admin.Models;
-@model AgentIndexViewModel
+@model TeamIndexViewModel
 
 @{
-    ViewBag.Title = "Agentes";
+    ViewBag.Title = "Equipos de Trabajo";
 }
 
-<h2>Asesores</h2>
+<h2>Equipos de Trabajo</h2>
 <hr />
 <div class="row">
-    @using (Html.BeginForm("Index", "Agent", FormMethod.Get, new { area = "Admin" }))
+    @using (Html.BeginForm("Index", "Team", FormMethod.Get, new { area = "Admin" }))
     {
         <div class="col-xs-6 tipoTramite-buscar">
-            <input type="text" placeholder="Buscar asesor" name="name" id="name" value="@Model.SearchByName" />
+            <input type="text" placeholder="Buscar equipo" name="name" id="name" value="@Model.SearchByName" />
             <button type="submit" class="fa fa-search"></button>
         </div>
     }
     <div class="col-xs-6 tipoTramite-crear">
         <p style="margin-bottom:0">
             <a href="@Url.Action("Create")" class="tipoTramite-textoCrear">
-                Nuevo Asesor
+                Nuevo Equipo
                 <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
             </a>
         </p>
@@ -26,7 +26,7 @@
 </div>
 <br />
 <div class="row">
-    @foreach (var item in Model.Agents)
+    @foreach (var item in Model.Teams)
     {
         <div class="col-xs-offset-2 col-xs-8">
             <p class="tipoTramite-item">

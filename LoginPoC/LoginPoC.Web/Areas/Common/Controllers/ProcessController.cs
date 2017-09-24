@@ -66,12 +66,12 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             uno.Status = "En Proceso";
 
             dynamic dos = new ExpandoObject();
-            dos.Id = 1;
+            dos.Id = 2;
             dos.Name = "Ciudadania";
             dos.Status = "Finalizado";
 
             dynamic tres = new ExpandoObject();
-            tres.Id = 1;
+            tres.Id = 3;
             tres.Name = "Tramite X";
             tres.Status = "Rechazado";
 

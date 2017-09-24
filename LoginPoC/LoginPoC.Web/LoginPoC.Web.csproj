@@ -236,7 +236,10 @@
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
+    <Compile Include="Areas\Admin\Models\TeamIndexViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AgentIndexViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProcessTypeIndexViewModel.cs" />
     <Compile Include="Areas\Common\Controllers\ProcessController.cs" />
     <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
@@ -744,6 +747,7 @@
     <Content Include="Areas\Common\Views\Process\Index.cshtml" />
     <Content Include="Areas\Common\Views\Process\MyProcesses.cshtml" />
     <Content Include="Areas\Common\Views\Process\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

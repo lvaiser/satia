@@ -13,7 +13,12 @@
         if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
         {
             <li>@Html.ActionLink("Tramites", "Index", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
+        }
+
+        if(User.IsInRole(ApplicationUserRoles.Administrator))
+        {
             <li>@Html.ActionLink("Asesores", "Index", "Agent", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
+            <li>@Html.ActionLink("Equipos", "Index", "Team", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
         }
     }
 </ul>
