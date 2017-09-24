@@ -237,7 +237,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
-    <Compile Include="Areas\Admin\Models\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProcessTypeIndexViewModel.cs" />
     <Compile Include="Areas\Common\Controllers\ProcessController.cs" />
     <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
@@ -246,6 +246,7 @@
     <Compile Include="Areas\Common\Controllers\FileController.cs" />
     <Compile Include="Areas\Common\Controllers\UserController.cs" />
     <Compile Include="Areas\Common\Models\CountryViewModel.cs" />
+    <Compile Include="Areas\Common\Models\ProcessIndexViewModel.cs" />
     <Compile Include="Areas\Common\Models\UserViewModel.cs" />
     <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
     <Compile Include="Areas\Security\Controllers\AccountController.cs" />
@@ -742,6 +743,7 @@
     <Content Include="Areas\Admin\Views\Agent\Index.cshtml" />
     <Content Include="Areas\Common\Views\Process\Index.cshtml" />
     <Content Include="Areas\Common\Views\Process\MyProcesses.cshtml" />
+    <Content Include="Areas\Common\Views\Process\Edit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
