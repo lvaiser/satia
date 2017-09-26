@@ -17,6 +17,12 @@
             isRequired: false
         }
 
+        $scope.emptyProcessType = {
+            name: null,
+            description: null,
+            urlVideo: null
+        }
+
         $scope.events = {
             onInit: onInit,
             newField: newField,
@@ -27,9 +33,13 @@
         };
 
         function onInit(processType, fieldTypes) {
-            $scope.processType = processType;
-            $scope.processTypeFields = processType.fields;
             $scope.fieldTypes = fieldTypes;
+            if (processType) {
+                $scope.processType = processType;
+                $scope.processTypeFields = processType.fields;
+            } else {
+                $scope.processType = $scope.emptyProcessType
+            }
         }
 
         function onSaveClicked() {
