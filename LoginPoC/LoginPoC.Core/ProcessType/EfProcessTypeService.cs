@@ -25,6 +25,23 @@ namespace LoginPoC.Core.ProcessType
             return await query.ToListAsync();
         }
 
+        public virtual Model.ProcessType.ProcessType GetById(int id)
+        {
+            return dbSet.Include(pt => pt.Fields)
+                        .FirstOrDefault(pt => pt.Id == id);
+        }
+
+        public override void Add(Model.ProcessType.ProcessType entityToAdd)
+        {
+            foreach (ProcessTypeField field in entityToAdd.Fields)
+            {
+                field.ProcessType = entityToAdd;
+                context.ProcessTypeFields.Add(field);
+            }
+
+            base.Add(entityToAdd);
+        }
+
         public override void Update(Model.ProcessType.ProcessType entityToUpdate)
         {
             var currentFields = context.ProcessTypeFields.Where(p => p.ProcessType.Id == entityToUpdate.Id);
@@ -33,8 +50,11 @@ namespace LoginPoC.Core.ProcessType
                 context.ProcessTypeFields.Remove(field);
 
             foreach (ProcessTypeField field in entityToUpdate.Fields)
+            {
+                field.ProcessType = entityToUpdate;
                 context.ProcessTypeFields.Add(field);
-            
+            }
+
             base.Update(entityToUpdate);
         }
     }

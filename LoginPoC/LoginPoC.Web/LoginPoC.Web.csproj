@@ -236,8 +236,11 @@
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
-    <Compile Include="Areas\Admin\Models\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TeamIndexViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\AgentIndexViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ProcessTypeIndexViewModel.cs" />
     <Compile Include="Areas\Common\Controllers\ProcessController.cs" />
     <Compile Include="Areas\Admin\Controllers\AgentController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Areas\Common\Controllers\FileController.cs" />
     <Compile Include="Areas\Common\Controllers\UserController.cs" />
     <Compile Include="Areas\Common\Models\CountryViewModel.cs" />
+    <Compile Include="Areas\Common\Models\ProcessIndexViewModel.cs" />
     <Compile Include="Areas\Common\Models\UserViewModel.cs" />
     <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
     <Compile Include="Areas\Security\Controllers\AccountController.cs" />
@@ -258,6 +262,7 @@
     </Compile>
     <Compile Include="Areas\Security\Models\AccountViewModels.cs" />
     <Compile Include="Areas\Security\Models\ManageViewModels.cs" />
+    <Compile Include="Helpers\ModelStateDictionaryHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="Migrations\201708062104161_Initial.cs" />
@@ -279,6 +284,10 @@
     <Compile Include="Migrations\201709162141375_user-picture.cs" />
     <Compile Include="Migrations\201709162141375_user-picture.Designer.cs">
       <DependentUpon>201709162141375_user-picture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709241641133_processType-to-Fields.cs" />
+    <Compile Include="Migrations\201709241641133_processType-to-Fields.Designer.cs">
+      <DependentUpon>201709241641133_processType-to-Fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
@@ -712,6 +721,9 @@
     <EmbeddedResource Include="Migrations\201709162141375_user-picture.resx">
       <DependentUpon>201709162141375_user-picture.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241641133_processType-to-Fields.resx">
+      <DependentUpon>201709241641133_processType-to-Fields.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\web.config" />
@@ -734,6 +746,8 @@
     <Content Include="Areas\Admin\Views\Agent\Index.cshtml" />
     <Content Include="Areas\Common\Views\Process\Index.cshtml" />
     <Content Include="Areas\Common\Views\Process\MyProcesses.cshtml" />
+    <Content Include="Areas\Common\Views\Process\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

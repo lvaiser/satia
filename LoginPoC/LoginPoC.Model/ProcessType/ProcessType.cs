@@ -13,7 +13,7 @@ namespace LoginPoC.Model.ProcessType
         public bool IsActive { get; set; }
         public string URLVideo { get; set; }
 
-        public IEnumerable<ProcessTypeField> Fields { get; set; }
+        public ICollection<ProcessTypeField> Fields { get; set; }
 
         public ProcessType()
         {

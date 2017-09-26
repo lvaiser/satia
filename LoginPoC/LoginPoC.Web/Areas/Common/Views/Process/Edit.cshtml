@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
+@using LoginPoC.Web.Areas.Common.Models;
+
+@{
+    ViewBag.Title = "Tramites";
+}
+
+<h2>Tramite X</h2>
+<hr />
+
+<div class="row">
+    
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" value="Pedro">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Apellido</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" value="Cardoso">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputFile">Foto del DNI</label>
+            <input type="file" id="exampleInputFile" value="31321191">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> Posee hijos?
+            </label>
+        </div>
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+
+        @if (User.IsInRole(ApplicationUserRoles.Agent))
+        {
+            <button type="submit" class="btn btn-primary pull-right">Asignarme</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+            <button type="submit" class="btn btn-success pull-right">Validar</button>
+        }
+    </form>
+
+</div>
+@section Scripts{
+    
+}

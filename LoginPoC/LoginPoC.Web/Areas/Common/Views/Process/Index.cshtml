@@ -1,3 +1,63 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using LoginPoC.Web.Areas.Common.Models;
+@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
+@model ProcessIndexViewModel
+
+@{
+    ViewBag.Title = "Tramites";
+}
+
+<h2>Tr&aacute;mites</h2>
+<hr />
+<div class="row">
+    @using (Html.BeginForm("Index", "Process", FormMethod.Get, new { area = "Common" }))
+    {
+        <div class="col-xs-offset-2 col-xs-8 tipoTramite-buscar">
+            <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
+            <button type="submit" class="fa fa-search"></button>
+        </div>
+    }
+</div>
+<br />
+<div class="row">
+    @foreach (var item in Model.Processes)
+    {
+        <div class="col-xs-offset-2 col-xs-8">
+            <p class="tipoTramite-item">
+                <span class="tipoTramite-nombre" style="cursor: pointer;">
+                    @item.Name
+                </span>
+
+                @if (User.IsInRole(ApplicationUserRoles.Administrator))
+                {
+                    <a href="#"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignar</span></a>
+                }
+                else
+                {
+                    if (item.Id == 1)
+                    {
+                        <a href="#"><span class='badge pull-right' style="background-color: #fff; color: #777; margin-left: 10px;">Desasignarme</span></a>
+                    }
+                    else
+                    {
+                        <a href="#"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignarme</span></a>
+                    }
+                }
+
+                <a href="@Url.Action("View", new { id = item.Id })"><span class='fa fa-eye tipoTramite-itemBtn'></span></a>
+
+            </p>
+            <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
+                <p class="tipoTramite-descripcion">
+                    @item.Status
+                </p>
+                <p class="tipoTramite-descripcion">
+                    <a href="@Url.Action("Details",new { id = item.Id })">Ver Detalles del trámite</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts{
+    
 }

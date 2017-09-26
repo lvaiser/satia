@@ -1,3 +1,44 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using LoginPoC.Web.Areas.Admin.Models;
+@model AgentIndexViewModel
+
+@{
+    ViewBag.Title = "Agentes";
+}
+
+<h2>Asesores</h2>
+<hr />
+<div class="row">
+    @using (Html.BeginForm("Index", "Agent", FormMethod.Get, new { area = "Admin" }))
+    {
+        <div class="col-xs-6 tipoTramite-buscar">
+            <input type="text" placeholder="Buscar asesor" name="name" id="name" value="@Model.SearchByName" />
+            <button type="submit" class="fa fa-search"></button>
+        </div>
+    }
+    <div class="col-xs-6 tipoTramite-crear">
+        <p style="margin-bottom:0">
+            <a href="@Url.Action("Create")" class="tipoTramite-textoCrear">
+                Nuevo Asesor
+                <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
+            </a>
+        </p>
+    </div>
+</div>
+<br />
+<div class="row">
+    @foreach (var item in Model.Agents)
+    {
+        <div class="col-xs-offset-2 col-xs-8">
+            <p class="tipoTramite-item">
+                <span class="tipoTramite-nombre" style="cursor: pointer;">
+                    @item.Name
+                </span>
+                <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+            </p>
+        </div>
+    }
+</div>
+@section Scripts{
+
 }

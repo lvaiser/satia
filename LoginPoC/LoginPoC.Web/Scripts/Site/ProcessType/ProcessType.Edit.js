@@ -5,19 +5,11 @@
     function controller($scope, $http) {
         $scope.processTypeFields = [];
         $scope.processTypeDocuments = [];
-        // TODO request field types by http
-        $scope.fieldTypes = [
-            { id: 1, name: 'integer' },
-            { id: 2, name: 'date' },
-            { id: 3, name: 'phoneNumber' },
-            { id: 4, name: 'text' }
-        ];
  
         $scope.emptyProcessTypeField = {
             name: null,
-            type: null,
+            type: 1,
             isRequired: false,
-            fieldType: $scope.fieldTypes[0]
         }
 
         $scope.emptyDocument = {
@@ -34,17 +26,28 @@
             onSaveClicked: onSaveClicked
         };
 
-        function onInit(processType) {
+        function onInit(processType, fieldTypes) {
             $scope.processType = processType;
+            $scope.processTypeFields = processType.fields;
+            $scope.fieldTypes = fieldTypes;
         }
 
         function onSaveClicked() {
             $scope.processType.documents = $scope.processTypeDocuments;
             $scope.processType.fields = $scope.processTypeFields;
-            return $http.post("/Admin/ProcessTypes/Edit", $scope.processType)
-                .then(function (response) {
-                    $.notify("Los datos se actualizaron exitosamente", "success");
-                }, Utils.onAjaxError.bind(this, " al guardar el tipo de documento"));
+
+            var action;
+            if (!$scope.processType.id) {
+                action = "Create";
+            } else {
+                action = "Edit";
+            }
+
+            return $http.post("/Admin/ProcessType/" + action, $scope.processType)
+                        .then(function (response) {
+                            window.location = '/Admin/ProcessType/Edit/' + response.data.id + '?_=' + Math.random();
+                            $.notify("Los datos se actualizaron exitosamente", "success");
+                        }, Utils.onAjaxError.bind(this, " al guardar el tipo de documento"));
         }
 
         function newField() {
