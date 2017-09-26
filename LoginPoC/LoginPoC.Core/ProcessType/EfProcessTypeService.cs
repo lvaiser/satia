@@ -28,6 +28,7 @@ namespace LoginPoC.Core.ProcessType
         public virtual Model.ProcessType.ProcessType GetById(int id)
         {
             return dbSet.Include(pt => pt.Fields)
+                        .Include(pt => pt.Documents)
                         .FirstOrDefault(pt => pt.Id == id);
         }
 
@@ -37,6 +38,12 @@ namespace LoginPoC.Core.ProcessType
             {
                 field.ProcessType = entityToAdd;
                 context.ProcessTypeFields.Add(field);
+            }
+
+            foreach (ProcessTypeDocument document in entityToAdd.Documents)
+            {
+                document.ProcessType = entityToAdd;
+                context.ProcessTypeDocuments.Add(document);
             }
 
             base.Add(entityToAdd);
@@ -53,6 +60,17 @@ namespace LoginPoC.Core.ProcessType
             {
                 field.ProcessType = entityToUpdate;
                 context.ProcessTypeFields.Add(field);
+            }
+
+            var currentDocuments = context.ProcessTypeDocuments.Where(p => p.ProcessType.Id == entityToUpdate.Id);
+
+            foreach (ProcessTypeDocument document in currentDocuments)
+                context.ProcessTypeDocuments.Remove(document);
+
+            foreach (ProcessTypeDocument document in entityToUpdate.Documents)
+            {
+                document.ProcessType = entityToUpdate;
+                context.ProcessTypeDocuments.Add(document);
             }
 
             base.Update(entityToUpdate);

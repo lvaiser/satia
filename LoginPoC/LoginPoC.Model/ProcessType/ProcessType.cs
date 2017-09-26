@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace LoginPoC.Model.ProcessType
 {
@@ -14,10 +11,12 @@ namespace LoginPoC.Model.ProcessType
         public string URLVideo { get; set; }
 
         public ICollection<ProcessTypeField> Fields { get; set; }
+        public ICollection<ProcessTypeDocument> Documents { get; set; }
 
         public ProcessType()
         {
             this.Fields = new List<ProcessTypeField>();
+            this.Documents = new List<ProcessTypeDocument>();
         }
     }
 }

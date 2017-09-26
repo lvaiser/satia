@@ -12,7 +12,7 @@
             isRequired: false,
         }
 
-        $scope.emptyDocument = {
+        $scope.emptyProcessTypeDocument = {
             name: null,
             isRequired: false
         }
@@ -37,6 +37,7 @@
             if (processType) {
                 $scope.processType = processType;
                 $scope.processTypeFields = processType.fields;
+                $scope.processTypeDocuments = processType.documents;
             } else {
                 $scope.processType = $scope.emptyProcessType
             }

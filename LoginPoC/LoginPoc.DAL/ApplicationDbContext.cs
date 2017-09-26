@@ -17,6 +17,7 @@ namespace LoginPoC.DAL
 
         public IDbSet<ProcessType> ProcessTypes { get; set; }
         public IDbSet<ProcessTypeField> ProcessTypeFields { get; set; }
+        public IDbSet<ProcessTypeDocument> ProcessTypeDocuments { get; set; }
         public IDbSet<Country> Countries { get; set; }
         public IDbSet<File> Files { get; set; }
         public IDbSet<Process> Processes { get; set; }

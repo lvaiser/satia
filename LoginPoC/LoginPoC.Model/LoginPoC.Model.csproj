@@ -63,6 +63,7 @@
     <Compile Include="File\File.cs" />
     <Compile Include="ProcessType\FieldType.cs" />
     <Compile Include="ProcessType\ProcessType.cs" />
+    <Compile Include="ProcessType\ProcessTypeDocument.cs" />
     <Compile Include="ProcessType\ProcessTypeField.cs" />
     <Compile Include="Process\Process.cs" />
     <Compile Include="Process\ProcessField.cs" />
