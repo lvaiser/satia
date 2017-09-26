@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LoginPoC.Model.ProcessType
+﻿namespace LoginPoC.Model.ProcessType
 {
     // Available types for process fields
     public enum FieldType
