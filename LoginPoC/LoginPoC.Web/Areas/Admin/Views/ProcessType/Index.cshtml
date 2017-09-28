@@ -16,7 +16,7 @@
         <button type="submit" class="fa fa-search"></button>
     </div>
     }
-    @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+    @if (User.IsInRole(ApplicationUserRoles.Administrator))
     {
     <div class="col-xs-6 tipoTramite-crear">
         <p style="margin-bottom:0">
@@ -38,10 +38,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </span>
                 <a href="#"><span class='fa fa-caret-down tipoTramite-itemBtn' id="tipoTramite-@item.Id"></span></a>
+                @if (User.IsInRole(ApplicationUserRoles.Administrator))
+                {
+                    <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                }
                 @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
                 {
-                <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
-                <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                    <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
                 }
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
@@ -50,7 +53,10 @@
                 </p>
                 <p class="tipoTramite-descripcion">
                     <a href="@Url.Action("Details",new { id = item.Id })">Ver Detalles del trámite</a>
-                    <a href="#" class="btn btn-default pull-right">Iniciar tramite</a>
+                    @if (!(User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator)))
+                    {
+                        <a href="#" class="btn btn-default pull-right">Iniciar tramite</a>
+                    }
                 </p>
             </div>
 
