@@ -50,7 +50,7 @@
                 </div>
                 <div ng-repeat="field in processTypeFields track by $index">
                     <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <input ng-model="field.name"
                                    class="form-control" type="text" name="name"
                                    required
@@ -58,7 +58,7 @@
                                    placeholder="Nombre" />
 
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label></label>
                             <select name="fieldTypes" 
                                     ng-model="field.type"
@@ -66,8 +66,8 @@
                             </select>
 
                         </div>
-                        <div class="col-md-2">
-                            <label><input type="checkbox" ng-model="field.isRequired" /> Es requerido</label>
+                        <div class="col-md-3">
+                            <label><input type="checkbox" ng-model="field.isRequired" /> Obligatorio</label>
                         </div>
                         <div class="col-md-1">
                             <div ng-click="events.deleteField(field);"><span class="fa fa-trash" style="font-size: 20px"></span></div>
@@ -93,7 +93,7 @@
 
                     </div>
                     <div class="col-md-2">
-                        <label> <input type="checkbox" ng-model="document.isRequired" /> Es requerido</label>
+                        <label> <input type="checkbox" ng-model="document.isRequired" /> Obligatorio</label>
                     </div>
                     <div class="col-md-1">
                         <div ng-click="events.deleteDocument(document);"><span class="fa fa-trash" style="font-size: 20px"></span></div>

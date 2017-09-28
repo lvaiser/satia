@@ -5,13 +5,13 @@ namespace LoginPoC.Model.ProcessType
     // Available types for process fields
     public enum FieldType
     {
-        [Display(Name = "Texto corto")]
+        [Display(Name = "Texto corto (250 caracteres)")]
         String,
-        [Display(Name = "Texto largo")]
+        [Display(Name = "Texto largo (5000 caracteres)")]
         TextArea,
         [Display(Name = "Número entero")]
         Integer,
-        [Display(Name = "Número decimal")]
+        [Display(Name = "Número con decimales")]
         Decimal,
         [Display(Name = "Fecha")]
         Date, // Time? DateTime?
