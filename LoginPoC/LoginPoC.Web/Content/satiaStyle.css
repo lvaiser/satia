@@ -2,6 +2,13 @@
 * {
     font-family: Gobold;
 }
+h2.tituloPrincipal {
+    margin: 30px 0 0 0;
+}
+hr.tituloPrincipal {
+    margin-top: 10px;
+    border: 1.5px solid #eee;
+}
 div.header, footer {
     background-color: #008CC8;
     color: white;
@@ -41,6 +48,7 @@ div.home-boton {
 }
 /*Fin Index*/
 
+
 /*Tipos de Tramite*/
 div.tipoTramite-buscar input[type=text] {
     width: 100%;
@@ -75,28 +83,43 @@ p.tipoTramite-item {
     display: inline-block;
     width: 100%;
     font-family: RobotoRegular;
-    background-color: grey;
-    color: white;
+    background-color: #d9dce0;
     padding: 1%;
-    margin-bottom: 0;
+    /*margin-bottom: 0;*/
 }
-
+span.tipoTramite-nombre {
+    font-size: 20px;
+}
 span.tipoTramite-itemBtn {
     text-decoration: none;
-    color: white;
+    font-size: 20px;
+    color: grey;
     float: right;
     padding-left:10px;
 }
 
 div.tipoTramite-descripcion {
-    background-color: grey;
+    margin: -10px 0 10px 0;
+    background-color: #d9dce0;
     padding-bottom: 20px;
-
 }
 p.tipoTramite-descripcion {
     margin: 0 20px 0 20px;
     padding: 20px;
     background-color: white;
+}
+
+div.tipoTramite-seccion {
+    font-family: GoboldThinItalic;
+    background-color: #008CC8;
+    color: white;
+    font-size: 24px;
+    line-height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+div.tipoTramite-campo {
+   margin-bottom: 5px;
 }
 /*Fin Tipos de Tramite*/
 /*Font Faces*/
