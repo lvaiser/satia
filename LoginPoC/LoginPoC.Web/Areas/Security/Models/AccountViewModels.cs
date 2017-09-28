@@ -96,17 +96,17 @@ namespace LoginPoC.Web.Areas.Security.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Su Email es requerido")]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "La contraseña es requerida")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Recordarme")]
         public bool RememberMe { get; set; }
     }
 

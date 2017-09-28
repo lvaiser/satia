@@ -18,8 +18,12 @@
             </a>
             
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })</li>
                 
+                @if (User.IsInRole(ApplicationUserRoles.User))
+                {
+                    <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })</li>
+                }
+
                 @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
                 {
                     <li><a href="#">Ver como...</a></li>

@@ -60,12 +60,12 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             {
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirmar tu cuenta-Reenviado");
 
                     // Uncomment to debug locally  
                     // ViewBag.Link = callbackUrl;
-                    ViewBag.errorMessage = "You must have a confirmed email to log on. "
-                                         + "The confirmation token has been resent to your email account.";
+                    ViewBag.errorMessage = "Debe confirmar su email antes de poder iniciar sesión."
+                                         + "Un correo de confirmación a sido enviado a su casilla de emails.";
                     return View("Error");
                 }
             }
@@ -83,7 +83,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Email o contraseña incorrectos");
                     return View(model);
             }
         }
@@ -126,7 +126,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Codigo incorrecto.");
                     return View(model);
             }
         }
@@ -165,12 +165,12 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     //  await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     await UserManager.AddToRoleAsync(user.Id, ApplicationUserRoles.User);
-                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirmar tu cuenta");
 
                     // Uncomment to debug locally 
                     // TempData["ViewBagLink"] = callbackUrl;
 
-                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed before you can log in.";
+                    ViewBag.Message = "Revisa tu casilla de correo y confirma tu cuenta. Debes confirmar tu enta antes de poder inisiar sesión";
 
                     return View("Info");
                     //return RedirectToAction("Index", "Home");
@@ -224,7 +224,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Blanquear contraseña", "Para blanquear tu contraseña haga click <a href=\"" + callbackUrl + "\">aquí</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
@@ -483,7 +483,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             var callbackUrl = Url.Action("ConfirmEmail", "Account",
                new { userId = userID, code = code }, protocol: Request.Url.Scheme);
             await UserManager.SendEmailAsync(userID, subject,
-               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+               "Para confirmar tu cuenta haga click <a href=\"" + callbackUrl + "\">aquí</a>");
 
             return callbackUrl;
         }

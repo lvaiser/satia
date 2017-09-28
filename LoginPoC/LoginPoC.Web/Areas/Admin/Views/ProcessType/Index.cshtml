@@ -3,7 +3,7 @@
 @model ProcessTypeIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tipos de Tramites";
 }
 
 <h2 class="tituloPrincipal">Tipos de Tr&aacute;mite</h2>
@@ -53,7 +53,7 @@
                 </p>
                 <p class="tipoTramite-descripcion">
                     <a href="@Url.Action("Details",new { id = item.Id })">Ver Detalles del trámite</a>
-                    @if (!(User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator)))
+                    @if (User.IsInRole(ApplicationUserRoles.User))
                     {
                         <a href="#" class="btn btn-default pull-right">Iniciar tramite</a>
                     }
