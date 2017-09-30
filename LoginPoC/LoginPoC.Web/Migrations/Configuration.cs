@@ -20,8 +20,7 @@ namespace LoginPoC.Web.Migrations
         private bool AddRole(string role, ApplicationDbContext context)
         {
             IdentityResult ir;
-            var rm = new RoleManager<IdentityRole>
-                (new RoleStore<IdentityRole>(context));
+            var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             ir = rm.Create(new IdentityRole(role));
 
             return ir.Succeeded;

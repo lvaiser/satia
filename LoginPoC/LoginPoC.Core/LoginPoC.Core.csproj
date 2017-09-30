@@ -95,6 +95,7 @@
     <Compile Include="File\EfFileService.cs" />
     <Compile Include="File\IFileService.cs" />
     <Compile Include="User\ApplicationSignInManager.cs" />
+    <Compile Include="User\ApplicationRoleManager.cs" />
     <Compile Include="User\ApplicationUserManager.cs" />
     <Compile Include="User\EfCountryService.cs" />
     <Compile Include="User\ICountryService.cs" />

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using LoginPoC.Model.ProcessType;
+﻿using System.Collections.Generic;
 using LoginPoC.Model.User;
 
 namespace LoginPoC.Web.Areas.Admin.Models
@@ -10,7 +7,6 @@ namespace LoginPoC.Web.Areas.Admin.Models
     {
         public string SearchByName { get; set; }
 
-        //TODO: Remplazar el dynamic cuando tengamos la entidad Agent
-        public IEnumerable<dynamic> Agents { get; set; }
+        public IEnumerable<ApplicationUser> Agents { get; set; }
     }
 }

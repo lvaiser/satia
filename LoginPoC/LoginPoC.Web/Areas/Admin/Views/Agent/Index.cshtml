@@ -31,7 +31,7 @@
         <div class="col-xs-offset-2 col-xs-8">
             <p class="tipoTramite-item">
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
-                    @item.Name
+                    @item.LastName, @item.FirstName
                 </span>
                 <a href="@Url.Action("Delete", new { id = item.Id })"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
                 <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>

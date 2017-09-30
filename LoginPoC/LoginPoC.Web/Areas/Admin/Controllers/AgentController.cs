@@ -1,50 +1,50 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Dynamic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
+using LoginPoC.Core.User;
 using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Admin.Models;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
+    [Authorize(Roles = ApplicationUserRoles.Administrator)]
     public class AgentController : Controller
     {
-        public AgentController()
+        private ApplicationUserManager userManager;
+        private ApplicationRoleManager roleManager;
+        private IMapper mapper;
+
+        public AgentController(ApplicationUserManager userManager, ApplicationRoleManager roleManager, IMapper mapper)
         {
-            
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+            this.mapper = mapper;
         }
 
-        // GET: ProcessType
-        [OverrideAuthorization]
-        [Authorize]
-        public ActionResult Index(string name = null)
+        // GET: Agent        
+        public async Task<ActionResult> Index(string name = null)
         {
-            //var agents = await this.AgentService.SearchAsync(name);
-            var agents = this.GetMockedAgents();
+            var agentRole = await this.roleManager.FindByNameAsync(ApplicationUserRoles.Agent);
+            var users = this.userManager.Users.Where(u => u.Roles.Any(r => r.RoleId == agentRole.Id));
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                users = users.Where(u => u.FirstName.Contains(name)
+                                      || u.LastName.Contains(name)
+                                      || u.UserName.Contains(name));
+            }
+
             var vm = new AgentIndexViewModel()
             {
-                Agents = agents,
-                SearchByName = name
+                SearchByName = name,
+                Agents = await users.ToListAsync()
             };
 
             return View(vm);
-        }
-
-        private IEnumerable<dynamic> GetMockedAgents()
-        {
-            dynamic uno = new ExpandoObject();
-            uno.Id = 1;
-            uno.Name = "Sabrina Gallo";
-
-            dynamic dos = new ExpandoObject();
-            dos.Id = 1;
-            dos.Name = "Marcos Romero";
-
-            dynamic tres = new ExpandoObject();
-            tres.Id = 1;
-            tres.Name = "Martin Cachimayo";
-
-            return new List<dynamic>() { uno, dos, tres };
         }
     }
 }
