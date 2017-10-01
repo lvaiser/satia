@@ -13,6 +13,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using LoginPoC.Web.Helpers;
 
 namespace LoginPoC.Web.Areas.Security.Controllers
 {
@@ -184,6 +186,42 @@ namespace LoginPoC.Web.Areas.Security.Controllers
         }
 
         //
+        // GET: /Account/RegisterAgent
+        [Authorize(Roles = ApplicationUserRoles.Administrator)]
+        public ActionResult RegisterAgent()
+        {
+            return View(new AgentViewModel());
+        }
+
+        //
+        // POST: /Account/RegisterAgent
+        [HttpPost]
+        [Authorize(Roles = ApplicationUserRoles.Administrator )]
+        public async Task<ActionResult> RegisterAgent(AgentViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+            }
+
+            var user = Mapper.Map<ApplicationUser>(vm);
+
+            var result = await UserManager.CreateAsync(user, Guid.NewGuid().ToString().ToUpper());
+            if (!result.Succeeded)
+            {
+                AddErrors(result);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+            }
+
+            await UserManager.AddToRoleAsync(user.Id, ApplicationUserRoles.User);
+            string callbackUrl = await SendEmailConfirmationTokenToAgentAsync(user.Id, "Confirmar tu cuenta");
+
+            ViewBag.Message = "Usuario creado con exito. Un correo fue enviado a la cuenta de correo especificada.";
+
+            return View("Info");
+        }
+
+        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -194,6 +232,23 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmEmailAndCreatePassword(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var vm = new ConfirmEmailAndCreatePasswordViewModel()
+            {
+                UserId = userId,
+                ConfirmationCode = code
+            };
+
+            return View(vm);
         }
 
         //
@@ -484,6 +539,16 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                new { userId = userID, code = code }, protocol: Request.Url.Scheme);
             await UserManager.SendEmailAsync(userID, subject,
                "Para confirmar tu cuenta haga click <a href=\"" + callbackUrl + "\">aquí</a>");
+
+            return callbackUrl;
+        }
+
+        private async Task<string> SendEmailConfirmationTokenToAgentAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+
+            var callbackUrl = Url.Action("ConfirmEmailAndCreatePassword", "Account", new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject, "Confirma tu cuenta y crea una contraseña haciendo click <a href=\"" + callbackUrl + "\">aquí</a>");
 
             return callbackUrl;
         }
