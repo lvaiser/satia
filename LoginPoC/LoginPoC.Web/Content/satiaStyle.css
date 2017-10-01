@@ -117,7 +117,6 @@ p.tipoTramite-descripcion {
     padding: 20px;
     background-color: white;
 }
-
 div.tipoTramite-seccion {
     font-family: GoboldThin;
     background-color: #008CC8;
@@ -129,6 +128,15 @@ div.tipoTramite-seccion {
 }
 div.tipoTramite-campo {
    margin-bottom: 5px;
+}    
+div.tipoTramite-campo > label{
+    font-family: GoboldThin;
+}
+select.tipoTramite-tipoDeDatos {
+    width: 100%;
+    height: 34px;
+    border-radius: 5%;
+    border-color: #ccc;
 }
 div.tipoTramite-botonera {
     font-size: 20px;
