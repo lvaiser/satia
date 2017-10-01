@@ -2,6 +2,9 @@
 * {
     font-family: HelveticaCondensed;
 }
+body {
+    padding-bottom: 0;
+}
 h4 {
     font-family: GoboldRegular;
 }
@@ -127,6 +130,17 @@ div.tipoTramite-seccion {
 div.tipoTramite-campo {
    margin-bottom: 5px;
 }
+div.tipoTramite-botonera {
+    font-size: 20px;
+}
+span.fa.fa-asterisk {
+    color: #adadad;
+    padding-right: 5px;
+}
+span.fa.fa-asterisk.asteriscoActivo {
+    color: #008CC8;
+}
+/*Detalles*/
 dl.dl-horizontal.tipoTramite-detalles dt {
     font-family: GoboldThin;
     font-size: 1.3em;

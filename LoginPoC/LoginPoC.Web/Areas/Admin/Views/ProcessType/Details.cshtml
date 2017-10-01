@@ -12,16 +12,13 @@
             Nombre
             <!--@Html.DisplayNameFor(model => model.Name)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-
         <dt>
             Descripci&oacute;n
             <!--@Html.DisplayNameFor(model => model.Description)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
@@ -29,8 +26,15 @@
             VideoTutorial
         </dt>
         <dd>
-            <!--TODO: cuando haya video, agregarlo aca. Si no habría que poner algo por defecto-->
-            <iframe width="427" height="240" src="https://www.youtube.com/embed/a1Y73sPHKxw" frameborder="0" allowfullscreen></iframe>
+            @if (!string.IsNullOrEmpty(Model.URLVideo))
+            {
+                <iframe width="427" height="240" src="@Html.DisplayFor(model => model.URLVideo)" frameborder="0" allowfullscreen></iframe>
+            }
+            else
+            {
+                <span>Sin VideoTutorial</span>
+            }
+            
         </dd>
 
     </dl>
