@@ -3,10 +3,10 @@ using LoginPoC.Core.User;
 using LoginPoC.DAL;
 using LoginPoC.Model.Process;
 using LoginPoC.Model.ProcessType;
-using LoginPoC.Model.User;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LoginPoC.Core.Process
@@ -83,15 +83,26 @@ namespace LoginPoC.Core.Process
             Model.ProcessType.ProcessType type = this.ProcessTypeService.GetById(processTypeId);
             process.Type = type;
 
+            List<ProcessField> fields = new List<ProcessField>();
             foreach (ProcessTypeField ptField in type.Fields)
             {
+                object value = null;
+                PropertyInfo property = user.GetType().GetProperty(ptField.Type.ToString());
+                if (property != null)
+                {
+                    value = property.GetValue(user, null);
+                }
+
                 ProcessField field = new ProcessField
                 {                    
                     Type = ptField,
-                    Value = user.GetType().GetProperty(ptField.Type.ToString()).GetValue(user, null)
+                    Value = value
                 };
+
+                fields.Add(field);
             }
 
+            process.Fields = fields;
             return process;
         }
     }
