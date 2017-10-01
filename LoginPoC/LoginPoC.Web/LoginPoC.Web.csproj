@@ -755,6 +755,9 @@
     <Content Include="Areas\Common\Views\Process\MyProcesses.cshtml" />
     <Content Include="Areas\Common\Views\Process\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Team\Index.cshtml" />
+    <Content Include="fonts\Gobold Bold.otf" />
+    <Content Include="fonts\Gobold Light.otf" />
+    <Content Include="fonts\Gobold Thin.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

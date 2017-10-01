@@ -1,8 +1,12 @@
 ﻿/*Layout*/
 * {
-    font-family: Gobold;
+    font-family: HelveticaCondensed;
+}
+h4 {
+    font-family: GoboldRegular;
 }
 h2.tituloPrincipal {
+    font-family: GoboldBold;
     margin: 30px 0 0 0;
 }
 hr.tituloPrincipal {
@@ -22,7 +26,7 @@ div.header, footer {
     padding: 5px;
     margin-top: 15px;
     margin-right: 10px;
-    font-family: Gobold;
+    font-family: GoboldRegular;
 }
 footer {
     height: 50px;
@@ -39,9 +43,6 @@ div.home-text {
 div.home-text h2 {
     font-family: GoboldThinItalic;
     color: #008CC8;
-}
-div.home-text strong {
-    font-family: HelveticaCondensed;
 }
 div.home-boton {
     margin-top: -60px;
@@ -76,9 +77,8 @@ a.tipoTramite-textoCrear {
     margin-left: 10px;
     text-decoration: none;
     color: white;
-    font-family: Gobold;
+    font-family: GoboldRegular;
 }
-
 p.tipoTramite-item {
     display: inline-block;
     width: 100%;
@@ -87,7 +87,14 @@ p.tipoTramite-item {
     padding: 1%;
     /*margin-bottom: 0;*/
 }
+a.tipoTramite-verDetalles {
+    font-family: GoboldRegular;
+    background-color: #008CC8;
+    color: white;
+    padding: 1% 2% 1% 2%;
+}
 span.tipoTramite-nombre {
+    font-family: GoboldRegular;
     font-size: 20px;
 }
 span.tipoTramite-itemBtn {
@@ -97,7 +104,6 @@ span.tipoTramite-itemBtn {
     float: right;
     padding-left:10px;
 }
-
 div.tipoTramite-descripcion {
     margin: -10px 0 10px 0;
     background-color: #d9dce0;
@@ -110,7 +116,7 @@ p.tipoTramite-descripcion {
 }
 
 div.tipoTramite-seccion {
-    font-family: GoboldThinItalic;
+    font-family: GoboldThin;
     background-color: #008CC8;
     color: white;
     font-size: 24px;
@@ -121,11 +127,40 @@ div.tipoTramite-seccion {
 div.tipoTramite-campo {
    margin-bottom: 5px;
 }
+dl.dl-horizontal.tipoTramite-detalles dt {
+    font-family: GoboldThin;
+    font-size: 1.3em;
+    line-height: 30px;
+}
+dl.dl-horizontal.tipoTramite-detalles dd {
+    font-size: 1.3em;
+    line-height: 30px;
+}
+a.btn.btn-secondary {
+    border: 1px solid #adadad;
+    border-radius: 10%;
+    font-family: GoboldLight;
+}
 /*Fin Tipos de Tramite*/
 /*Font Faces*/
 @font-face {
-    font-family: Gobold;
+    font-family: GoboldRegular;
     src: url("../fonts/Gobold Regular.otf");
+}
+
+@font-face {
+    font-family: GoboldBold;
+    src: url("../fonts/Gobold Bold.otf");
+}
+
+@font-face {
+    font-family: GoboldLight;
+    src: url("../fonts/Gobold Light.otf");
+}
+
+@font-face {
+    font-family: GoboldThin;
+    src: url("../fonts/Gobold Thin.otf");
 }
 
 @font-face {

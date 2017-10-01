@@ -52,7 +52,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </p>
                 <p class="tipoTramite-descripcion">
-                    <a href="@Url.Action("Details",new { id = item.Id })">Ver Detalles del trámite</a>
+                    <a href="@Url.Action("Details",new { id = item.Id })" class="tipoTramite-verDetalles">Ver Detalles del trámite</a>
                     @if (User.IsInRole(ApplicationUserRoles.User))
                     {
                         <a href="#" class="btn btn-default pull-right">Iniciar tramite</a>
