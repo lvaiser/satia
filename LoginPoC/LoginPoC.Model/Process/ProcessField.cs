@@ -1,4 +1,5 @@
 ﻿using LoginPoC.Model.ProcessType;
+using Newtonsoft.Json;
 
 namespace LoginPoC.Model.Process
 {
@@ -8,6 +9,7 @@ namespace LoginPoC.Model.Process
         public ProcessTypeField Type { get; set; }
         public object Value { get; set; }
 
+        [JsonIgnore]
         public virtual Process Process { get; set; }
     }
 }

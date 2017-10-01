@@ -24,6 +24,7 @@ using LoginPoC.Core.ProcessType;
 using LoginPoC.Core;
 using System.Configuration;
 using LoginPoC.Core.File;
+using LoginPoC.Core.Process;
 
 namespace LoginPoC.Web.App_Start
 {
@@ -70,6 +71,8 @@ namespace LoginPoC.Web.App_Start
             container.Register<ICountryService, EfCountryService>(Lifestyle.Scoped);
 
             container.Register<IProcessTypeService, EfProcessTypeService>(Lifestyle.Scoped);
+
+            container.Register<IProcessService, EfProcessService>(Lifestyle.Scoped);
 
             container.Register(() => new ApplicationSettings()
             {

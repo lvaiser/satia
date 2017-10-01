@@ -25,7 +25,7 @@ namespace LoginPoC.Core.ProcessType
             return await query.ToListAsync();
         }
 
-        public virtual Model.ProcessType.ProcessType GetById(int id)
+        public override Model.ProcessType.ProcessType GetById(int id)
         {
             return dbSet.Include(pt => pt.Fields)
                         .Include(pt => pt.Documents)

@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Process\EfProcessService.cs" />
+    <Compile Include="Process\IProcessService.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="EfGenericCrudService.cs" />
     <Compile Include="IGenericCrudService.cs" />

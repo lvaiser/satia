@@ -170,7 +170,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
                     // Uncomment to debug locally 
                     // TempData["ViewBagLink"] = callbackUrl;
 
-                    ViewBag.Message = "Revisa tu casilla de correo y confirma tu cuenta. Debes confirmar tu enta antes de poder inisiar sesión";
+                    ViewBag.Message = "Revisa tu casilla de correo y confirma tu cuenta. Debes confirmar tu cuenta antes de poder iniciar sesión";
 
                     return View("Info");
                     //return RedirectToAction("Index", "Home");
