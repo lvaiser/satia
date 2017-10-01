@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using LoginPoC.Model.ProcessType;
 
 namespace LoginPoC.Core.Process
 {
@@ -64,9 +65,22 @@ namespace LoginPoC.Core.Process
             base.Update(entityToUpdate);
         }
 
-        public Task<Model.Process.Process> GetByTypeAsync(int processTypeId)
+        public async Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId)
         {
-            throw new NotImplementedException();
+            Model.Process.Process process = new Model.Process.Process();           
+
+            Model.ProcessType.ProcessType type = context.ProcessTypes.First(pt => pt.Id == processTypeId);
+            process.Type = type;
+
+            foreach (ProcessTypeField ptField in type.Fields)
+            {
+                ProcessField field = new ProcessField
+                {                    
+                    Type = ptField
+                };
+            }
+
+            return process;
         }
     }
 }
