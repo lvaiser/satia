@@ -7,6 +7,7 @@ using LoginPoC.Model.User;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LoginPoC.Core.Process
@@ -85,10 +86,17 @@ namespace LoginPoC.Core.Process
 
             foreach (ProcessTypeField ptField in type.Fields)
             {
+                object value = null;
+                PropertyInfo property = user.GetType().GetProperty(ptField.Type.ToString());
+                if (property != null)
+                {
+                    value = property.GetValue(user, null);
+                }
+
                 ProcessField field = new ProcessField
                 {                    
                     Type = ptField,
-                    Value = user.GetType().GetProperty(ptField.Type.ToString()).GetValue(user, null)
+                    Value = value
                 };
             }
 
