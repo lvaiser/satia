@@ -1,17 +1,28 @@
-﻿using LoginPoC.DAL;
+﻿using LoginPoC.Core.ProcessType;
+using LoginPoC.Core.User;
+using LoginPoC.DAL;
 using LoginPoC.Model.Process;
+using LoginPoC.Model.ProcessType;
+using LoginPoC.Model.User;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace LoginPoC.Core.Process
 {
     public class EfProcessService : EfGenericCrudService<Model.Process.Process>, IProcessService
     {
-        public EfProcessService(ApplicationDbContext context) : base(context)
+        private IProcessTypeService ProcessTypeService { get; set; }
+        private ApplicationUserManager UserManager { get; set; }
+
+        public EfProcessService(
+            ApplicationDbContext context, 
+            IProcessTypeService processTypeService,
+            ApplicationUserManager userManager) : base(context)
         {
+            this.ProcessTypeService = processTypeService;
+            this.UserManager = userManager;
         }
 
         public async Task<IEnumerable<Model.Process.Process>> SearchAsync(string name)
@@ -64,9 +75,24 @@ namespace LoginPoC.Core.Process
             base.Update(entityToUpdate);
         }
 
-        public Task<Model.Process.Process> GetByTypeAsync(int processTypeId)
+        public async Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId)
         {
-            throw new NotImplementedException();
+            Model.Process.Process process = new Model.Process.Process();
+
+            var user = await this.UserManager.FindByIdAsync(userId);
+            Model.ProcessType.ProcessType type = this.ProcessTypeService.GetById(processTypeId);
+            process.Type = type;
+
+            foreach (ProcessTypeField ptField in type.Fields)
+            {
+                ProcessField field = new ProcessField
+                {                    
+                    Type = ptField,
+                    Value = user.GetType().GetProperty(ptField.Type.ToString()).GetValue(user, null)
+                };
+            }
+
+            return process;
         }
     }
 }

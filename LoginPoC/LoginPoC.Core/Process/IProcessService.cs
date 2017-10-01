@@ -7,6 +7,6 @@ namespace LoginPoC.Core.Process
     {
         Task<IEnumerable<Model.Process.Process>> SearchAsync(string name);
 
-        Task<Model.Process.Process> GetByTypeAsync(int processTypeId);
+        Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId);
     }    
 }
