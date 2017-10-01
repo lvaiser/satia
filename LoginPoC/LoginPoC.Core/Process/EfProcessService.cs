@@ -64,7 +64,7 @@ namespace LoginPoC.Core.Process
             base.Update(entityToUpdate);
         }
 
-        public Task<Model.Process.Process> GetByTypeAsync(int processTypeId)
+        public Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId)
         {
             throw new NotImplementedException();
         }
