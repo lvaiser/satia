@@ -39,6 +39,7 @@
                 <label>Video Instructivo</label>
                 <input ng-model="processType.urlVideo"
                        class="form-control" type="text" name="name"
+                       uib-popover="Ingresar la URL del videotutorial de Youtube"
                        placeholder="Ingrese la URL del video" />
 
             </div>
@@ -59,18 +60,16 @@
 
                         </div>
                         <div class="col-md-4">
-                            <label></label>
-                            <select name="fieldTypes" 
+                            <select class="tipoTramite-tipoDeDatos"
+                                    name="fieldTypes" 
                                     ng-model="field.type"
                                     ng-options="item.key as item.value for item in fieldTypes">
                             </select>
 
                         </div>
-                        <div class="col-md-3">
-                            <label><input type="checkbox" ng-model="field.isRequired" /> Obligatorio</label>
-                        </div>
-                        <div class="col-md-1">
-                            <div ng-click="events.deleteField(field);"><span class="fa fa-trash" style="font-size: 20px"></span></div>
+                        <div class="col-md-3 tipoTramite-botonera">
+                            <span class="fa fa-asterisk" ng-click="field.isRequired = !field.isRequired" ng-class="{asteriscoActivo : field.isRequired}"></span>
+                            <span class="fa fa-trash" ng-click="events.deleteField(field)"></span>
                         </div>
                     </div>
                 </div>
@@ -92,11 +91,9 @@
                                 placeholder="Nombre" />
 
                     </div>
-                    <div class="col-md-2">
-                        <label> <input type="checkbox" ng-model="document.isRequired" /> Obligatorio</label>
-                    </div>
-                    <div class="col-md-1">
-                        <div ng-click="events.deleteDocument(document);"><span class="fa fa-trash" style="font-size: 20px"></span></div>
+                    <div class="col-md-2 tipoTramite-botonera">
+                        <span class="fa fa-asterisk" ng-click="document.isRequired = !document.isRequired" ng-class="{asteriscoActivo : document.isRequired}"></span>
+                        <span class="fa fa-trash" ng-click="events.deleteDocument(document)"></span>
                     </div>
                 </div>
             </div>
