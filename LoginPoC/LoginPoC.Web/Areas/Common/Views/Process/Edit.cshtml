@@ -10,8 +10,19 @@
 }
 
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel))'>
-    <h2> {{ process.processType.name }} </h2>
-
+    <h2> {{ process.type.name }} </h2>
+    <div ng-repeat="field in process.fields track by $index">
+        <label>
+            {{ field.type.name }}
+            <input ng-model="field.value" class="form-control" type="{{ inputType(field.type.type) }}" ng-if="simpleInputType(field.type.type)" />
+            <input ng-model="field.value" class="form-control" type="{{ inputType(field.type.type) }}" step="0.01" ng-if="stepInputType(field.type.type)">
+            <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type.type)"></textarea>
+            <select ng-model="field.value" ng-options="value for value in field.type.dictionary track by $index" class="form-control" ng-if="selectType(field.type.type)"> </select>
+        </label>
+    </div>
+    <div class="col-md-offset-5 col-md-2">
+        <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+    </div>
 </div>
 
 
