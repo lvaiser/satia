@@ -3,13 +3,13 @@
     app.controller("Process.Edit", ["$scope", "$http", controller]);
 
     function controller($scope, $http) {
-        $scope.inputTextFields = [0, 6, 7, 14, 15];
-        $scope.textAreaFields = [1];
-        $scope.inputNumberFields = [2];
-        $scope.decimalNumberFields = [3];
-        $scope.inputDateFields = [4, 8];
-        $scope.radioButtonFields = [5];
-        $scope.selectFields = [9, 10, 11, 12, 13];
+        $scope.inputTextFields = ['String', 'FirstName', 'LastName', 'Address', 'Occupation'];
+        $scope.textAreaFields = ['TextArea'];
+        $scope.inputNumberFields = ['Integer'];
+        $scope.decimalNumberFields = ['Decimal'];
+        $scope.inputDateFields = ['Date', 'BirthDate'];
+        $scope.radioButtonFields = ['Bool'];
+        $scope.selectFields = ['Gender', 'MaritalStatus', 'Country', 'StateProvince', 'City'];
  
         $scope.events = {
             onInit: onInit,
