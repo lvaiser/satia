@@ -75,7 +75,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         [Authorize]
         public async Task<ActionResult> Create(int Id)
         {
-            var process = this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
+            var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
             return View("Edit", process);
         }
 
