@@ -10,6 +10,7 @@ namespace LoginPoC.Web.AutoMapper
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile(new ApplicationUserProfile());
+                cfg.AddProfile(new ProcessProfile());
             });
         }
     }

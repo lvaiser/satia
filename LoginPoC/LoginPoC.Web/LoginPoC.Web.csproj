@@ -249,7 +249,10 @@
     <Compile Include="Areas\Common\Controllers\FileController.cs" />
     <Compile Include="Areas\Common\Controllers\UserController.cs" />
     <Compile Include="Areas\Common\Models\CountryViewModel.cs" />
+    <Compile Include="Areas\Common\Models\ProcessFieldViewModel.cs" />
     <Compile Include="Areas\Common\Models\ProcessIndexViewModel.cs" />
+    <Compile Include="Areas\Common\Models\ProcessTypeFieldViewModel.cs" />
+    <Compile Include="Areas\Common\Models\ProcessViewModel.cs" />
     <Compile Include="Areas\Common\Models\UserViewModel.cs" />
     <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
     <Compile Include="Areas\Security\Controllers\AccountController.cs" />
@@ -257,6 +260,7 @@
     <Compile Include="Areas\Security\Controllers\ManageController.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
     <Compile Include="AutoMapper\Profiles\ApplicationUserProfile.cs" />
+    <Compile Include="AutoMapper\Profiles\ProcessProfile.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

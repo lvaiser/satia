@@ -1,20 +1,17 @@
-﻿using LoginPoC.DAL;
-using LoginPoC.Model.ProcessType;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using System.Linq;
-using System.Net;
-using System.Web.Mvc;
-using LoginPoC.Model.User;
-using LoginPoC.Core.ProcessType;
+﻿using AutoMapper;
 using LoginPoC.Core.Process;
+using LoginPoC.Core.ProcessType;
+using LoginPoC.Core.User;
 using LoginPoC.Model.Process;
-using LoginPoC.Web.Areas.Admin.Models;
-using System.Collections;
-using System.Collections.Generic;
+using LoginPoC.Model.ProcessType;
+using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Common.Models;
-using System.Dynamic;
+using LoginPoC.Web.Helpers;
+using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Linq;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
@@ -24,11 +21,19 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         // GET DbContext from container
         private IProcessTypeService ProcessTypeService { get; set; }
         private IProcessService ProcessService { get; set; }
+        private ICountryService CountryService { get; set; }
+        private IMapper Mapper { get; set; }
 
-        public ProcessController(IProcessTypeService processTypeService, IProcessService processService)
+        public ProcessController(
+            IProcessTypeService processTypeService, 
+            IProcessService processService,
+            ICountryService countryService, 
+            IMapper mapper)
         {
             this.ProcessTypeService = processTypeService;
             this.ProcessService = processService;
+            this.CountryService = countryService;
+            this.Mapper = mapper;
         }
 
         // GET: ProcessType
@@ -75,8 +80,35 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         [Authorize]
         public async Task<ActionResult> Create(int Id)
         {
-            var process = this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
-            return View("Edit", process);
+            var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
+            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+
+            foreach (var item in process.Fields)
+            {
+                switch (item.Type.Type)
+                {
+                    case FieldType.Gender:
+                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = EnumHelper<Gender>.AsKeyValuePairs();
+                        break;
+                    case FieldType.MaritalStatus:
+                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = EnumHelper<MaritalStatus>.AsKeyValuePairs();
+                        break;
+                    case FieldType.Country:
+                        var countryList = new List<KeyValuePair<int, string>>();
+                        var countries = await this.CountryService.GetCountriesAsync();
+                        foreach (Country country in countries)
+	                    {
+                            countryList.Add(Mapper.Map<KeyValuePair<int, string>>(country));
+                        }
+
+                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = countryList;
+                        break;                    
+                    default:
+                        break;
+                }
+            }
+
+            return View("Edit", model);
         }
 
         private IEnumerable<Process> GetMockedProcesses()
