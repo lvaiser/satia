@@ -22,5 +22,6 @@ namespace LoginPoC.DAL
         public IDbSet<File> Files { get; set; }
         public IDbSet<Process> Processes { get; set; }
         public IDbSet<ProcessField> ProcessFields { get; set; }
+        public IDbSet<ProcessDocument> ProcessDocuments { get; set; }
     }
 }

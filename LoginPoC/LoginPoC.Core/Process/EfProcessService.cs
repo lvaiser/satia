@@ -40,6 +40,8 @@ namespace LoginPoC.Core.Process
         {
             return dbSet.Include(p => p.Fields)
                         .Include(p => p.Fields.Select(f => f.Type))
+                        .Include(p => p.Documents)
+                        .Include(p => p.Documents.Select(d => d.Document))
                         .Include(p => p.Type)                       
                         .FirstOrDefault(p => p.Id == id);
         }
@@ -103,6 +105,21 @@ namespace LoginPoC.Core.Process
             }
 
             process.Fields = fields;
+
+            List<ProcessDocument> documents = new List<ProcessDocument>();
+            foreach (ProcessTypeDocument ptDocument in type.Documents)
+            {
+                ProcessDocument document = new ProcessDocument
+                {
+                    Document = ptDocument,
+                    IsAvailable = false
+                };
+
+                documents.Add(document);
+            }
+
+            process.Documents = documents;
+
             return process;
         }
     }

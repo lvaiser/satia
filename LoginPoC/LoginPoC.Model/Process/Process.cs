@@ -14,5 +14,6 @@ namespace LoginPoC.Model.Process
         public DateTime ReviewDate { get; set; }
 
         public IEnumerable<ProcessField> Fields { get; set; }
+        public IEnumerable<ProcessDocument> Documents { get; set; }
     }
 }

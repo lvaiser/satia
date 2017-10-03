@@ -108,6 +108,12 @@ namespace LoginPoC.Web.Areas.Common.Controllers
                 }
             }
 
+            List<ProcessDocument> documents = new List<ProcessDocument>();
+            foreach (var item in process.Documents)
+            {
+                documents.Add(Mapper.Map<ProcessDocument>(item));
+            }
+
             return View("Edit", model);
         }
 
