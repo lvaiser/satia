@@ -164,6 +164,20 @@ a.btn.btn-secondary {
     font-family: GoboldLight;
 }
 /*Fin Tipos de Tramite*/
+/*Tramite*/
+div.tramite textarea, div.tramite input[type=text], div.tramite input[type=date] {
+    width: 300px;
+    font-family: HelveticaCondensed;
+}
+div.tramite label {
+    font-family: GoboldThin;
+}
+div.tramite input[type=text] {
+}
+div.tramite input[type=date] {
+
+}   
+/*Fin Tramite*/
 /*Font Faces*/
 @font-face {
     font-family: GoboldRegular;
