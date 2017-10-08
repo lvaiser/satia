@@ -23,6 +23,7 @@ namespace LoginPoC.Model.User
         public string CultureName { get; set; }
         public int? PictureId { get; set; }
         public File.File Picture { get; set; }
+        public bool Disabled { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

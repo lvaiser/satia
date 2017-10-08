@@ -11,6 +11,7 @@ namespace LoginPoC.Web.AutoMapper.Profiles
         {
             CreateMap<ApplicationUser, AgentViewModel>()
                 .ReverseMap()
+                .ForMember(u => u.Id, opt => opt.PreCondition(vm => !string.IsNullOrWhiteSpace(vm.Id)))
                 .ForMember(u => u.UserName, opt => opt.MapFrom(vm => vm.Email));
 
             CreateMap<ApplicationUser, RegisterViewModel>()
