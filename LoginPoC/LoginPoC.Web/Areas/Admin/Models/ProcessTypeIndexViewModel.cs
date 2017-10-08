@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LoginPoC.Model.ProcessType;
-using LoginPoC.Model.User;
 
 namespace LoginPoC.Web.Areas.Admin.Models
 {

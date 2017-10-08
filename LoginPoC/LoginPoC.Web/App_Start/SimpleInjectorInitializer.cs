@@ -61,10 +61,15 @@ namespace LoginPoC.Web.App_Start
 
             container.Register<ApplicationUserManager>(Lifestyle.Scoped);
 
+            container.Register<ApplicationRoleManager>(Lifestyle.Scoped);
+
             container.Register<ApplicationDbContext>(() => new ApplicationDbContext(), Lifestyle.Scoped);
 
             container.Register<IUserStore<ApplicationUser>>(() => 
                 new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
+
+            container.Register<IRoleStore<IdentityRole, string>>(() =>
+                new RoleStore<IdentityRole>(container.GetInstance<ApplicationDbContext>()), Lifestyle.Scoped);
 
             container.Register<IFileService, EfFileService>(Lifestyle.Scoped);
 

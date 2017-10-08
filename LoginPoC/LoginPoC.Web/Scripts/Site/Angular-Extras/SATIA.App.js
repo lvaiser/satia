@@ -29,6 +29,7 @@
 
     window.Utils = {};
     window.Utils.onAjaxError = onAjaxError;
+    window.Utils.showModelErrorCollection = showModelErrorCollection;
 
     function onAjaxError(tryingTo, error) {
         $.notify("Ocurrio un error" + tryingTo + ". \r\nRecargue la pagina y vuelva a intentarlo", {
@@ -38,6 +39,15 @@
         });
 
         console.error("Ocurrio un error" + tryingTo + "", error);
+    }
+
+    function showModelErrorCollection(modelErrorCollection) {
+
+        for (var i = 0; i < modelErrorCollection.length; i++) {
+            $.notify(modelErrorCollection[i].errorMessage, {
+                className: 'error'
+            });
+        }
     }
 
 })();

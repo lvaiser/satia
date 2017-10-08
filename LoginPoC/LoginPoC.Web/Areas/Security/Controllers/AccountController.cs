@@ -13,6 +13,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using LoginPoC.Web.Helpers;
 
 namespace LoginPoC.Web.Areas.Security.Controllers
 {
@@ -58,6 +60,12 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user != null)
             {
+                if (user.Disabled)
+                {
+                    ModelState.AddModelError("", "Email o contraseña incorrectos");
+                    return View(model);
+                }
+
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirmar tu cuenta-Reenviado");
@@ -194,6 +202,68 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        //
+        // GET: /Account/Confirmed
+        [AllowAnonymous]
+        public ActionResult Confirmed()
+        {
+            return View("ConfirmEmail");
+        }
+
+        [AllowAnonymous]
+        public ActionResult ConfirmEmailAndCreatePassword(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+
+            var vm = new ConfirmEmailAndCreatePasswordViewModel()
+            {
+                UserId = userId,
+                ConfirmationCode = code
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmailAndCreatePassword(ConfirmEmailAndCreatePasswordViewModel vm)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.JsonNet(this.ModelState.AsModelErrorCollection());
+                }
+
+                var result = await UserManager.ConfirmEmailAsync(vm.UserId, vm.ConfirmationCode);
+                if (!result.Succeeded)
+                {
+                    AddErrors(result);
+                    this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.JsonNet(this.ModelState.AsModelErrorCollection());
+                }
+
+                result = await UserManager.AddPasswordAsync(vm.UserId, vm.Password);
+                if (!result.Succeeded)
+                {
+                    AddErrors(result);
+                    this.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return this.JsonNet(this.ModelState.AsModelErrorCollection());
+                }
+
+                return this.JsonNet(new { Ok = true });
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return this.JsonNet(ex.AsModelErrorCollection());
+            }
         }
 
         //
