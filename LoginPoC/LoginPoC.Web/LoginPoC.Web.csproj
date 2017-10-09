@@ -308,6 +308,10 @@
     <Compile Include="Migrations\201710072338260_disable-users.Designer.cs">
       <DependentUpon>201710072338260_disable-users.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710092314131_MERGE.cs" />
+    <Compile Include="Migrations\201710092314131_MERGE.Designer.cs">
+      <DependentUpon>201710092314131_MERGE.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -753,6 +757,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710072338260_disable-users.resx">
       <DependentUpon>201710072338260_disable-users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710092314131_MERGE.resx">
+      <DependentUpon>201710092314131_MERGE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
