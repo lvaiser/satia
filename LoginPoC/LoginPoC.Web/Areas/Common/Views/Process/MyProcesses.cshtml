@@ -1,35 +1,37 @@
 ﻿@using LoginPoC.Web.Areas.Common.Models;
+@using Newtonsoft.Json
 @model ProcessIndexViewModel
-
 @{
+    var jsonModel = JsonConvert.SerializeObject(Model);
     ViewBag.Title = "Mis Tramites";
 }
 
 <h2 class="tituloPrincipal">Mis tr&aacute;mites guardados</h2>
-<hr class="tituloPrincipal" />
-<div class="row">
-    @using (Html.BeginForm("Index", "MyProcess", FormMethod.Get, new { area = "Common" }))
-    {
-        <div class="col-xs-6 tipoTramite-buscar">
-            <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
-            <button type="submit" class="fa fa-search"></button>
+<div ng-controller="Process.Index" ng-init='events.onInit(@Html.Raw(jsonModel))'>
+    <div class="row">
+        @using (Html.BeginForm("Index", "MyProcess", FormMethod.Get, new { area = "Common" }))
+        {
+            <div class="col-xs-6 tipoTramite-buscar">
+                <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
+                <button type="submit" class="fa fa-search"></button>
+            </div>
+        }
+        <div class="col-xs-6 tipoTramite-crear">
+            <p style="margin-bottom:0">
+                <select ng-model="selectedProcessType" ng-options="processType.id as processType.name for processType in processTypes"></select>
+                @{
+                    var url = Url.Action("Create", new { id = "{{selectedProcessType}}" });
+                    url = HttpUtility.UrlDecode(url);
+
+                }
+                <a data-ng-href="@url" class="tipoTramite-textoCrear">
+                    Crear Nuevo Trámite
+                    <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
+                </a>
+            </p>
         </div>
-    }
-    <div class="col-xs-6 tipoTramite-crear">
-        <p style="margin-bottom:0">
-            <a href="@Url.Action("Create", new { id = Model.ProcessTypes.First().Id })" class="tipoTramite-textoCrear">
-                Crear Nuevo Trámite
-                <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
-            </a>
-        </p>
     </div>
 </div>
-<br />
-<div class="row">
-    @foreach (var item in Model.Processes)
-    {
-    }
-</div>
 @section Scripts{
-
+    <script src="~/Scripts/Site/Process/Process.Index.js"></script>
 }

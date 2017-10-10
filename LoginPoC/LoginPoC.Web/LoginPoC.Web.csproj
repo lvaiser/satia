@@ -804,6 +804,7 @@
     <None Include="Scripts\Site\User\User.MyAccount.js" />
     <Content Include="Scripts\Site\ProcessType\ProcessType.Edit.js" />
     <Content Include="Scripts\Site\ProcessType\ProcessType.Index.js" />
+    <Content Include="Scripts\Site\Process\Process.Index.js" />
     <Content Include="Scripts\Site\Process\Process.Edit.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
