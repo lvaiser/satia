@@ -69,11 +69,13 @@ namespace LoginPoC.Core.Process
         {
             foreach (ProcessField field in entityToAdd.Fields)
             {
-                field.Process = entityToAdd;
+                field.ProcessId = entityToAdd.Id;
+                field.Process = null;               
                 context.ProcessFields.Add(field);
             }
 
             entityToAdd.TypeId = entityToAdd.Type.Id;
+            entityToAdd.Type = null;
             entityToAdd.CreationDate = DateTime.Now;
 
             base.Add(entityToAdd);
