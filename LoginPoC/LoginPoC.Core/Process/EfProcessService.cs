@@ -52,9 +52,7 @@ namespace LoginPoC.Core.Process
         public override Model.Process.Process GetById(int id)
         {
             return dbSet.Include(p => p.Fields)
-                        .Include(p => p.Fields.Select(f => f.Type))
                         .Include(p => p.Documents)
-                        .Include(p => p.Documents.Select(d => d.Document))
                         .Include(p => p.Type)                       
                         .FirstOrDefault(p => p.Id == id);
         }
@@ -72,11 +70,10 @@ namespace LoginPoC.Core.Process
             foreach (ProcessField field in entityToAdd.Fields)
             {
                 field.Process = entityToAdd;
-                field.Type = context.ProcessTypeFields.First(ptf => ptf.Id == field.Type.Id);
                 context.ProcessFields.Add(field);
             }
 
-            entityToAdd.Type = context.ProcessTypes.First(pt => pt.Id == entityToAdd.Type.Id);
+            entityToAdd.TypeId = entityToAdd.Type.Id;
             entityToAdd.CreationDate = DateTime.Now;
 
             base.Add(entityToAdd);
@@ -91,8 +88,7 @@ namespace LoginPoC.Core.Process
 
             foreach (ProcessField field in entityToUpdate.Fields)
             {
-                field.Process = entityToUpdate;
-                field.Type = context.ProcessTypeFields.First(ptf => ptf.Id == field.Type.Id);
+                field.ProcessId = entityToUpdate.Id;
                 context.ProcessFields.Add(field);
             }
 
@@ -104,8 +100,7 @@ namespace LoginPoC.Core.Process
             if (await this.UserManager.IsInRoleAsync(userId, ApplicationUserRoles.Agent))
             {
                 var process = this.GetById(processId);
-                var user = await this.UserManager.FindByIdAsync(userId);
-                process.AssignedAgent = user;
+                process.AssignedAgentId = userId;
 
                 this.Update(process);
             }
@@ -135,7 +130,9 @@ namespace LoginPoC.Core.Process
 
                 ProcessField field = new ProcessField
                 {
-                    Type = ptField,
+                    Name = ptField.Name,
+                    IsRequired = ptField.IsRequired,
+                    Type = ptField.Type,
                     Value = (value == null ? string.Empty : value.ToString())
                 };
 
@@ -149,7 +146,8 @@ namespace LoginPoC.Core.Process
             {
                 ProcessDocument document = new ProcessDocument
                 {
-                    Document = ptDocument,
+                    Name = ptDocument.Name,
+                    IsRequired = ptDocument.IsRequired,
                     IsAvailable = false
                 };
 

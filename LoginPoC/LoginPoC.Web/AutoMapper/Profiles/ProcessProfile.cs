@@ -18,9 +18,6 @@ namespace LoginPoC.Web.AutoMapper.Profiles
                 .ReverseMap();
 
             CreateMap<ProcessField, ProcessFieldViewModel>()
-                .ReverseMap();
-
-            CreateMap<ProcessTypeField, ProcessTypeFieldViewModel>()
                 .ForMember(vm => vm.Type, opt => opt.MapFrom(x => x.Type.ToString()))
                 .ReverseMap();
 

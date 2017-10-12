@@ -99,13 +99,13 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
             foreach (var item in process.Fields)
             {
-                switch (item.Type.Type)
+                switch (item.Type)
                 {
                     case FieldType.Gender:
-                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = EnumHelper<Gender>.AsKeyValuePairs();
+                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<Gender>.AsKeyValuePairs();
                         break;
                     case FieldType.MaritalStatus:
-                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = EnumHelper<MaritalStatus>.AsKeyValuePairs();
+                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<MaritalStatus>.AsKeyValuePairs();
                         break;
                     case FieldType.Country:
                         var countryList = new List<KeyValuePair<int, string>>();
@@ -115,7 +115,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
                             countryList.Add(Mapper.Map<KeyValuePair<int, string>>(country));
                         }
 
-                        model.Fields.Single(f => f.Type.Type == item.Type.Type.ToString()).Type.SelectList = countryList;
+                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = countryList;
                         break;                    
                     default:
                         break;

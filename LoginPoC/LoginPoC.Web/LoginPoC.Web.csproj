@@ -253,7 +253,6 @@
     <Compile Include="Areas\Common\Models\CountryViewModel.cs" />
     <Compile Include="Areas\Common\Models\ProcessFieldViewModel.cs" />
     <Compile Include="Areas\Common\Models\ProcessIndexViewModel.cs" />
-    <Compile Include="Areas\Common\Models\ProcessTypeFieldViewModel.cs" />
     <Compile Include="Areas\Common\Models\ProcessViewModel.cs" />
     <Compile Include="Areas\Common\Models\UserViewModel.cs" />
     <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
@@ -323,6 +322,10 @@
     <Compile Include="Migrations\201710120401593_add-creator-to-process.cs" />
     <Compile Include="Migrations\201710120401593_add-creator-to-process.Designer.cs">
       <DependentUpon>201710120401593_add-creator-to-process.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710120524369_fix-process-foreign-keys.cs" />
+    <Compile Include="Migrations\201710120524369_fix-process-foreign-keys.Designer.cs">
+      <DependentUpon>201710120524369_fix-process-foreign-keys.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
@@ -781,6 +784,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710120401593_add-creator-to-process.resx">
       <DependentUpon>201710120401593_add-creator-to-process.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120524369_fix-process-foreign-keys.resx">
+      <DependentUpon>201710120524369_fix-process-foreign-keys.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />

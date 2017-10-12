@@ -15,11 +15,11 @@
     <div class="row">
         <div ng-repeat="field in process.fields track by $index" class="col-md-4 tramite">
             <label>
-                {{ field.type.name }}
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type.type) }}" ng-if="simpleInputType(field.type.type)" />
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type.type) }}" step="0.01" ng-if="stepInputType(field.type.type)">
-                <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type.type)"></textarea>
-                <select ng-model="field.value" ng-options="value for value in field.type.dictionary track by $index" class="form-control" ng-if="selectType(field.type.type)"> </select>
+                {{ field.name }}
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type) }}" ng-if="simpleInputType(field.type)" />
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type) }}" step="0.01" ng-if="stepInputType(field.type)">
+                <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)"></textarea>
+                <select ng-model="field.value" ng-options="value for value in field.dictionary track by $index" class="form-control" ng-if="selectType(field.type)"> </select>
             </label>
         </div>
     </div>
