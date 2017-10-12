@@ -312,6 +312,18 @@
     <Compile Include="Migrations\201710092314131_MERGE.Designer.cs">
       <DependentUpon>201710092314131_MERGE.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710120331499_add-assigned-agent-to-process.cs" />
+    <Compile Include="Migrations\201710120331499_add-assigned-agent-to-process.Designer.cs">
+      <DependentUpon>201710120331499_add-assigned-agent-to-process.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710120339422_add-value-to-process-field.cs" />
+    <Compile Include="Migrations\201710120339422_add-value-to-process-field.Designer.cs">
+      <DependentUpon>201710120339422_add-value-to-process-field.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710120401593_add-creator-to-process.cs" />
+    <Compile Include="Migrations\201710120401593_add-creator-to-process.Designer.cs">
+      <DependentUpon>201710120401593_add-creator-to-process.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -760,6 +772,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710092314131_MERGE.resx">
       <DependentUpon>201710092314131_MERGE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120331499_add-assigned-agent-to-process.resx">
+      <DependentUpon>201710120331499_add-assigned-agent-to-process.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120339422_add-value-to-process-field.resx">
+      <DependentUpon>201710120339422_add-value-to-process-field.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710120401593_add-creator-to-process.resx">
+      <DependentUpon>201710120401593_add-creator-to-process.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />

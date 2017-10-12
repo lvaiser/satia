@@ -11,7 +11,6 @@ namespace LoginPoC.Web.Areas.Common.Models
     {
         public string SearchByName { get; set; }
 
-        //TODO: Remplazar el dynamic por Process cuando tengamos esa entidad
         public IEnumerable<Process> Processes { get; set; }
         public IEnumerable<ProcessType> ProcessTypes { get; set; }
     }

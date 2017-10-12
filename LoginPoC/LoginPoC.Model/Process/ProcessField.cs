@@ -7,7 +7,7 @@ namespace LoginPoC.Model.Process
     {
         public int Id { get; set; }
         public ProcessTypeField Type { get; set; }
-        public object Value { get; set; }
+        public string Value { get; set; }
 
         [JsonIgnore]
         public virtual Process Process { get; set; }

@@ -79,9 +79,9 @@
                 action = "Edit";
             }
 
-            return $http.post("/Admin/Process/" + action, $scope.process)
+            return $http.post("/Common/Process/" + action, $scope.process)
                 .then(function (response) {
-                    window.location = '/Admin/Process/Edit/' + response.data.id + '?_=' + Math.random();
+                    window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
                     $.notify("Los datos se actualizaron exitosamente", "success");
                 }, Utils.onAjaxError.bind(this, " al guardar el documento"));
         }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Linq;
+using System.Net;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
@@ -38,13 +39,12 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
         // GET: ProcessType
         [Authorize]
-        public ActionResult Index(string name = null)
+        public async Task<ActionResult> Index(string name = null)
         {
-            //var process = await this.ProcessService.SearchAsync(name);
-            var process = this.GetMockedProcesses();
+            var processes = await this.ProcessService.SearchAsync(name);
             var vm = new ProcessIndexViewModel()
             {
-                Processes = process,
+                Processes = processes,
                 SearchByName = name
             };
 
@@ -56,12 +56,11 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         [Authorize]
         public async Task<ActionResult> MyProcesses(string name = null)
         {
-            //var process = await this.ProcessService.SearchMyProcessesAsync(name);
-            var process = this.GetMockedProcesses();
+            var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
             var processTypes = await this.ProcessTypeService.SearchAsync(name);
             var vm = new ProcessIndexViewModel()
             {
-                Processes = process,
+                Processes = processes,
                 ProcessTypes = processTypes,
                 SearchByName = name
             };
@@ -74,6 +73,21 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         public ActionResult Edit(int Id)
         {
             return View();
+        }
+
+        // POST: Process/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public ActionResult Edit(Process process)
+        {
+            if (!ModelState.IsValid || process.Id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+            }
+
+            this.ProcessService.Update(process);
+            return this.JsonNet(process);
         }
 
         [OverrideAuthorization]
@@ -117,10 +131,25 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             return View("Edit", model);
         }
 
-        private IEnumerable<Process> GetMockedProcesses()
+        // POST: Process/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public ActionResult Create(Process process)
         {
+            if (!ModelState.IsValid)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+            }
 
-            return new List<Process>() { };
+            if (process.Id != 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+            }
+            
+            this.ProcessService.Add(process, User.Identity.GetUserId());
+
+            return this.JsonNet(process);
         }
     }
 }

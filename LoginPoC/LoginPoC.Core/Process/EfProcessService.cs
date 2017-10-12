@@ -3,6 +3,8 @@ using LoginPoC.Core.User;
 using LoginPoC.DAL;
 using LoginPoC.Model.Process;
 using LoginPoC.Model.ProcessType;
+using LoginPoC.Model.User;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -36,6 +38,17 @@ namespace LoginPoC.Core.Process
             return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<Model.Process.Process>> SearchMyProcessesAsync(string name, string userId)
+        {
+            var query = dbSet.Where(p => p.Creator.Id == userId).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(p => p.Type.Name.Contains(name));
+            }
+
+            return await query.ToListAsync();
+        }
+
         public override Model.Process.Process GetById(int id)
         {
             return dbSet.Include(p => p.Fields)
@@ -44,6 +57,14 @@ namespace LoginPoC.Core.Process
                         .Include(p => p.Documents.Select(d => d.Document))
                         .Include(p => p.Type)                       
                         .FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Add(Model.Process.Process entityToAdd, string creatorUserId)
+        {
+            var user = this.UserManager.FindByIdAsync(creatorUserId).Result;
+            entityToAdd.Creator = user;
+
+            this.Add(entityToAdd);
         }
 
         public override void Add(Model.Process.Process entityToAdd)
@@ -56,6 +77,7 @@ namespace LoginPoC.Core.Process
             }
 
             entityToAdd.Type = context.ProcessTypes.First(pt => pt.Id == entityToAdd.Type.Id);
+            entityToAdd.CreationDate = DateTime.Now;
 
             base.Add(entityToAdd);
         }
@@ -77,6 +99,22 @@ namespace LoginPoC.Core.Process
             base.Update(entityToUpdate);
         }
 
+        public async Task AssignAgentAsync(int processId, string userId)
+        {
+            if (await this.UserManager.IsInRoleAsync(userId, ApplicationUserRoles.Agent))
+            {
+                var process = this.GetById(processId);
+                var user = await this.UserManager.FindByIdAsync(userId);
+                process.AssignedAgent = user;
+
+                this.Update(process);
+            }
+            else
+            {
+                throw new ApplicationException("User is not an agent.");
+            }
+        }
+
         public async Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId)
         {
             Model.Process.Process process = new Model.Process.Process();
@@ -92,13 +130,13 @@ namespace LoginPoC.Core.Process
                 PropertyInfo property = user.GetType().GetProperty(ptField.Type.ToString());
                 if (property != null)
                 {
-                    value = property.GetValue(user, null);
+                    value = property.GetValue(user);
                 }
 
                 ProcessField field = new ProcessField
-                {                    
+                {
                     Type = ptField,
-                    Value = value
+                    Value = (value == null ? string.Empty : value.ToString())
                 };
 
                 fields.Add(field);
