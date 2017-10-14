@@ -8,7 +8,7 @@
     var jsonModel = JsonConvert.SerializeObject(Model);
     var fieldTypes = JsonConvert.SerializeObject(EnumHelper<FieldType>.AsKeyValuePairs());
 
-    ViewBag.Title = "User Information";
+    ViewBag.Title = string.Format("{0} - {1}", "Tipo de trámite", Model != null ? Model.Name : "Nuevo");
 }
 
 <h2 class="tituloPrincipal">Tipo de Tr&aacute;mite</h2>
@@ -16,7 +16,6 @@
 <div ng-controller="ProcessType.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(fieldTypes))'>
     <div class="form-horizontal">
         <div class="form-group row">
-            <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Material de Soporte</div>
             <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
                 <label>Nombre</label>
                 <input ng-model="processType.name"
@@ -26,13 +25,14 @@
                        placeholder="Ingrese el nombre del tramite" />
 
             </div>
+            <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Material de Soporte</div>
             <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                <label>Descripcion</label>
+                <label>Información adicional</label>
                 <textarea ng-model="processType.description"
                        class="form-control" type="text" name="description"
                        required
-                       uib-popover="La descripcion del tipo de documento es requerido" popover-trigger="'mouseenter'"
-                       placeholder="Ingrese la descripcion del tramite">
+                       uib-popover="La descripcion del tipo de trámite es requerido" popover-trigger="'mouseenter'"
+                       placeholder="Ingrese información adicional para asistir al usuario en el llenado del tramite">
                 </textarea>
             </div>
             <div class="col-md-offset-2 col-md-8 tipoTramite-campo">

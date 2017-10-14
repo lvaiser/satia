@@ -9,7 +9,7 @@
 <h2 class="tituloPrincipal">Mis tr&aacute;mites guardados</h2>
 <div ng-controller="Process.Index" ng-init='events.onInit(@Html.Raw(jsonModel))'>
     <div class="row">
-        @using (Html.BeginForm("Index", "MyProcess", FormMethod.Get, new { area = "Common" }))
+        @using (Html.BeginForm("MyProcesses", "Process", FormMethod.Get, new { area = "Common" }))
         {
             <div class="col-xs-6 tipoTramite-buscar">
                 <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
@@ -31,6 +31,17 @@
             </p>
         </div>
     </div>
+
+    <table>
+        @foreach (var item in Model.Processes)
+        {
+            <tr>
+                <td>@item.Type.Name</td>
+                <td>@item.CreationDate</td>
+                <td><a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a></td>
+            </tr>
+        }
+    </table>
 </div>
 @section Scripts{
     <script src="~/Scripts/Site/Process/Process.Index.js"></script>

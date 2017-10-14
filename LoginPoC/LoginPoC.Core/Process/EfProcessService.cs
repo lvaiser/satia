@@ -40,7 +40,11 @@ namespace LoginPoC.Core.Process
 
         public async Task<IEnumerable<Model.Process.Process>> SearchMyProcessesAsync(string name, string userId)
         {
-            var query = dbSet.Where(p => p.Creator.Id == userId).AsQueryable();
+            var query = dbSet.Include(p => p.Fields)
+                        .Include(p => p.Documents)
+                        .Include(p => p.Type)
+                        .Where(p => p.Creator.Id == userId).AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 query = query.Where(p => p.Type.Name.Contains(name));
@@ -72,6 +76,13 @@ namespace LoginPoC.Core.Process
                 field.ProcessId = entityToAdd.Id;
                 field.Process = null;               
                 context.ProcessFields.Add(field);
+            }
+
+            foreach (ProcessDocument document in entityToAdd.Documents)
+            {
+                document.ProcessId = entityToAdd.Id;
+                document.Process = null;
+                context.ProcessDocuments.Add(document);
             }
 
             entityToAdd.TypeId = entityToAdd.Type.Id;

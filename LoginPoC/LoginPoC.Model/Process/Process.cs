@@ -17,8 +17,8 @@ namespace LoginPoC.Model.Process
         public string CreatorId { get; set; }
         public string AssignedAgentId { get; set; }
 
-        public IEnumerable<ProcessField> Fields { get; set; }
-        public IEnumerable<ProcessDocument> Documents { get; set; }
+        public ICollection<ProcessField> Fields { get; set; }
+        public ICollection<ProcessDocument> Documents { get; set; }
 
         [JsonIgnore]
         public virtual ProcessType.ProcessType Type { get; set; }

@@ -6,7 +6,7 @@
 
 @{
     var jsonModel = JsonConvert.SerializeObject(Model);
-    ViewBag.Title = "Tramites";
+    ViewBag.Title = string.Format("{0} - {1}", "Trámite", Model.Type.Name);
 }
 
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel))'>

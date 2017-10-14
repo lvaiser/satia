@@ -57,7 +57,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         public async Task<ActionResult> MyProcesses(string name = null)
         {
             var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
-            var processTypes = await this.ProcessTypeService.SearchAsync(name);
+            var processTypes = this.ProcessTypeService.GetAll();
             var vm = new ProcessIndexViewModel()
             {
                 Processes = processes,
@@ -70,23 +70,27 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
         [OverrideAuthorization]
         [Authorize]
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int id)
         {
-            return View();
+            var process = this.ProcessService.GetById(id);
+            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+
+            return View(model);
         }
 
         // POST: Process/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(Process process)
+        public ActionResult Edit(ProcessViewModel process)
         {
             if (!ModelState.IsValid || process.Id == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
             }
 
-            this.ProcessService.Update(process);
+            Process model = Mapper.Map<Process>(process);
+            this.ProcessService.Update(model);
             return this.JsonNet(process);
         }
 
@@ -147,8 +151,8 @@ namespace LoginPoC.Web.Areas.Common.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Conflict);
             }
 
-            Process entity = Mapper.Map<Process>(process);
-            this.ProcessService.Add(entity, User.Identity.GetUserId());
+            Process model = Mapper.Map<Process>(process);
+            this.ProcessService.Add(model, User.Identity.GetUserId());
 
             return this.JsonNet(process);
         }

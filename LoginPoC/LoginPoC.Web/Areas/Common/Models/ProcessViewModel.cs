@@ -16,6 +16,7 @@ namespace LoginPoC.Web.Areas.Common.Models
         public string ReviewNotes { get; set; }
         public DateTime? ReviewDate { get; set; }
         public ApplicationUser AssignedAgent { get; set; }
+        public ApplicationUser Creator { get; set; }
 
         public IEnumerable<ProcessFieldViewModel> Fields { get; set; }
         public IEnumerable<ProcessDocument> Documents { get; set; }
