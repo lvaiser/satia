@@ -7,6 +7,7 @@
 }
 
 <h2 class="tituloPrincipal">Mis tr&aacute;mites guardados</h2>
+<hr class="tituloPrincipal" />
 <div ng-controller="Process.Index" ng-init='events.onInit(@Html.Raw(jsonModel))'>
     <div class="row">
         @using (Html.BeginForm("MyProcesses", "Process", FormMethod.Get, new { area = "Common" }))
@@ -16,32 +17,48 @@
                 <button type="submit" class="fa fa-search"></button>
             </div>
         }
-        <div class="col-xs-6 tipoTramite-crear">
-            <p style="margin-bottom:0">
-                <select ng-model="selectedProcessType" ng-options="processType.id as processType.name for processType in processTypes"></select>
-                @{
-                    var url = Url.Action("Create", new { id = "{{selectedProcessType}}" });
-                    url = HttpUtility.UrlDecode(url);
-
-                }
-                <a data-ng-href="@url" class="tipoTramite-textoCrear">
-                    Crear Nuevo Trámite
-                    <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
-                </a>
-            </p>
+    </div>
+   <!--<div class="row">
+        <div class="col-xs-12">
+            <select ng-model="selectedProcessType" ng-options="processType.id as processType.name for processType in processTypes"></select>
+            @{/*
+                var url = Url.Action("Edit", new { id = "{{selectedProcessType}}" });
+                url = HttpUtility.UrlDecode(url);
+            En el href de abajo habia un @url*/}
+            <a data-ng-href=""><i class="fa fa-pencil"></i></a>
+        </div>
+    </div>-->
+    <br />
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2">
+            <table class="table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th width="60%">Tipo de tr&aacute;mite</th>
+                        <th width="25%">Fecha de creaci&oacute;n</th>
+                        <th width="5%">Enviar</th>
+                        <th width="5%">Editar</th>
+                        <th width="5%">Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="processType in processTypes">
+                        <td width="60%">{{processType.name}}</td>
+                        <td width="25%">{{processType.creationDate}}</td>
+                        <td width="5%">
+                            <a href="@Url.Action("Send", new { id = 1 } )"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>
+                        </td>
+                        <td width="5%">
+                            <a href="@Url.Action("Edit", new { id = 1 } )"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                        </td>
+                        <td width="5%">
+                            <a href="@Url.Action("Delete", new { id = 1 } )"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <table>
-        @foreach (var item in Model.Processes)
-        {
-            <tr>
-                <td>@item.Type.Name</td>
-                <td>@item.CreationDate</td>
-                <td><a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a></td>
-            </tr>
-        }
-    </table>
 </div>
 @section Scripts{
     <script src="~/Scripts/Site/Process/Process.Index.js"></script>
