@@ -105,6 +105,17 @@ namespace LoginPoC.Core.Process
                 context.ProcessFields.Add(field);
             }
 
+            var currentDocuments = context.ProcessDocuments.Where(p => p.Process.Id == entityToUpdate.Id);
+
+            foreach (ProcessDocument document in currentDocuments)
+                context.ProcessDocuments.Remove(document);
+
+            foreach (ProcessDocument document in entityToUpdate.Documents)
+            {
+                document.ProcessId = entityToUpdate.Id;
+                context.ProcessDocuments.Add(document);
+            }
+
             base.Update(entityToUpdate);
         }
 

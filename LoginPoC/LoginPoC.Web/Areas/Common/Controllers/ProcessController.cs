@@ -91,6 +91,8 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
             Process model = Mapper.Map<Process>(process);
             this.ProcessService.Update(model);
+            process = Mapper.Map<ProcessViewModel>(model);
+
             return this.JsonNet(process);
         }
 
@@ -153,6 +155,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
             Process model = Mapper.Map<Process>(process);
             this.ProcessService.Add(model, User.Identity.GetUserId());
+            process = Mapper.Map<ProcessViewModel>(model);
 
             return this.JsonNet(process);
         }
