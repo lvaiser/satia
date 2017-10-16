@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LoginPoC.Model.Process;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LoginPoC.Core.Process
@@ -14,5 +15,9 @@ namespace LoginPoC.Core.Process
         Task AssignAgentAsync(int processId, string userId);
 
         void Add(Model.Process.Process entityToAdd, string creatorUserId);
+
+        Task DeassignAsync(int processId);
+
+        Task ChangeStatusAsync(int processId, ProcessStatus status);
     }
 }

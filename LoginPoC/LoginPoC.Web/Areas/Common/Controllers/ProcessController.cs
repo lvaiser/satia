@@ -193,35 +193,24 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 		}
 
 		// GET: Process/Assign/{id}?userId={userId}
-		public ActionResult Assign(int id, string userId)
+		public async Task<ActionResult> Assign(int id, string userId)
 		{
-			var process = this.ProcessService.GetById(id);
-			process.AssignedAgentId = userId;
-			this.ProcessService.Update(process);
-
+            await this.ProcessService.AssignAgentAsync(id, userId);
 			return Redirect(this.Request.UrlReferrer.ToString());
 		}
 
 		// GET: Process/Deassign/{id}
-		public ActionResult Deassign(int id)
+		public async Task<ActionResult> Deassign(int id)
 		{
-			var process = this.ProcessService.GetById(id);
-			process.AssignedAgentId = null;
-
-			this.ProcessService.Update(process);
-
+			await this.ProcessService.DeassignAsync(id);
 			return Redirect(this.Request.UrlReferrer.ToString());
 		}
 
 		// POST: Process/Send/{id}
         [HttpPost]
-		public ActionResult Send(int id)
+		public async Task<ActionResult> Send(int id)
 		{
-			var process = this.ProcessService.GetById(id);
-			process.Status = ProcessStatus.Submitted;
-
-			this.ProcessService.Update(process);
-
+			await this.ProcessService.ChangeStatusAsync(id, ProcessStatus.Submitted);
 			return this.JsonNet(new { ok = true });
 		}
 
