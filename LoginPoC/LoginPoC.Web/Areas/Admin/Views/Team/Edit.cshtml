@@ -1,0 +1,71 @@
+﻿@model TeamViewModel
+@using LoginPoC.Web.Areas.Admin.Models
+@using Newtonsoft.Json
+@{
+	var jsonModel = JsonConvert.SerializeObject(Model);
+	ViewBag.Title = "Datos del Equipo";
+}
+
+<h2 class="tituloPrincipal">Equipo</h2>
+<hr class="tituloPrincipal" />
+<div class="row" ng-controller="Team.Edit" ng-init='events.onInit(@Html.Raw(jsonModel))' ng-form="pageForm">
+
+	<div class="col-md-offset-2 form-group row">
+		<div class="col-md-10 tipoTramite-seccion">Datos del Equipo</div>
+		<div class="col-md-10 tipoTramite-campo form-group has-feedback">
+			<label>Nombre</label>
+			<input ng-model="team.name"
+					class="form-control" type="text" name="name"
+					required
+					uib-popover="El nombre del equipo es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.name.$invalid && pageForm.name.$dirty"
+					placeholder="Ingrese el nombre del equipo" />
+			<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.name.$invalid && pageForm.name.$dirty"></span>
+		</div>
+		
+		<div class="col-md-10 tipoTramite-campo form-group">
+			<label>Integrantes</label>
+			<angucomplete-alt placeholder="Buscar asesor..."
+					id="autocomplete"
+					pause="1000"
+					selected-object="form.data.selectedAgent"
+					remote-url-data-field="agents"
+					remote-api-handler="events.onSearchAgent"
+					title-field="firstName,lastName"
+					minlength="3"
+					clear-selected="true"
+					input-class="form-control"
+					text-searching="Buscando..."
+					text-no-results="No se encontraron agentes con el nombre especificado" />
+		</div>
+		
+		<div class="col-md-10 team-integrantes">
+			<div class="row" ng-repeat="user in team.users">
+				<div class="col-xs-10">{{user.firstName}} {{user.lastName}}</div>
+				<div class="col-xs-2 text-right"><span class="glyphicon glyphicon-remove" ng-click="events.onRemoveAgentClicked(user)"></span></div>
+			</div>
+		</div>
+
+	</div>
+
+	<hr />
+	<div class="col-md-offset-5 col-md-2">
+		<button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+	</div>
+
+</div>
+
+@section Scripts {
+	<script src="~/Scripts/Site/Team/Team.Edit.js"></script>
+	<script type="text/javascript">
+		(function () {
+
+			window.app.config(["blockUIConfig", function (blockUIConfig) {
+				blockUIConfig.requestFilter = function (config) {
+					// Exclude agent search from BlockUI
+					return !config.url.match(/Agent/);
+				};
+			}]);
+
+		})()
+	</script>
+}

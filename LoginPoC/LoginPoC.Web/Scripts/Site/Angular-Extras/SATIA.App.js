@@ -1,6 +1,6 @@
 (function () {
 
-    var modules = ["ui.bootstrap", "SATIA.Services", "SATIA.Directives", "blockUI", "daterangepicker", "ngFileUpload"].filter(function (module) {
+    var modules = ["ui.bootstrap", "SATIA.Services", "SATIA.Directives", "blockUI", "daterangepicker", "ngFileUpload", "angucomplete-alt"].filter(function (module) {
         try {
             return !!angular.module(module);
         } catch (e) {
@@ -10,9 +10,13 @@
 
     window.app = angular.module('app', modules);
 
-    window.app.config(function (blockUIConfig) {        
+    window.app.config(["blockUIConfig", function (blockUIConfig) {        
         blockUIConfig.message = 'Cargando...';
-    });    
+    }]);
+
+    window.app.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    }]);
 
 })();
 

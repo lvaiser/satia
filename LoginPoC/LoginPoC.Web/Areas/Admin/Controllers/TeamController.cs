@@ -34,7 +34,16 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         }
 
         // GET: Team/Edit/{id}
-        //public async Task<ActionResult> Edit(int id)
-        //{ }
+        public ActionResult Edit(int id)
+        {
+            var team = this.teamService.GetById(id);
+            if (team == null)
+            {
+                return HttpNotFound("No se encontro el equipo especificado");
+            }
+
+            var vm = this.mapper.Map<TeamViewModel>(team);
+            return View(vm);
+        }
     }
 }

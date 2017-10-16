@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using LoginPoC.Model.User;
 
 namespace LoginPoC.Web.Areas.Admin.Models
 {
@@ -7,6 +6,6 @@ namespace LoginPoC.Web.Areas.Admin.Models
     {
         public string SearchByName { get; set; }
 
-        public IEnumerable<ApplicationUser> Agents { get; set; }
+        public IEnumerable<AgentViewModel> Agents { get; set; }
     }
 }
