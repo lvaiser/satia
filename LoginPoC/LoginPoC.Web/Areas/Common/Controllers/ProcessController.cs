@@ -16,7 +16,7 @@ using System.Net;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
-    [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
+    [Authorize]
     public class ProcessController : Controller
     {
         // GET DbContext from container
@@ -38,7 +38,8 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         }
 
         // GET: ProcessType
-        [Authorize]
+        [OverrideAuthorization]
+        [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
         public async Task<ActionResult> Index(string name = null)
         {
             var processes = await this.ProcessService.SearchAsync(name);
@@ -52,8 +53,6 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         }
 
         // GET: Process
-        [OverrideAuthorization]
-        [Authorize]
         public async Task<ActionResult> MyProcesses(string name = null)
         {
             var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
@@ -68,8 +67,6 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             return View(vm);
         }
 
-        [OverrideAuthorization]
-        [Authorize]
         public ActionResult Edit(int id)
         {
             var process = this.ProcessService.GetById(id);
@@ -96,8 +93,6 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             return this.JsonNet(process);
         }
 
-        [OverrideAuthorization]
-        [Authorize]
         public async Task<ActionResult> Create(int Id)
         {
             var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
