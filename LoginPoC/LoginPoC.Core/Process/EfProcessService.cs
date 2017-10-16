@@ -123,15 +123,31 @@ namespace LoginPoC.Core.Process
         {
             if (await this.UserManager.IsInRoleAsync(userId, ApplicationUserRoles.Agent))
             {
-                var process = this.GetById(processId);
+                var process = await this.context.Processes.FirstOrDefaultAsync(p => p.Id == processId);
                 process.AssignedAgentId = userId;
-
-                this.Update(process);
+                
+                await this.context.SaveChangesAsync();
             }
             else
             {
                 throw new ApplicationException("User is not an agent.");
             }
+        }
+
+        public async Task DeassignAsync(int processId)
+        {
+            var process = await this.context.Processes.FirstOrDefaultAsync(p => p.Id == processId);
+            process.AssignedAgentId = null;
+
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task ChangeStatusAsync(int processId, ProcessStatus status)
+        {
+            var process = await this.context.Processes.FirstOrDefaultAsync(p => p.Id == processId);
+            process.Status = status;
+
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<Model.Process.Process> GetByTypeAsync(int processTypeId, string userId)
