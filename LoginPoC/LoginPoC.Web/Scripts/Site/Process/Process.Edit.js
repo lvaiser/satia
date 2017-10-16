@@ -14,7 +14,8 @@
  
         $scope.events = {
             onInit: onInit,
-            onSaveClicked: onSaveClicked
+            onSaveClicked: onSaveClicked,
+            onSendToReviewClicked: onSendToReviewClicked
         };
 
         function onInit(process) {
@@ -98,11 +99,8 @@
             return $scope.decimalNumberFields.indexOf(dataType) !== -1;
         }
 
-        $scope.setSelectedValue = function (field) {
-            field.value = field.selectedValue.value;
-        }
-
-        function onSaveClicked() {
+        function save()
+        {
             var action;
             if ($scope.process.id == 0) {
                 action = "Create";
@@ -110,11 +108,29 @@
                 action = "Edit";
             }
 
-            return $http.post("/Common/Process/" + action, $scope.process)
-                .then(function (response) {
+            return $http.post("/Common/Process/" + action, $scope.process);
+        }
+
+        $scope.setSelectedValue = function (field) {
+            field.value = field.selectedValue.value;
+        }
+
+        function onSaveClicked() {
+            save().then(function (response) {
                     window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
                     $.notify("Los datos se actualizaron exitosamente", "success");
                 }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+        }
+
+        function onSendToReviewClicked()
+        {
+            save().then(function (response) {
+                return $http.post("/Common/Process/Send/" + response.data.id)
+                            .then(function () {
+                                window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
+                                $.notify("Los datos se actualizaron exitosamente", "success");
+                            }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+            }, Utils.onAjaxError.bind(this, " al guardar el documento"));
         }
     }
 

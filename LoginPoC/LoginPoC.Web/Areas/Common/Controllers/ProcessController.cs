@@ -9,190 +9,251 @@ using LoginPoC.Web.Areas.Common.Models;
 using LoginPoC.Web.Helpers;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
     [Authorize]
-    public class ProcessController : Controller
-    {
-        // GET DbContext from container
-        private IProcessTypeService ProcessTypeService { get; set; }
-        private IProcessService ProcessService { get; set; }
-        private ICountryService CountryService { get; set; }
-        private IMapper Mapper { get; set; }
+	public class ProcessController : Controller
+	{
+		// GET DbContext from container
+		private IProcessTypeService ProcessTypeService { get; set; }
+		private IProcessService ProcessService { get; set; }
+		private ICountryService CountryService { get; set; }
+		private IMapper Mapper { get; set; }
 
-        public ProcessController(
-            IProcessTypeService processTypeService, 
-            IProcessService processService,
-            ICountryService countryService, 
-            IMapper mapper)
-        {
-            this.ProcessTypeService = processTypeService;
-            this.ProcessService = processService;
-            this.CountryService = countryService;
-            this.Mapper = mapper;
-        }
+		public ProcessController(
+			IProcessTypeService processTypeService, 
+			IProcessService processService,
+			ICountryService countryService, 
+			IMapper mapper)
+		{
+			this.ProcessTypeService = processTypeService;
+			this.ProcessService = processService;
+			this.CountryService = countryService;
+			this.Mapper = mapper;
+		}
 
-        // GET: ProcessType
-        [OverrideAuthorization]
-        [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
-        public async Task<ActionResult> Index(string name = null)
-        {
-            var processes = await this.ProcessService.SearchAsync(name);
-            var vm = new ProcessIndexViewModel()
-            {
-                Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
-                SearchByName = name
-            };
+		// GET: Process
+		[OverrideAuthorization]
+		[Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
+		public async Task<ActionResult> Index(string name = null)
+		{
+			var processes = (await this.ProcessService.SearchNotDraftAsync(name))
+													  .ToList();
+			processes.Sort(ByStatusAndDate);
 
-            return View(vm);
-        }
+			var vm = new ProcessIndexViewModel()
+			{
+				Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
+				SearchByName = name
+			};
 
-        // GET: Process
-        public async Task<ActionResult> MyProcesses(string name = null)
-        {
-            var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
-            var processTypes = await this.ProcessTypeService.SearchAsync(null, User.Identity.GetUserId());
-            var vm = new ProcessIndexViewModel()
-            {
-                Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
-                ProcessTypes = processTypes,
-                SearchByName = name
-            };
+			return View(vm);
+		}
 
-            return View(vm);
-        }
+		// GET: Process
+		public async Task<ActionResult> MyProcesses(string name = null)
+		{
+			var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
+			var processTypes = await this.ProcessTypeService.SearchAsync(null, User.Identity.GetUserId());
+			var vm = new ProcessIndexViewModel()
+			{
+				Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
+				ProcessTypes = processTypes,
+				SearchByName = name
+			};
 
-        public async Task<ActionResult> Edit(int id)
-        {
-            var process = this.ProcessService.GetById(id);
-            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+			return View(vm);
+		}
 
-            await FillSelectLists(process, model);
+		public async Task<ActionResult> Edit(int id)
+		{
+			var process = this.ProcessService.GetById(id);
+			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
 
-            return View(model);
-        }
+			await FillSelectLists(process, model);
 
-        // POST: Process/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+			return View(model);
+		}
+
+		// POST: Process/Edit/5
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		public ActionResult Edit(ProcessViewModel process)
+		{
+			if (!ModelState.IsValid || process.Id == 0)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+			}
+
+			Process model = Mapper.Map<Process>(process);
+			this.ProcessService.Update(model);
+			process = Mapper.Map<ProcessViewModel>(model);
+
+			return this.JsonNet(process);
+		}
+
+		public async Task<ActionResult> Create(int Id)
+		{
+			var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
+			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+
+			await FillSelectLists(process, model);
+
+			List<ProcessDocument> documents = new List<ProcessDocument>();
+			foreach (var item in process.Documents)
+			{
+				documents.Add(Mapper.Map<ProcessDocument>(item));
+			}
+
+			return View("Edit", model);
+		}
+
+		private async Task FillSelectLists(Process process, ProcessViewModel model)
+		{
+			foreach (var item in process.Fields)
+			{
+				switch (item.Type)
+				{
+					case FieldType.Gender:
+						model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<Gender>.AsKeyValuePairs();
+						break;
+					case FieldType.MaritalStatus:
+						model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<MaritalStatus>.AsKeyValuePairs();
+						break;
+					case FieldType.Country:
+						var countryList = new List<KeyValuePair<int, string>>();
+						var countries = await this.CountryService.GetCountriesAsync();
+						foreach (Country country in countries)
+						{
+							countryList.Add(Mapper.Map<KeyValuePair<int, string>>(country));
+						}
+
+						model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = countryList;
+						break;                    
+					default:
+						break;
+				}
+			}
+			}
+
+		// POST: Process/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		public ActionResult Create(ProcessViewModel process)
+		{
+			if (!ModelState.IsValid)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
+			}
+
+			if (process.Id != 0)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+			}
+
+			Process model = Mapper.Map<Process>(process);
+			this.ProcessService.Add(model, User.Identity.GetUserId());
+			process = Mapper.Map<ProcessViewModel>(model);
+
+			return this.JsonNet(process);
+		}
+
+		// GET: Process/Delete/5
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Process process = this.ProcessService.GetById(id.Value);
+			if (process == null)
+			{
+				return HttpNotFound();
+			}
+
+			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+			return View(model);
+		}
+
+		// POST: Process/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			this.ProcessService.Delete(id);
+			return RedirectToAction("MyProcesses");
+		}
+
+		// GET: Process/Assign/{id}?userId={userId}
+		public ActionResult Assign(int id, string userId)
+		{
+			var process = this.ProcessService.GetById(id);
+			process.AssignedAgentId = userId;
+			this.ProcessService.Update(process);
+
+			return Redirect(this.Request.UrlReferrer.ToString());
+		}
+
+		// GET: Process/Deassign/{id}
+		public ActionResult Deassign(int id)
+		{
+			var process = this.ProcessService.GetById(id);
+			process.AssignedAgentId = null;
+
+			this.ProcessService.Update(process);
+
+			return Redirect(this.Request.UrlReferrer.ToString());
+		}
+
+		// POST: Process/Send/{id}
         [HttpPost]
-        public ActionResult Edit(ProcessViewModel process)
-        {
-            if (!ModelState.IsValid || process.Id == 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
-            }
+		public ActionResult Send(int id)
+		{
+			var process = this.ProcessService.GetById(id);
+			process.Status = ProcessStatus.Submitted;
 
-            Process model = Mapper.Map<Process>(process);
-            this.ProcessService.Update(model);
-            process = Mapper.Map<ProcessViewModel>(model);
+			this.ProcessService.Update(process);
 
-            return this.JsonNet(process);
-        }
+			return this.JsonNet(new { ok = true });
+		}
 
-        public async Task<ActionResult> Create(int Id)
-        {
-            var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
-            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+		private int ByStatusAndDate(Process a, Process b)
+		{
+			if (a.Status == b.Status)
+			{
+				if (a.AssignedAgentId == this.User.Identity.GetUserId<string>() && b.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return a.CreationDate.CompareTo(b.CreationDate);
 
-            await FillSelectLists(process, model);
+				if (a.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return -1;
+				
+				if (b.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return 1;
 
-            List<ProcessDocument> documents = new List<ProcessDocument>();
-            foreach (var item in process.Documents)
-            {
-                documents.Add(Mapper.Map<ProcessDocument>(item));
-            }
+				if (a.AssignedAgentId != null && b.AssignedAgent != null)
+					return a.CreationDate.CompareTo(b.CreationDate);
 
-            return View("Edit", model);
-        }
+				if (a.AssignedAgentId == null)
+					return -1;
 
-        private async Task FillSelectLists(Process process, ProcessViewModel model)
-        {
-            foreach (var item in process.Fields)
-            {
-                switch (item.Type)
-                {
-                    case FieldType.Gender:
-                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<Gender>.AsKeyValuePairs();
-                        break;
-                    case FieldType.MaritalStatus:
-                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = EnumHelper<MaritalStatus>.AsKeyValuePairs();
-                        break;
-                    case FieldType.Country:
-                        var countryList = new List<KeyValuePair<int, string>>();
-                        var countries = await this.CountryService.GetCountriesAsync();
-                        foreach (Country country in countries)
-                        {
-                            countryList.Add(Mapper.Map<KeyValuePair<int, string>>(country));
-                        }
+				if (b.AssignedAgentId != null)
+					return 1;
+			}
 
-                        model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = countryList;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+			return a.Status.CompareTo(b.Status);
+		}
 
-        // POST: Process/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        public ActionResult Create(ProcessViewModel process)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.AllErrorsToString());
-            }
-
-            if (process.Id != 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
-            }
-
-            Process model = Mapper.Map<Process>(process);
-            this.ProcessService.Add(model, User.Identity.GetUserId());
-            process = Mapper.Map<ProcessViewModel>(model);
-
-            return this.JsonNet(process);
-        }
-
-        // GET: Process/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Process process = this.ProcessService.GetById(id.Value);
-            if (process == null)
-            {
-                return HttpNotFound();
-            }
-
-            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
-            return View(model);
-        }
-
-        // POST: Process/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            this.ProcessService.Delete(id);
-            return RedirectToAction("MyProcesses");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
-    }
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+		}
+	}
 }

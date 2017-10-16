@@ -53,12 +53,15 @@
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
                                 editUrl = HttpUtility.UrlDecode(editUrl);
-
                             }
                             <a data-ng-href="@editUrl"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
                         </td>
                         <td width="5%">
-                            <a href="@Url.Action("Delete", new { id = 1 } )"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                            @{
+                                var deleteUrl = Url.Action("Delete", new { id = "{{process.id}}" });
+                                deleteUrl = HttpUtility.UrlDecode(deleteUrl);
+                            }
+                            <a href="@deleteUrl"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
                         </td>
                     </tr>
                 </tbody>
