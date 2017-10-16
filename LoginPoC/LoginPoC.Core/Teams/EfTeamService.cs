@@ -29,5 +29,39 @@ namespace LoginPoC.Core.Teams
             return this.context.Teams.Include(t => t.Users)
                                      .FirstOrDefault(t => t.Id == id);
         }
+
+        public override void Add(Team entity)
+        {
+            this.AttachUsers(entity);
+            base.Add(entity);
+        }
+
+        public override void Update(Team entityToUpdate)
+        {
+            this.AttachUsers(entityToUpdate);
+
+            var team = this.GetById(entityToUpdate.Id);
+            if (team == null)
+            {
+                throw new System.Exception("No se encontro el equipo especificado");
+            }
+
+            team.Users.Clear();
+            team.Users.AddRange(entityToUpdate.Users);
+            team.Name = entityToUpdate.Name;
+
+            this.context.SaveChanges();
+        }
+
+        private void AttachUsers(Team team)
+        {
+            foreach (var user in team.Users)
+            {
+                if (this.context.Entry(user).State == EntityState.Detached)
+                {
+                    this.context.Users.Attach(user);
+                }
+            }
+        }
     }
 }
