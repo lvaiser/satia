@@ -19,8 +19,9 @@
                 {{ field.name }}
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" />
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)">
+                <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)"></textarea>
-                <select ng-model="field.value" ng-options="item.value as item.value for item in field.selectList track by $index" class="form-control" ng-if="selectType(field.type)"> </select>
+                <select ng-model="field.selectedValue" ng-change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)"> </select>
             </label>
         </div>
     </div>
@@ -34,7 +35,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="text-center" ng-if="process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Draft) || process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Rejected)">
+        <div class="text-center" ng-if="process.status == '@(LoginPoC.Model.Process.ProcessStatus.Draft)' || process.status == '@(LoginPoC.Model.Process.ProcessStatus.Rejected)'">
             <button class="btn btn-default text" ng-click="events.onSaveClicked();">Guardar Cambios</button>
             <button class="btn btn-primary text" ng-click="events.onSendToReviewClicked();">Enviar a revision</button>
         </div>
@@ -44,4 +45,5 @@
 
 @section Scripts{
     <script src="~/Scripts/Site/Process/Process.Edit.js"></script>
+<script src="~/Scripts/Site/Angular-Extras/Directives/non-digit-input.js"></script>
 }

@@ -3,13 +3,14 @@
     app.controller("Process.Edit", ["$scope", "$http", controller]);
 
     function controller($scope, $http) {
-        $scope.inputTextFields = ['String', 'FirstName', 'LastName', 'Address', 'Occupation'];
+        $scope.inputTextFields = ['String', 'Address', 'Occupation', 'StateProvince', 'City'];
+        $scope.noNumbersTextFields = ['FirstName', 'LastName'];
         $scope.textAreaFields = ['TextArea'];
         $scope.inputNumberFields = ['Integer'];
         $scope.decimalNumberFields = ['Decimal'];
         $scope.inputDateFields = ['Date', 'BirthDate'];
         $scope.radioButtonFields = ['Bool'];
-        $scope.selectFields = ['Gender', 'MaritalStatus', 'Country', 'StateProvince', 'City'];
+        $scope.selectFields = ['Gender', 'MaritalStatus', 'Country'];
  
         $scope.events = {
             onInit: onInit,
@@ -30,6 +31,11 @@
                 if (radioField(field.type)) {
                     field.value = field.value == 'True';
                 }
+                if ($scope.selectType(field.type)) {
+                    field.selectedValue = field.selectList.filter(function (item) {
+                        return item.value == field.value;
+                    })[0];
+                }
             });
         };
 
@@ -41,6 +47,10 @@
             return stepNumberField(dataType);
         };
 
+        $scope.noNumbersInputType = function (dataType) {
+            return noNumbersTextField(dataType);
+        }
+
         $scope.textAreaType = function (dataType) {
             return $scope.textAreaFields.indexOf(dataType) !== -1;
         };
@@ -51,7 +61,7 @@
 
         $scope.inputType = function (data) {
             var dataType = data.type;
-            if (textField(dataType)) {
+            if (textField(dataType) || $scope.noNumbersInputType(data)) {
                 return 'text';
             }
             if (numberField(dataType) || stepNumberField(dataType)) {
@@ -73,6 +83,10 @@
             return $scope.inputNumberFields.indexOf(dataType) !== -1;
         }
 
+        function noNumbersTextField(dataType) {
+            return $scope.noNumbersTextFields.indexOf(dataType) !== -1;
+        }
+
         function dateField(dataType) {
             return $scope.inputDateFields.indexOf(dataType) !== -1;
         }
@@ -85,7 +99,8 @@
             return $scope.decimalNumberFields.indexOf(dataType) !== -1;
         }
 
-        function onSaveClicked() {
+        function save()
+        {
             var action;
             if ($scope.process.id == 0) {
                 action = "Create";
@@ -93,8 +108,15 @@
                 action = "Edit";
             }
 
-            return $http.post("/Common/Process/" + action, $scope.process)
-                .then(function (response) {
+            return $http.post("/Common/Process/" + action, $scope.process);
+        }
+
+        $scope.setSelectedValue = function (field) {
+            field.value = field.selectedValue.value;
+        }
+
+        function onSaveClicked() {
+            save().then(function (response) {
                     window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
                     $.notify("Los datos se actualizaron exitosamente", "success");
                 }, Utils.onAjaxError.bind(this, " al guardar el documento"));
@@ -102,6 +124,13 @@
 
         function onSendToReviewClicked()
         {
+            save().then(function (response) {
+                return $http.post("/Common/Process/Send/" + response.data.id)
+                            .then(function () {
+                                window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
+                                $.notify("Los datos se actualizaron exitosamente", "success");
+                            }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+            }, Utils.onAjaxError.bind(this, " al guardar el documento"));
         }
     }
 

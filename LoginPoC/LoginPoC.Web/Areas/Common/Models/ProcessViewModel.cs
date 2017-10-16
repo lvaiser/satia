@@ -12,7 +12,7 @@ namespace LoginPoC.Web.Areas.Common.Models
         public int Id { get; set; }
         public ProcessType Type { get; set; }
         public DateTime CreationDate { get; set; }
-        public Model.Process.ProcessStatus Status { get; set; }
+        public string Status { get; set; }
         public string ReviewNotes { get; set; }
         public DateTime? ReviewDate { get; set; }
         public ApplicationUser AssignedAgent { get; set; }

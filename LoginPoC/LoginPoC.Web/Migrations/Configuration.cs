@@ -95,12 +95,16 @@ namespace LoginPoC.Web.Migrations
                 new ProcessType
                 {
                     Name = "Ciudadanía",
-                    Description = "Trámite de ciudadanía"
+                    Description = "Trámite de ciudadanía",
+                    IsActive = true,
+                    IsAvailable = true
                 },
                 new ProcessType
                 {
                     Name = "Residencia",
-                    Description = "Trámite de residencia"
+                    Description = "Trámite de residencia",
+                    IsActive = true,
+                    IsAvailable = true
                 }
             );
         }

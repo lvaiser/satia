@@ -1,22 +1,34 @@
-﻿using LoginPoC.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using LoginPoC.Core.User;
+using LoginPoC.DAL;
 using LoginPoC.Model.ProcessType;
-using System.Threading.Tasks;
+using LoginPoC.Model.User;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LoginPoC.Core.ProcessType
 {
     public class EfProcessTypeService : EfGenericCrudService<Model.ProcessType.ProcessType>, IProcessTypeService
     {
-        public EfProcessTypeService(ApplicationDbContext context) : base(context)
+        private ApplicationUserManager UserManager { get; set; }
+
+        public EfProcessTypeService(
+            ApplicationDbContext context,
+            ApplicationUserManager userManager) : base(context)
         {
+            this.UserManager = userManager;
         }
 
-        public async Task<IEnumerable<Model.ProcessType.ProcessType>> SearchAsync(string name)
+        public async Task<IEnumerable<Model.ProcessType.ProcessType>> SearchAsync(string name, string userId)
         {
-            var query = dbSet.AsQueryable();
+            var query = dbSet.Where(pt => pt.IsActive).AsQueryable();
+
+            if (await this.UserManager.IsInRoleAsync(userId, ApplicationUserRoles.User))
+            {
+                query = query.Where(pt => pt.IsAvailable);
+            }
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 query = query.Where(pt => pt.Name.Contains(name));
@@ -46,6 +58,7 @@ namespace LoginPoC.Core.ProcessType
                 context.ProcessTypeDocuments.Add(document);
             }
 
+            entityToAdd.IsActive = true;
             base.Add(entityToAdd);
         }
 
@@ -74,6 +87,18 @@ namespace LoginPoC.Core.ProcessType
             }
 
             base.Update(entityToUpdate);
+        }
+
+        public override void Delete(int id)
+        {
+            var processType = this.GetById(id);
+            Delete(processType);
+        }
+
+        public override void Delete(Model.ProcessType.ProcessType entityToDelete)
+        {
+            entityToDelete.IsActive = false;
+            this.Update(entityToDelete);
         }
     }
 }

@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class ProcessController : Controller
 	{
 		// GET DbContext from container
@@ -48,7 +48,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
 			var vm = new ProcessIndexViewModel()
 			{
-				Processes = processes,
+				Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
 				SearchByName = name
 			};
 
@@ -59,10 +59,10 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 		public async Task<ActionResult> MyProcesses(string name = null)
 		{
 			var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
-			var processTypes = this.ProcessTypeService.GetAll();
+			var processTypes = await this.ProcessTypeService.SearchAsync(null, User.Identity.GetUserId());
 			var vm = new ProcessIndexViewModel()
 			{
-				Processes = processes,
+				Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
 				ProcessTypes = processTypes,
 				SearchByName = name
 			};
@@ -70,10 +70,12 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return View(vm);
 		}
 
-		public ActionResult Edit(int id)
+		public async Task<ActionResult> Edit(int id)
 		{
 			var process = this.ProcessService.GetById(id);
 			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+
+			await FillSelectLists(process, model);
 
 			return View(model);
 		}
@@ -101,6 +103,19 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
 			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
 
+			await FillSelectLists(process, model);
+
+			List<ProcessDocument> documents = new List<ProcessDocument>();
+			foreach (var item in process.Documents)
+			{
+				documents.Add(Mapper.Map<ProcessDocument>(item));
+			}
+
+			return View("Edit", model);
+		}
+
+		private async Task FillSelectLists(Process process, ProcessViewModel model)
+		{
 			foreach (var item in process.Fields)
 			{
 				switch (item.Type)
@@ -125,15 +140,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 						break;
 				}
 			}
-
-			List<ProcessDocument> documents = new List<ProcessDocument>();
-			foreach (var item in process.Documents)
-			{
-				documents.Add(Mapper.Map<ProcessDocument>(item));
 			}
-
-			return View("Edit", model);
-		}
 
 		// POST: Process/Create
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -158,6 +165,33 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return this.JsonNet(process);
 		}
 
+		// GET: Process/Delete/5
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			Process process = this.ProcessService.GetById(id.Value);
+			if (process == null)
+			{
+				return HttpNotFound();
+			}
+
+			ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+			return View(model);
+		}
+
+		// POST: Process/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			this.ProcessService.Delete(id);
+			return RedirectToAction("MyProcesses");
+		}
+
 		// GET: Process/Assign/{id}?userId={userId}
 		public ActionResult Assign(int id, string userId)
 		{
@@ -179,7 +213,8 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return Redirect(this.Request.UrlReferrer.ToString());
 		}
 
-		// GET: Process/Send/{id}
+		// POST: Process/Send/{id}
+        [HttpPost]
 		public ActionResult Send(int id)
 		{
 			var process = this.ProcessService.GetById(id);
@@ -187,7 +222,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
 			this.ProcessService.Update(process);
 
-			return Redirect(this.Request.UrlReferrer.ToString());
+			return this.JsonNet(new { ok = true });
 		}
 
 		private int ByStatusAndDate(Process a, Process b)
@@ -214,6 +249,11 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			}
 
 			return a.Status.CompareTo(b.Status);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
 		}
 	}
 }

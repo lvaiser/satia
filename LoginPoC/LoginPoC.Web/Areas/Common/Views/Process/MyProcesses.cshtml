@@ -33,24 +33,18 @@
             <table class="table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th width="60%">Tipo de tr&aacute;mite</th>
+                        <th width="50%">Tr&aacute;mite</th>
                         <th width="25%">Fecha de creaci&oacute;n</th>
-                        <th width="5%">Enviar</th>
+                        <th width="15%">Estado</th>
                         <th width="5%">Editar</th>
                         <th width="5%">Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="process in processes">
-                        <td width="60%">{{process.name}}</td>
-                        <td width="25%">{{process.creationDate}}</td>
-                        <td width="5%">
-                            @{
-                                var sendUrl = Url.Action("Send", new { id = "{{process.id}}" });
-                                sendUrl = HttpUtility.UrlDecode(sendUrl);
-                            }
-                            <a href="@sendUrl" ng-if="process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Draft)"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>
-                        </td>
+                        <td width="50%">{{ process.type.name }}</td>
+                        <td width="25%">{{ process.creationDate | date : "dd/MM/yyyy h:mm a" }}</td>
+                        <td width="15%"> {{ process.status }} </td>
                         <td width="5%">
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
@@ -61,7 +55,7 @@
                         <td width="5%">
                             @{
                                 var deleteUrl = Url.Action("Delete", new { id = "{{process.id}}" });
-                                deleteUrl = HttpUtility.UrlDecode(sendUrl);
+                                deleteUrl = HttpUtility.UrlDecode(deleteUrl);
                             }
                             <a href="@deleteUrl"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
                         </td>
