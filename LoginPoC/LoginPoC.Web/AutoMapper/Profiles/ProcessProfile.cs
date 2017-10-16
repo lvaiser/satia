@@ -12,10 +12,11 @@ namespace LoginPoC.Web.AutoMapper.Profiles
         public ProcessProfile()
         {
             CreateMap<Model.Process.Process, ProcessViewModel>()
+                .ForMember(vm => vm.Status, opt => opt.MapFrom(x => x.Status.ToString()))
                 .ReverseMap();
 
             CreateMap<ProcessField, ProcessFieldViewModel>()
-                .ForMember(vm => vm.Type, opt => opt.MapFrom(x => x.Type.ToString()))
+                .ForMember(vm => vm.Type, opt => opt.MapFrom(x => x.Type.ToString()))                
                 .ForMember(vm => vm.Value, opt => opt.MapFrom(x => HttpContext.Current.Server.HtmlEncode(x.Value)))
                 .ReverseMap();
 
