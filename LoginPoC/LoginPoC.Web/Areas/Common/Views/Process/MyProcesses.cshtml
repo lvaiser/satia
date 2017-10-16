@@ -34,16 +34,18 @@
             <table class="table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th width="60%">Tr&aacute;mite</th>
+                        <th width="50%">Tr&aacute;mite</th>
                         <th width="25%">Fecha de creaci&oacute;n</th>
+                        <th width="15%">Estado</th>
                         <th width="5%">Editar</th>
                         <th width="5%">Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="process in processes">
-                        <td width="60%">{{ process.type.name }}</td>
+                        <td width="50%">{{ process.type.name }}</td>
                         <td width="25%">{{ process.creationDate | date : "dd/MM/yyyy h:mm a" }}</td>
+                        <td width="15%"> {{ process.status }} </td>
                         <td width="5%">
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
