@@ -3,7 +3,8 @@
     app.controller("Process.Edit", ["$scope", "$http", controller]);
 
     function controller($scope, $http) {
-        $scope.inputTextFields = ['String', 'FirstName', 'LastName', 'Address', 'Occupation', 'StateProvince', 'City'];
+        $scope.inputTextFields = ['String', 'Address', 'Occupation', 'StateProvince', 'City'];
+        $scope.noNumbersTextFields = ['FirstName', 'LastName'];
         $scope.textAreaFields = ['TextArea'];
         $scope.inputNumberFields = ['Integer'];
         $scope.decimalNumberFields = ['Decimal'];
@@ -45,6 +46,10 @@
             return stepNumberField(dataType);
         };
 
+        $scope.noNumbersInputType = function (dataType) {
+            return noNumbersTextField(dataType);
+        }
+
         $scope.textAreaType = function (dataType) {
             return $scope.textAreaFields.indexOf(dataType) !== -1;
         };
@@ -55,7 +60,7 @@
 
         $scope.inputType = function (data) {
             var dataType = data.type;
-            if (textField(dataType)) {
+            if (textField(dataType) || $scope.noNumbersInputType(data)) {
                 return 'text';
             }
             if (numberField(dataType) || stepNumberField(dataType)) {
@@ -75,6 +80,10 @@
 
         function numberField(dataType) {
             return $scope.inputNumberFields.indexOf(dataType) !== -1;
+        }
+
+        function noNumbersTextField(dataType) {
+            return $scope.noNumbersTextFields.indexOf(dataType) !== -1;
         }
 
         function dateField(dataType) {
