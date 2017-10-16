@@ -13,7 +13,8 @@
  
         $scope.events = {
             onInit: onInit,
-            onSaveClicked: onSaveClicked
+            onSaveClicked: onSaveClicked,
+            onSendToReviewClicked: onSendToReviewClicked
         };
 
         function onInit(process) {
@@ -97,6 +98,10 @@
                     window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
                     $.notify("Los datos se actualizaron exitosamente", "success");
                 }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+        }
+
+        function onSendToReviewClicked()
+        {
         }
     }
 

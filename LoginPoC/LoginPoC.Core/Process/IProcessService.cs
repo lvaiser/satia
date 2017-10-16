@@ -5,7 +5,7 @@ namespace LoginPoC.Core.Process
 {
     public interface IProcessService : IGenericCrudService<Model.Process.Process>
     {
-        Task<IEnumerable<Model.Process.Process>> SearchAsync(string name);
+        Task<IEnumerable<Model.Process.Process>> SearchNotDraftAsync(string name);
 
         Task<IEnumerable<Model.Process.Process>> SearchMyProcessesAsync(string name, string userId);
 

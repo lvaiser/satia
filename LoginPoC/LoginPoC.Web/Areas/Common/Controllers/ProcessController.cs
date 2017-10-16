@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
-    [Authorize]
+	[Authorize]
 	public class ProcessController : Controller
 	{
 		// GET DbContext from container
@@ -42,7 +42,10 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 		[Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
 		public async Task<ActionResult> Index(string name = null)
 		{
-			var processes = await this.ProcessService.SearchAsync(name);
+			var processes = (await this.ProcessService.SearchNotDraftAsync(name))
+													  .ToList();
+			processes.Sort(ByStatusAndDate);
+
 			var vm = new ProcessIndexViewModel()
 			{
 				Processes = processes,
@@ -165,7 +168,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return Redirect(this.Request.UrlReferrer.ToString());
 		}
 
-		// GET: Process/Deassign/{id}?userId={userId}
+		// GET: Process/Deassign/{id}
 		public ActionResult Deassign(int id)
 		{
 			var process = this.ProcessService.GetById(id);
@@ -174,6 +177,43 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			this.ProcessService.Update(process);
 
 			return Redirect(this.Request.UrlReferrer.ToString());
+		}
+
+		// GET: Process/Send/{id}
+		public ActionResult Send(int id)
+		{
+			var process = this.ProcessService.GetById(id);
+			process.Status = ProcessStatus.Submitted;
+
+			this.ProcessService.Update(process);
+
+			return Redirect(this.Request.UrlReferrer.ToString());
+		}
+
+		private int ByStatusAndDate(Process a, Process b)
+		{
+			if (a.Status == b.Status)
+			{
+				if (a.AssignedAgentId == this.User.Identity.GetUserId<string>() && b.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return a.CreationDate.CompareTo(b.CreationDate);
+
+				if (a.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return -1;
+				
+				if (b.AssignedAgentId == this.User.Identity.GetUserId<string>())
+					return 1;
+
+				if (a.AssignedAgentId != null && b.AssignedAgent != null)
+					return a.CreationDate.CompareTo(b.CreationDate);
+
+				if (a.AssignedAgentId == null)
+					return -1;
+
+				if (b.AssignedAgentId != null)
+					return 1;
+			}
+
+			return a.Status.CompareTo(b.Status);
 		}
 	}
 }

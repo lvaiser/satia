@@ -27,9 +27,9 @@ namespace LoginPoC.Core.Process
             this.UserManager = userManager;
         }
 
-        public async Task<IEnumerable<Model.Process.Process>> SearchAsync(string name)
+        public async Task<IEnumerable<Model.Process.Process>> SearchNotDraftAsync(string name)
         {
-            var query = dbSet.AsQueryable();
+            var query = dbSet.Where(p => p.Status != ProcessStatus.Draft);
             if (!string.IsNullOrWhiteSpace(name))
             {
                 query = query.Where(p => p.Type.Name.Contains(name));

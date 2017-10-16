@@ -34,8 +34,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-offset-5 col-md-2">
-            <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+        <div class="text-center" ng-if="process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Draft) || process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Rejected)">
+            <button class="btn btn-default text" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+            <button class="btn btn-primary text" ng-click="events.onSendToReviewClicked();">Enviar a revision</button>
         </div>
     </div>
 </div>

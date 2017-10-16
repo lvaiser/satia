@@ -21,7 +21,6 @@
         @{
             var url = Url.Action("Create", new { id = "{{selectedProcessType}}" });
             url = HttpUtility.UrlDecode(url);
-
         }
         <a data-ng-href="@url">
             Crear Nuevo Trámite
@@ -46,18 +45,25 @@
                         <td width="60%">{{process.name}}</td>
                         <td width="25%">{{process.creationDate}}</td>
                         <td width="5%">
-                            <a href="@Url.Action("Send", new { id = 1 } )"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>
+                            @{
+                                var sendUrl = Url.Action("Send", new { id = "{{process.id}}" });
+                                sendUrl = HttpUtility.UrlDecode(sendUrl);
+                            }
+                            <a href="@sendUrl" ng-if="process.status == @((int)LoginPoC.Model.Process.ProcessStatus.Draft)"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>
                         </td>
                         <td width="5%">
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
                                 editUrl = HttpUtility.UrlDecode(editUrl);
-
                             }
                             <a data-ng-href="@editUrl"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
                         </td>
                         <td width="5%">
-                            <a href="@Url.Action("Delete", new { id = 1 } )"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
+                            @{
+                                var deleteUrl = Url.Action("Delete", new { id = "{{process.id}}" });
+                                deleteUrl = HttpUtility.UrlDecode(sendUrl);
+                            }
+                            <a href="@deleteUrl"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>
                         </td>
                     </tr>
                 </tbody>
