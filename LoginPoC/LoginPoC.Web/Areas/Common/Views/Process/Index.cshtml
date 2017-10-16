@@ -1,13 +1,13 @@
-﻿@using LoginPoC.Web.Areas.Common.Models;
+﻿}@using LoginPoC.Web.Areas.Common.Models;
 @using Microsoft.AspNet.Identity
 @using LoginPoC.Model.User
 @model ProcessIndexViewModel
 
 @{
-    ViewBag.Title = "Tramites";
+    ViewBag.Title = "Trámites";
 }
 
-<h2 class="tituloPrincipal">Tr&aacute;mites</h2>
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
 <hr class="tituloPrincipal" />
 <div class="row">
     @using (Html.BeginForm("Index", "Process", FormMethod.Get, new { area = "Common" }))

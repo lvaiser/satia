@@ -5,6 +5,9 @@
 body {
     padding-bottom: 0;
 }
+.body-content {
+    min-height: calc(100vh - 57px - 50px);
+}
 h4 {
     font-family: GoboldRegular;
 }
@@ -96,7 +99,9 @@ a.tipoTramite-verDetalles {
     color: white;
     padding: 1% 2% 1% 2%;
 }
-span.tipoTramite-nombre {
+span.tipoTramite-nombre, span.tipoTramite-nombre a {
+    text-decoration: none;
+    color: black;
     font-family: GoboldRegular;
     font-size: 20px;
 }

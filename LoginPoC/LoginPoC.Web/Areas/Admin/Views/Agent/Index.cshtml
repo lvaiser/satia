@@ -2,10 +2,10 @@
 @model AgentIndexViewModel
 
 @{
-    ViewBag.Title = "Agentes";
+    ViewBag.Title = "Asesores";
 }
 
-<h2 class="tituloPrincipal">Asesores</h2>
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
 <hr class="tituloPrincipal" />
 <div class="row">
     @using (Html.BeginForm("Index", "Agent", FormMethod.Get, new { area = "Admin" }))

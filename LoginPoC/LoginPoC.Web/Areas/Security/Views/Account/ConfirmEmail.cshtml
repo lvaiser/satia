@@ -2,10 +2,11 @@
     ViewBag.Title = "Cuenta confirmada";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
+<hr class="tituloPrincipal" />
 <div>
     <p>
         Gracias por confirmar tu cuenta. <br />
-        Ya puedes iniciar session haciendo @Html.ActionLink("click aqui", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+        Ya puedes iniciar sesi&oacute;n haciendo @Html.ActionLink("click aquí", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
     </p>
 </div>

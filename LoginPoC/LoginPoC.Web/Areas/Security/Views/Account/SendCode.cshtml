@@ -3,12 +3,13 @@
     ViewBag.Title = "Send";
 }
 
-<h2>@ViewBag.Title.</h2>
 
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
+<hr class="tituloPrincipal" />
 @using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
     @Html.AntiForgeryToken()
     @Html.Hidden("rememberMe", @Model.RememberMe)
-    <h4>Send verification code</h4>
+    <h4>Enviar c&odigo de verificaci&oacute;n</h4>
     <hr />
     <div class="row">
         <div class="col-md-8">
