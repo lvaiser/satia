@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Dynamic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using AutoMapper;
+﻿using AutoMapper;
 using LoginPoC.Core.User;
 using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Admin.Models;
 using LoginPoC.Web.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
@@ -44,8 +43,13 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
             var vm = new AgentIndexViewModel()
             {
                 SearchByName = name,
-                Agents = await users.ToListAsync()
+                Agents = this.mapper.Map<List<AgentViewModel>>(await users.ToListAsync())
             };
+
+            if (this.Request.IsAjaxRequest())
+            {
+                return this.JsonNet(vm);
+            }
 
             return View(vm);
         }

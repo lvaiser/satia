@@ -99,6 +99,8 @@
     <Compile Include="User\ApplicationSignInManager.cs" />
     <Compile Include="User\ApplicationRoleManager.cs" />
     <Compile Include="User\ApplicationUserManager.cs" />
+    <Compile Include="Teams\ITeamService.cs" />
+    <Compile Include="Teams\EfTeamService.cs" />
     <Compile Include="User\EfCountryService.cs" />
     <Compile Include="User\ICountryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,9 +1,10 @@
-﻿using LoginPoC.Model.ProcessType;
+﻿using LoginPoC.Model.File;
+using LoginPoC.Model.Process;
+using LoginPoC.Model.ProcessType;
+using LoginPoC.Model.Teams;
 using LoginPoC.Model.User;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
-using LoginPoC.Model.File;
-using LoginPoC.Model.Process;
 
 namespace LoginPoC.DAL
 {
@@ -23,5 +24,18 @@ namespace LoginPoC.DAL
         public IDbSet<Process> Processes { get; set; }
         public IDbSet<ProcessField> ProcessFields { get; set; }
         public IDbSet<ProcessDocument> ProcessDocuments { get; set; }
+        public IDbSet<Team> Teams { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Team>()
+                        .HasMany(t => t.Users)
+                        .WithMany(u => u.Teams)
+                        .Map(m => m.MapRightKey("UserId")
+                                   .MapLeftKey("TeamId")
+                                   .ToTable("UsersToTeams"));
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

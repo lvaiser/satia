@@ -18,6 +18,7 @@ namespace LoginPoC.Web
                    .Include("~/Scripts/lib/moment/min/moment.min.js")
                    .Include("~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.js")
                    .Include("~/Scripts/lib/angular-daterangepicker/angular-daterangepicker.min.js")
+                   .Include("~/Scripts/lib/angucomplete-alt/angucomplete-alt.js")
                    .Include("~/Scripts/ng-file-upload-all.min.js")
                    .Include("~/Scripts/Site/Angular-Extras/SATIA.Namespaces.js")
                    .IncludeDirectory("~/Scripts/Site/Angular-Extras/Directives", "*.js", true)
@@ -43,7 +44,8 @@ namespace LoginPoC.Web
                       "~/Content/site.css",
                       "~/Content/satiaStyle.css",
                       "~/Scripts/lib/angular-block-ui/angular-block-ui.min.css",
-                      "~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.css"));
+                      "~/Scripts/lib/bootstrap-daterangepicker/daterangepicker.css",
+                      "~/Scripts/lib/angucomplete-alt/angucomplete-alt.css"));
         }
     }
 }

@@ -1,19 +1,19 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+	padding-top: 50px;
+	padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
-    white-space: normal;
+	white-space: normal;
 }
 
 /* Validations */
@@ -77,17 +77,22 @@ tr.has-feedback.ng-invalid,
 
 .user-picture-container .form-group label{
 	position: absolute;
-    bottom: -4px;
-    left: 0;
-    font-size: 10px;
-    background: gray;
-    color: white;
-    font-family: arial;
-    border-radius: 0 4px 0 4px;
-    padding: 2px 8px;
+	bottom: -4px;
+	left: 0;
+	font-size: 10px;
+	background: gray;
+	color: white;
+	font-family: arial;
+	border-radius: 0 4px 0 4px;
+	padding: 2px 8px;
 	display: none;
 }
 
 .user-picture-container .form-group:hover label{
 	display: initial;
+}
+
+angucomplete-alt .angucomplete-dropdown {
+	top: 39px;
+	width: 100%;
 }
