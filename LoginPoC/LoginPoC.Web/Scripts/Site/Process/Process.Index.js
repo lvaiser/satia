@@ -12,6 +12,13 @@
             $scope.processTypes = model.processTypes;
             $scope.selectedProcessType = $scope.processTypes[0].id;
         }
+
+        $scope.anyDeprecated = function () {
+            var any = $scope.processes.some(function (process) {
+                return !process.type.isActive;
+            });
+            return any;
+        }
     }
 
 })();
