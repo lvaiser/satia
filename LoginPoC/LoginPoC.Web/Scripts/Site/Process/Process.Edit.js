@@ -3,13 +3,13 @@
     app.controller("Process.Edit", ["$scope", "$http", controller]);
 
     function controller($scope, $http) {
-        $scope.inputTextFields = ['String', 'FirstName', 'LastName', 'Address', 'Occupation'];
+        $scope.inputTextFields = ['String', 'FirstName', 'LastName', 'Address', 'Occupation', 'StateProvince', 'City'];
         $scope.textAreaFields = ['TextArea'];
         $scope.inputNumberFields = ['Integer'];
         $scope.decimalNumberFields = ['Decimal'];
         $scope.inputDateFields = ['Date', 'BirthDate'];
         $scope.radioButtonFields = ['Bool'];
-        $scope.selectFields = ['Gender', 'MaritalStatus', 'Country', 'StateProvince', 'City'];
+        $scope.selectFields = ['Gender', 'MaritalStatus', 'Country'];
  
         $scope.events = {
             onInit: onInit,
@@ -28,6 +28,11 @@
                 }
                 if (radioField(field.type)) {
                     field.value = field.value == 'True';
+                }
+                if ($scope.selectType(field.type)) {
+                    field.selectedValue = field.selectList.filter(function (item) {
+                        return item.value == field.value;
+                    })[0];
                 }
             });
         };
@@ -82,6 +87,10 @@
 
         function stepNumberField(dataType) {
             return $scope.decimalNumberFields.indexOf(dataType) !== -1;
+        }
+
+        $scope.setSelectedValue = function (field) {
+            field.value = field.selectedValue.value;
         }
 
         function onSaveClicked() {
