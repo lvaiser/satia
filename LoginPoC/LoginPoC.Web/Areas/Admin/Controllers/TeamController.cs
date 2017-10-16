@@ -105,5 +105,35 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
                 return this.JsonNet(ex.AsModelErrorCollection());
             }
         }
+
+        // GET: Team/Delete/{id}
+        public ActionResult Delete(int id)
+        {
+            var team = this.teamService.GetById(id);
+            if (team == null)
+            {
+                return HttpNotFound("No se encontro el equipo especificado");
+            }
+
+            var vm = this.mapper.Map<TeamViewModel>(team);
+            return View(vm);
+        }
+
+        // POST: Team/Delete/{id}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                this.teamService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                this.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return this.JsonNet(ex.AsModelErrorCollection());
+            }
+        }
     }
 }

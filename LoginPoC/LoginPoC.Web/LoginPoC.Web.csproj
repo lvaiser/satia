@@ -831,6 +831,7 @@
     <Content Include="Areas\Admin\Views\Agent\Edit.cshtml" />
     <Content Include="Areas\Security\Views\Account\ConfirmEmailAndCreatePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Team\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Team\Delete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
