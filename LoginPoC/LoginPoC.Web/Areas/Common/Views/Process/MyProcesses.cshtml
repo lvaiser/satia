@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="process in processes">
-                        <td width="60%">{{process.name}}</td>
+                        <td width="60%">{{process.type.name}}</td>
                         <td width="25%">{{process.creationDate}}</td>
                         <td width="5%">
                             <a href="@Url.Action("Send", new { id = 1 } )"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>

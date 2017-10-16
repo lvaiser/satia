@@ -1,12 +1,9 @@
-﻿using LoginPoC.Model.ProcessType;
-using LoginPoC.Web.Areas.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
-using LoginPoC.Model.User;
+﻿using AutoMapper;
 using LoginPoC.Model.Process;
+using LoginPoC.Model.User;
+using LoginPoC.Web.Areas.Common.Models;
+using System.Collections.Generic;
+using System.Web;
 
 namespace LoginPoC.Web.AutoMapper.Profiles
 {
@@ -19,11 +16,11 @@ namespace LoginPoC.Web.AutoMapper.Profiles
 
             CreateMap<ProcessField, ProcessFieldViewModel>()
                 .ForMember(vm => vm.Type, opt => opt.MapFrom(x => x.Type.ToString()))
+                .ForMember(vm => vm.Value, opt => opt.MapFrom(x => HttpContext.Current.Server.HtmlEncode(x.Value)))
                 .ReverseMap();
 
             CreateMap<Country, KeyValuePair<int, string>>()
-                .ForMember(x => x.Key, opt => opt.MapFrom(c => c.Id))
-                .ForMember(x => x.Value, opt => opt.MapFrom(c => c.Name));
+                .ConstructUsing(c => new KeyValuePair<int, string>(c.Id, HttpContext.Current.Server.HtmlEncode(c.Name)));
         }
     }
 }

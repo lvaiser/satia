@@ -9,6 +9,7 @@ namespace LoginPoC.Model.ProcessType
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public string URLVideo { get; set; }
+        //public bool IsAvailable { get; set; }
 
         public ICollection<ProcessTypeField> Fields { get; set; }
         public ICollection<ProcessTypeDocument> Documents { get; set; }

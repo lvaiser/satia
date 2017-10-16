@@ -11,7 +11,7 @@ namespace LoginPoC.Web.Areas.Common.Models
     {
         public string SearchByName { get; set; }
 
-        public IEnumerable<Process> Processes { get; set; }
+        public IEnumerable<ProcessViewModel> Processes { get; set; }
         public IEnumerable<ProcessType> ProcessTypes { get; set; }
     }
 }
