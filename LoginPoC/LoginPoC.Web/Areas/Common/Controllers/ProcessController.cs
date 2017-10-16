@@ -45,7 +45,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             var processes = await this.ProcessService.SearchAsync(name);
             var vm = new ProcessIndexViewModel()
             {
-                Processes = processes,
+                Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
                 SearchByName = name
             };
 
@@ -56,10 +56,10 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         public async Task<ActionResult> MyProcesses(string name = null)
         {
             var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
-            var processTypes = this.ProcessTypeService.GetAll();
+            var processTypes = await this.ProcessTypeService.SearchAsync(null, User.Identity.GetUserId());
             var vm = new ProcessIndexViewModel()
             {
-                Processes = processes,
+                Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),
                 ProcessTypes = processTypes,
                 SearchByName = name
             };
@@ -67,10 +67,12 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             return View(vm);
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
             var process = this.ProcessService.GetById(id);
             ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+
+            await FillSelectLists(process, model);
 
             return View(model);
         }
@@ -98,6 +100,19 @@ namespace LoginPoC.Web.Areas.Common.Controllers
             var process = await this.ProcessService.GetByTypeAsync(Id, User.Identity.GetUserId());
             ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
 
+            await FillSelectLists(process, model);
+
+            List<ProcessDocument> documents = new List<ProcessDocument>();
+            foreach (var item in process.Documents)
+            {
+                documents.Add(Mapper.Map<ProcessDocument>(item));
+            }
+
+            return View("Edit", model);
+        }
+
+        private async Task FillSelectLists(Process process, ProcessViewModel model)
+        {
             foreach (var item in process.Fields)
             {
                 switch (item.Type)
@@ -112,24 +127,16 @@ namespace LoginPoC.Web.Areas.Common.Controllers
                         var countryList = new List<KeyValuePair<int, string>>();
                         var countries = await this.CountryService.GetCountriesAsync();
                         foreach (Country country in countries)
-	                    {
+                        {
                             countryList.Add(Mapper.Map<KeyValuePair<int, string>>(country));
                         }
 
                         model.Fields.Single(f => f.Type == item.Type.ToString()).SelectList = countryList;
-                        break;                    
+                        break;
                     default:
                         break;
                 }
             }
-
-            List<ProcessDocument> documents = new List<ProcessDocument>();
-            foreach (var item in process.Documents)
-            {
-                documents.Add(Mapper.Map<ProcessDocument>(item));
-            }
-
-            return View("Edit", model);
         }
 
         // POST: Process/Create
@@ -154,5 +161,38 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
             return this.JsonNet(process);
         }
+
+        // GET: Process/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Process process = this.ProcessService.GetById(id.Value);
+            if (process == null)
+            {
+                return HttpNotFound();
+            }
+
+            ProcessViewModel model = Mapper.Map<ProcessViewModel>(process);
+            return View(model);
+        }
+
+        // POST: Process/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            this.ProcessService.Delete(id);
+            return RedirectToAction("MyProcesses");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
     }
 }

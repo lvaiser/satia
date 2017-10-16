@@ -333,6 +333,10 @@
     <Compile Include="Migrations\201710160106358_user-to-team.Designer.cs">
       <DependentUpon>201710160106358_user-to-team.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710162046015_add-IsAvailable-to-ProcessType.cs" />
+    <Compile Include="Migrations\201710162046015_add-IsAvailable-to-ProcessType.Designer.cs">
+      <DependentUpon>201710162046015_add-IsAvailable-to-ProcessType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -801,6 +805,9 @@
     <EmbeddedResource Include="Migrations\201710160106358_user-to-team.resx">
       <DependentUpon>201710160106358_user-to-team.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710162046015_add-IsAvailable-to-ProcessType.resx">
+      <DependentUpon>201710162046015_add-IsAvailable-to-ProcessType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Common\Views\web.config" />
@@ -832,6 +839,7 @@
     <Content Include="Areas\Security\Views\Account\ConfirmEmailAndCreatePassword.cshtml" />
     <Content Include="Areas\Admin\Views\Team\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Team\Delete.cshtml" />
+    <Content Include="Areas\Common\Views\Process\Delete.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
