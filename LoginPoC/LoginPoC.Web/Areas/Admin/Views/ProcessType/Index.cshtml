@@ -51,6 +51,10 @@
                 <p class="tipoTramite-descripcion">
                     @Html.DisplayFor(modelItem => item.Description)
                 </p>
+                @if (!String.IsNullOrEmpty(item.URLVideo))
+                {
+                    <iframe width="425" height="349" src=@item.URLVideo frameborder="0" allowfullscreen></iframe>
+                }
                 <p class="tipoTramite-descripcion">
                     <a href="@Url.Action("Details",new { id = item.Id })" class="tipoTramite-verDetalles">Ver Detalles del trámite</a>
                     @if (User.IsInRole(ApplicationUserRoles.User))
@@ -63,7 +67,6 @@
         </div>
     }
 </div>
-
 @section Scripts{
     <script src="~/Scripts/Site/ProcessType/ProcessType.Index.js"></script>
 }
