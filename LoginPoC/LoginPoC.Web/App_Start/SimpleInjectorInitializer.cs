@@ -1,7 +1,14 @@
+using AutoMapper;
+using LoginPoC.Core;
+using LoginPoC.Core.File;
 using LoginPoC.Core.Messaging;
+using LoginPoC.Core.Process;
+using LoginPoC.Core.ProcessType;
+using LoginPoC.Core.Teams;
 using LoginPoC.Core.User;
 using LoginPoC.DAL;
 using LoginPoC.Model.User;
+using LoginPoC.Web.Profiles;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -15,16 +22,10 @@ using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
-using LoginPoC.Web.Profiles;
-using LoginPoC.Core.ProcessType;
-using LoginPoC.Core;
-using System.Configuration;
-using LoginPoC.Core.File;
-using LoginPoC.Core.Process;
 
 namespace LoginPoC.Web.App_Start
 {
@@ -78,6 +79,8 @@ namespace LoginPoC.Web.App_Start
             container.Register<IProcessTypeService, EfProcessTypeService>(Lifestyle.Scoped);
 
             container.Register<IProcessService, EfProcessService>(Lifestyle.Scoped);
+
+            container.Register<ITeamService, EfTeamService>(Lifestyle.Scoped);
 
             container.Register(() => new ApplicationSettings()
             {

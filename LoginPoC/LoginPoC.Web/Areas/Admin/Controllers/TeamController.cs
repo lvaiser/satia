@@ -1,44 +1,40 @@
-﻿using System.Collections.Generic;
-using System.Dynamic;
-using System.Web.Mvc;
+﻿using AutoMapper;
+using LoginPoC.Core.Teams;
 using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Admin.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
     [Authorize(Roles = ApplicationUserRoles.Administrator)]
     public class TeamController : Controller
     {
-        public TeamController()
+        private readonly ITeamService teamService;
+        private readonly IMapper mapper;
+
+        public TeamController(ITeamService teamService, IMapper mapper)
         {
-            
+            this.teamService = teamService;
+            this.mapper = mapper;
         }
 
-        // GET: ProcessType        
-        public ActionResult Index(string name = null)
+        // GET: Team
+        public async Task<ActionResult> Index(string name = null)
         {
-            //var teams = await this.TeamService.SearchAsync(name);
-            var teams = this.GetMockedTeams();
+            var teams = await this.teamService.SearchAsync(name);
             var vm = new TeamIndexViewModel()
             {
-                Teams = teams,
+                Teams = this.mapper.Map<List<TeamViewModel>>(teams),
                 SearchByName = name
             };
 
             return View(vm);
         }
 
-        private IEnumerable<dynamic> GetMockedTeams()
-        {
-            dynamic uno = new ExpandoObject();
-            uno.Id = 1;
-            uno.Name = "Equipo de gestion de Ciudadanias";
-
-            dynamic dos = new ExpandoObject();
-            dos.Id = 2;
-            dos.Name = "Equipo de gestion de Tramites X";
-
-            return new List<dynamic>() { uno, dos };
-        }
+        // GET: Team/Edit/{id}
+        //public async Task<ActionResult> Edit(int id)
+        //{ }
     }
 }

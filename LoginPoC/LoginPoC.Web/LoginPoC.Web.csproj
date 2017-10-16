@@ -238,6 +238,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProcessTypeController.cs" />
+    <Compile Include="Areas\Admin\Models\TeamViewModel.cs" />
     <Compile Include="Areas\Security\Models\ConfirmEmailAndCreatePasswordViewModels.cs" />
     <Compile Include="Areas\Admin\Models\AgentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TeamIndexViewModel.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Areas\Security\Controllers\ManageController.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
     <Compile Include="AutoMapper\Profiles\ApplicationUserProfile.cs" />
+    <Compile Include="AutoMapper\Profiles\TeamProfile.cs" />
     <Compile Include="AutoMapper\Profiles\ProcessProfile.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -326,6 +328,10 @@
     <Compile Include="Migrations\201710120524369_fix-process-foreign-keys.cs" />
     <Compile Include="Migrations\201710120524369_fix-process-foreign-keys.Designer.cs">
       <DependentUpon>201710120524369_fix-process-foreign-keys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710160106358_user-to-team.cs" />
+    <Compile Include="Migrations\201710160106358_user-to-team.Designer.cs">
+      <DependentUpon>201710160106358_user-to-team.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Profiles\UserMappingProfile.cs" />
@@ -787,6 +793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710120524369_fix-process-foreign-keys.resx">
       <DependentUpon>201710120524369_fix-process-foreign-keys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710160106358_user-to-team.resx">
+      <DependentUpon>201710160106358_user-to-team.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Models\SeedData\countries.csv" />
     <Content Include="Areas\Security\Views\_ViewStart.cshtml" />
