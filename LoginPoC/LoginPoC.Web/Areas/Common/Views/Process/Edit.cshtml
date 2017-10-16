@@ -6,20 +6,30 @@
 
 @{
     var jsonModel = JsonConvert.SerializeObject(Model);
-    ViewBag.Title = string.Format("{0} - {1}", "Trámite", Model.Type.Name);
+    ViewBag.Title = "Trámite";
 }
 
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel))'>
     <h2 class="tituloPrincipal"> {{ process.type.name }} </h2>
     <hr class="tituloPrincipal" />
+    <div class="row"> Campos </div>
     <div class="row">
         <div ng-repeat="field in process.fields track by $index" class="col-md-4 tramite">
             <label>
                 {{ field.name }}
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type) }}" ng-if="simpleInputType(field.type)" />
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field.type) }}" step="0.01" ng-if="stepInputType(field.type)">
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" />
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)"></textarea>
-                <select ng-model="field.value" ng-options="value for value in field.dictionary track by $index" class="form-control" ng-if="selectType(field.type)"> </select>
+                <select ng-model="field.value" ng-options="item.value as item.value for item in field.selectList track by $index" class="form-control" ng-if="selectType(field.type)"> </select>
+            </label>
+        </div>
+    </div>
+    <div class="row"> Documentos </div>
+    <div class="row"> 
+        <div ng-repeat="document in process.documents track by $index" class="col-md-4 tramite">
+            <label>
+                {{ document.name }}
+                <input ng-model="document.isAvailable" class="form-control" type="checkbox"/>
             </label>
         </div>
     </div>
