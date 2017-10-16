@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using LoginPoC.Model.User
+@using LoginPoC.Core.User
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("logOff", "Account", new { Area = "Security" }, FormMethod.Post, new { id = "logoutForm", @class = "hidden" }))
@@ -21,12 +22,17 @@
                 
                 @if (User.IsInRole(ApplicationUserRoles.User))
                 {
-                    <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Usuario" })</li>
+                    <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Perfil" })</li>
                 }
 
                 @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
                 {
-                    <li><a href="#">Ver como...</a></li>
+                    <li>@Html.ActionLink("Ver Como...", "Impersonate", "Account", new { Area = "Security" }, htmlAttributes: new { title = "Mi Usuario" })</li>
+                }
+
+                @if (HttpContext.Current.User.IsImpersonating())
+                {
+                    <li>@Html.ActionLink("Volver a mi usuario", "RevertImpersonation", "Account", new { Area = "Security" }, htmlAttributes: new { title = "Volver a mi usuario" })</li>
                 }
                 
                 <li role="separator" class="divider"></li>

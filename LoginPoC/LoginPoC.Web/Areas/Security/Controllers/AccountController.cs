@@ -489,6 +489,61 @@ namespace LoginPoC.Web.Areas.Security.Controllers
             return RedirectToAction("Index", "Home", new { area = "Common" });
         }
 
+        public ActionResult Impersonate()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Impersonate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [OverrideAuthorization]
+        [Authorize(Roles = ApplicationUserRoles.Agent + ", " + ApplicationUserRoles.Administrator)]
+        public async Task<ActionResult> Impersonate(string email)
+        {
+            var userToImpersonate = await this.UserManager
+                .FindByNameAsync(email);
+
+            if (await this.UserManager.IsInRoleAsync(userToImpersonate.Id, ApplicationUserRoles.User))
+            {
+                var identityToImpersonate = await this.UserManager
+                    .CreateIdentityAsync(userToImpersonate,
+                        DefaultAuthenticationTypes.ApplicationCookie);
+                identityToImpersonate.AddClaim(new Claim("UserImpersonation", "true"));
+                identityToImpersonate.AddClaim(new Claim("OriginalUsername", User.Identity.Name));
+
+                var authenticationManager = HttpContext.GetOwinContext().Authentication;
+                authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                authenticationManager.SignIn(new AuthenticationProperties()
+                {
+                    IsPersistent = false
+                }, identityToImpersonate);
+            }
+
+            return RedirectToAction("Index", "Home", new { area = "Common" });
+        }
+
+        public async Task<ActionResult> RevertImpersonation()
+        {
+            if (!HttpContext.User.IsImpersonating())
+            {
+                throw new Exception("Unable to remove impersonation because there is no impersonation");
+            }
+
+            var originalUsername = HttpContext.User.GetOriginalUsername();
+
+            var originalUser = await this.UserManager.FindByNameAsync(originalUsername);
+
+            var impersonatedIdentity = await this.UserManager.CreateIdentityAsync(originalUser, DefaultAuthenticationTypes.ApplicationCookie);
+            var authenticationManager = HttpContext.GetOwinContext().Authentication;
+
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, impersonatedIdentity);
+
+            return RedirectToAction("Index", "Home", new { area = "Common" });
+        }
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
