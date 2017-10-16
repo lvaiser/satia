@@ -17,17 +17,17 @@
                 <button type="submit" class="fa fa-search"></button>
             </div>
         }
+        <select ng-model="selectedProcessType" ng-options="processType.id as processType.name for processType in processTypes"></select>
+        @{
+            var url = Url.Action("Create", new { id = "{{selectedProcessType}}" });
+            url = HttpUtility.UrlDecode(url);
+
+        }
+        <a data-ng-href="@url">
+            Crear Nuevo Trámite
+            <span class="fa fa-plus" style="float:right; margin-right: 30px"></span>
+        </a>
     </div>
-   <!--<div class="row">
-        <div class="col-xs-12">
-            <select ng-model="selectedProcessType" ng-options="processType.id as processType.name for processType in processTypes"></select>
-            @{/*
-                var url = Url.Action("Edit", new { id = "{{selectedProcessType}}" });
-                url = HttpUtility.UrlDecode(url);
-            En el href de abajo habia un @url*/}
-            <a data-ng-href=""><i class="fa fa-pencil"></i></a>
-        </div>
-    </div>-->
     <br />
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
@@ -42,14 +42,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="processType in processTypes">
-                        <td width="60%">{{processType.name}}</td>
-                        <td width="25%">{{processType.creationDate}}</td>
+                    <tr ng-repeat="process in processes">
+                        <td width="60%">{{process.name}}</td>
+                        <td width="25%">{{process.creationDate}}</td>
                         <td width="5%">
                             <a href="@Url.Action("Send", new { id = 1 } )"><span class='fa fa-send-o tipoTramite-itemBtn'></span></a>
                         </td>
                         <td width="5%">
-                            <a href="@Url.Action("Edit", new { id = 1 } )"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                            @{
+                                var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
+                                editUrl = HttpUtility.UrlDecode(editUrl);
+
+                            }
+                            <a data-ng-href="@editUrl"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
                         </td>
                         <td width="5%">
                             <a href="@Url.Action("Delete", new { id = 1 } )"><span class='fa fa-trash tipoTramite-itemBtn'></span></a>

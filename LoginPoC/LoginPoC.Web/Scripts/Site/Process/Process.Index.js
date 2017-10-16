@@ -10,8 +10,8 @@
         function onInit(model) {
             $scope.processes = model.processes;
             $scope.processTypes = model.processTypes;
+            $scope.selectedProcessType = $scope.processTypes[0].id;
         }
-        
     }
 
 })();

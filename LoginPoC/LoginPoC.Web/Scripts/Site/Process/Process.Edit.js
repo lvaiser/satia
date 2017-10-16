@@ -18,7 +18,19 @@
 
         function onInit(process) {
             $scope.process = process;
+            $scope.preParseValues();
         }
+
+        $scope.preParseValues = function () {
+            angular.forEach($scope.process.fields, function (field) {
+                if (dateField(field.type)) {
+                    field.value = new Date(field.value);
+                }
+                if (radioField(field.type)) {
+                    field.value = field.value == 'True';
+                }
+            });
+        };
 
         $scope.simpleInputType = function (dataType) {
             return textField(dataType) || numberField(dataType) || dateField(dataType) || radioField(dataType);
@@ -36,7 +48,8 @@
             return $scope.selectFields.indexOf(dataType) !== -1;
         };
 
-        $scope.inputType = function (dataType) {
+        $scope.inputType = function (data) {
+            var dataType = data.type;
             if (textField(dataType)) {
                 return 'text';
             }
@@ -73,7 +86,7 @@
 
         function onSaveClicked() {
             var action;
-            if (!$scope.process.id) {
+            if ($scope.process.id == 0) {
                 action = "Create";
             } else {
                 action = "Edit";
