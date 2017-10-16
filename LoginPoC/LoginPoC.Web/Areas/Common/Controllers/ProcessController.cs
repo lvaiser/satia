@@ -56,7 +56,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
         public async Task<ActionResult> MyProcesses(string name = null)
         {
             var processes = await this.ProcessService.SearchMyProcessesAsync(name, User.Identity.GetUserId());
-            var processTypes = this.ProcessTypeService.GetAll();
+            var processTypes = await this.ProcessTypeService.SearchAsync(null, User.Identity.GetUserId());
             var vm = new ProcessIndexViewModel()
             {
                 Processes = processes.Select(x => Mapper.Map<ProcessViewModel>(x)),

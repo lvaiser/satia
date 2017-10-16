@@ -1,14 +1,12 @@
-﻿using LoginPoC.DAL;
+﻿using LoginPoC.Core.ProcessType;
 using LoginPoC.Model.ProcessType;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web.Mvc;
 using LoginPoC.Model.User;
-using LoginPoC.Core.ProcessType;
-using System.Threading.Tasks;
 using LoginPoC.Web.Areas.Admin.Models;
 using LoginPoC.Web.Helpers;
+using Microsoft.AspNet.Identity;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Admin.Controllers
 {
@@ -28,7 +26,7 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         [Authorize]
         public async Task<ActionResult> Index(string name = null)
         {
-            var processTypes = await this.ProcessTypeService.SearchAsync(name);
+            var processTypes = await this.ProcessTypeService.SearchAsync(name, User.Identity.GetUserId());
             var vm = new ProcessTypeIndexViewModel()
             {
                 ProcessTypes = processTypes,
