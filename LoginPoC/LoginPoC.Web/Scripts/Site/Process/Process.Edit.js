@@ -13,6 +13,7 @@
         $scope.selectFields = ['Gender', 'MaritalStatus', 'Country'];
         $scope.editEnabled = true;
         $scope.reviewEnabled = false;
+        $scope.birdthDateRegex = /(\d{2})\/(\d{2})\/(\d{4})/;
 
         $scope.events = {
             onInit: onInit,
@@ -33,8 +34,14 @@
 
         $scope.preParseValues = function () {
             angular.forEach($scope.process.fields, function (field) {
-                if (dateField(field.type)) {
-                    field.value = new Date(field.value);
+                if (field.type == 'Date' || field.type == 'BirthDate') {
+                    var parsedValue = new Date(field.value);
+                    if (parsedValue == 'Invalid Date' && field.value !== '') {
+                        var birthDateArr = $scope.birdthDateRegex.exec(field.value);
+                        field.value = new Date(birthDateArr[3], birthDateArr[2] - 1, birthDateArr[1]);
+                    } else {
+                        field.value = parsedValue;
+                    }
                 }
                 if (radioField(field.type)) {
                     field.value = field.value == 'True';
@@ -43,6 +50,12 @@
                     field.selectedValue = field.selectList.filter(function (item) {
                         return item.value == field.value;
                     })[0];
+                }
+                if (numberField(field.type)) {
+                    field.value = parseInt(field.value);
+                }
+                if (stepNumberField(field.type)) {
+                    field.value = parseFloat(field.value.replace(',', '.'));
                 }
             });
         };

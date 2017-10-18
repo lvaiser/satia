@@ -51,10 +51,10 @@
                 <p class="tipoTramite-descripcion">
                     @Html.DisplayFor(modelItem => item.Description)
                 </p>
-                <!--@if (!String.IsNullOrEmpty(item.URLVideo))
+                @if (!String.IsNullOrEmpty(item.URLVideo))
                 {
-                    <iframe width="300" height="250" src=@item.URLVideo frameborder="0" allowfullscreen></iframe>
-                }-->
+                    <iframe class="col-xs-12" height="297" style="padding: 5px 90px 15px 90px" src=@item.URLVideo frameborder="0" allowfullscreen></iframe>
+                }
                 <p class="tipoTramite-descripcion">
                     <a href="@Url.Action("Details",new { id = item.Id })" class="tipoTramite-verDetalles">Ver Detalles del trámite</a>
                     @if (User.IsInRole(ApplicationUserRoles.User))

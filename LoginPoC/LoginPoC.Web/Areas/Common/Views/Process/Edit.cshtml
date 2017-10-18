@@ -29,7 +29,7 @@
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)" ng-disabled="!editEnabled"></textarea>
-                <select ng-model="field.selectedValue" ng -change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)" ng-disabled="!editEnabled"></select>
+                <select ng-model="field.selectedValue" ng-change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)" ng-disabled="!editEnabled"></select>
             </label>
         </div>
     </div>
