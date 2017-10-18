@@ -40,9 +40,9 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return this.JsonNet(vm);
 		}
 
-		public async Task<ActionResult> Menu()
+		public ActionResult Menu()
 		{
-			var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
+			var user = UserManager.FindById(this.User.Identity.GetUserId());
 			var vm = mapper.Map<UserViewModel>(user);
 			return View(vm);
 		}
