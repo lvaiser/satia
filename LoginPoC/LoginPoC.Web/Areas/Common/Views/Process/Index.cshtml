@@ -24,8 +24,21 @@
     {
         <div class="col-xs-offset-2 col-xs-8">
             <p class="tipoTramite-item">
+
+                @{  
+                    var status = "fa-circle-o";
+                    if (item.Status == LoginPoC.Model.Process.ProcessStatus.Approved.ToString())
+                    {
+                        status = "fa-check-circle";
+                    }
+                    else if (item.Status == LoginPoC.Model.Process.ProcessStatus.Rejected.ToString())
+                    {
+                        status = "fa-times-circle";
+                    }
+                }
+
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
-                    @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
+                    <span class="fa @status" style="vertical-align: middle;"></span> @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
                 </span>
         
                 @if (item.AssignedAgent?.Id == User.Identity.GetUserId<string>())

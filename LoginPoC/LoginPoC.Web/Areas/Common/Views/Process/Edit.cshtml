@@ -1,5 +1,6 @@
 ﻿@using LoginPoC.Model.User
 @using LoginPoC.Model.Process
+@using Microsoft.AspNet.Identity
 @using LoginPoC.Web.Areas.Common.Models
 @using Newtonsoft.Json
 @model ProcessViewModel
@@ -8,7 +9,7 @@
     var jsonModel = JsonConvert.SerializeObject(Model);
     ViewBag.Title = "Trámite";
     var enableEdit = this.User.IsInRole(ApplicationUserRoles.User);
-    var enableReview = this.User.IsInRole(ApplicationUserRoles.Agent)
+    var enableReview = (this.User.IsInRole(ApplicationUserRoles.Agent) && Model.AssignedAgent?.Id == User.Identity.GetUserId<string>())
                     || this.User.IsInRole(ApplicationUserRoles.Administrator);
 }
 
@@ -24,7 +25,7 @@
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)" ng-disabled="!editEnabled"></textarea>
-                <select ng-model="field.selectedValue" ng-change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)" ng-disabled="!editEnabled"></select>
+                <select ng-model="field.selectedValue" ng -change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)" ng-disabled="!editEnabled"></select>
             </label>
         </div>
     </div>
@@ -66,5 +67,5 @@
 
 @section Scripts{
     <script src="~/Scripts/Site/Process/Process.Edit.js"></script>
-<script src="~/Scripts/Site/Angular-Extras/Directives/non-digit-input.js"></script>
+    <script src="~/Scripts/Site/Angular-Extras/Directives/non-digit-input.js"></script>
 }

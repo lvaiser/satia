@@ -48,7 +48,7 @@
                         </td>
                         <td width="40%">{{ process.type.name }}</td>
                         <td width="25%">{{ process.creationDate | date : "dd/MM/yyyy h:mm a" }}</td>
-                        <td width="15%"> {{ getStatusLabel(process.status) }} </td>
+                        <td width="15%">{{ getStatusLabel(process.status) }}</td>
                         <td width="5%" class="text-center">
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
