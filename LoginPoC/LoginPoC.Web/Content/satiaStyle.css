@@ -45,6 +45,7 @@ footer p {
 /*Index*/
 div.home-text {
     background-image: url("../Content/Images/fondo-abajo-01.jpg");
+    padding-bottom: 20px;
 }
 div.home-text h2 {
     font-family: GoboldThinItalic;

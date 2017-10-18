@@ -16,9 +16,13 @@
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @enableEdit.ToString().ToLower(), @enableReview.ToString().ToLower())'>
     <h2 class="tituloPrincipal"> {{ process.type.name }} </h2>
     <hr class="tituloPrincipal" />
-    <div class="row">Campos</div>
     <div class="row">
-        <div ng-repeat="field in process.fields track by $index" class="col-md-4 tramite">
+        <div class="col-md-4">
+            <h3>Formulario</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-repeat="field in process.fields track by $index" class="col-md-6 tramite">
             <label>
                 {{ field.name }}
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled"/>
@@ -29,12 +33,16 @@
             </label>
         </div>
     </div>
-    <div class="row">Documentos</div>
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Documentos</h3>
+        </div>
+    </div>
     <div class="row"> 
         <div ng-repeat="document in process.documents track by $index" class="col-md-4 tramite">
             <label>
                 {{ document.name }}
-                <input ng-model="document.isAvailable" class="form-control" type="checkbox" ng-disabled="!editEnabled"/>
+                <input ng-model="document.isAvailable" class="" type="checkbox" ng-disabled="!editEnabled"/>
             </label>
         </div>
     </div>
@@ -49,7 +57,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-bottom:20px">
     <hr />
 
         <div class="text-center" ng-if="reviewEnabled">
@@ -59,7 +67,7 @@
 
         <div class="text-center" ng-if="editEnabled">
             <button class="btn btn-default text" ng-click="events.onSaveClicked();">Guardar Cambios</button>
-            <button class="btn btn-primary text" ng-click="events.onSendToReviewClicked();">Enviar a revision</button>
+            <button class="btn btn-primary text" ng-click="events.onSendToReviewClicked();">Enviar a revisi&oacute;n</button>
         </div>
     </div>
 </div>
