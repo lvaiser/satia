@@ -37,7 +37,7 @@
                     <a href="@Url.Action("Assign", new { id = item.Id, userId = this.User.Identity.GetUserId<string>()})"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignarme</span></a>   
                 }
 
-                <a href="@Url.Action("View", new { id = item.Id })"><span class='fa fa-eye tipoTramite-itemBtn'></span></a>
+                <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-eye tipoTramite-itemBtn'></span></a>
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
                 <p class="tipoTramite-descripcion">

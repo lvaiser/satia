@@ -48,15 +48,15 @@
                         </td>
                         <td width="40%">{{ process.type.name }}</td>
                         <td width="25%">{{ process.creationDate | date : "dd/MM/yyyy h:mm a" }}</td>
-                        <td width="15%"> {{ process.status }} </td>
-                        <td width="5%">
+                        <td width="15%"> {{ getStatusLabel(process.status) }} </td>
+                        <td width="5%" class="text-center">
                             @{
                                 var editUrl = Url.Action("Edit", new { id = "{{process.id}}" });
                                 editUrl = HttpUtility.UrlDecode(editUrl);
                             }
-                            <a data-ng-href="@editUrl"><span class='fa fa-pencil tipoTramite-itemBtn'></span></a>
+                            <a data-ng-href="@editUrl"><span class='fa tipoTramite-itemBtn' ng-class="{ 'fa-pencil': process.status == 'Draft' || process.status == 'Rejected', 'fa-eye' : process.status == 'Approved' || process.status == 'Submitted' }"></span></a>
                         </td>
-                        <td width="5%">
+                        <td width="5%" class="text-center">
                             @{
                                 var deleteUrl = Url.Action("Delete", new { id = "{{process.id}}" });
                                 deleteUrl = HttpUtility.UrlDecode(deleteUrl);

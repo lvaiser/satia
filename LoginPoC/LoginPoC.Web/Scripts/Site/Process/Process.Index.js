@@ -19,6 +19,23 @@
             });
             return any;
         }
+
+        $scope.getStatusLabel = function(status)
+        {
+            if (status == "Submitted")
+                return "Enviado";
+
+            if (status == "Draft")
+                return "Borrador";
+
+            if (status == "Approved")
+                return "Aprobado";
+
+            if (status == "Rejected")
+                return "Rechazado";
+
+            return "";
+        }
     }
 
 })();

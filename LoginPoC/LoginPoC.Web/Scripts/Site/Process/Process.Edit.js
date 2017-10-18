@@ -11,15 +11,23 @@
         $scope.inputDateFields = ['Date', 'BirthDate'];
         $scope.radioButtonFields = ['Bool'];
         $scope.selectFields = ['Gender', 'MaritalStatus', 'Country'];
- 
+        $scope.editEnabled = true;
+        $scope.reviewEnabled = false;
+
         $scope.events = {
             onInit: onInit,
             onSaveClicked: onSaveClicked,
-            onSendToReviewClicked: onSendToReviewClicked
+            onSendToReviewClicked: onSendToReviewClicked,
+            onRejectClicked: onRejectClicked,
+            onApproveClicked: onApproveClicked
         };
 
-        function onInit(process) {
+        function onInit(process, editEnabled, reviewEnabled) {
             $scope.process = process;
+
+            $scope.editEnabled = editEnabled && (process.status == "Draft" || process.status == "Rejected");
+            $scope.reviewEnabled = reviewEnabled && process.status == "Submitted";
+
             $scope.preParseValues();
         }
 
@@ -119,7 +127,7 @@
             save().then(function (response) {
                     window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
                     $.notify("Los datos se actualizaron exitosamente", "success");
-                }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+                }, Utils.onAjaxError.bind(this, " al guardar los cambios"));
         }
 
         function onSendToReviewClicked()
@@ -131,6 +139,31 @@
                                 $.notify("Los datos se actualizaron exitosamente", "success");
                             }, Utils.onAjaxError.bind(this, " al guardar el documento"));
             }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+        }
+
+        function onApproveClicked()
+        {
+            var model = {
+                reviewNotes: $scope.process.reviewNotes,
+                id: $scope.process.id
+            };
+            $http.post("/Common/Process/Approve", model)
+                .then(function (response) {
+                    window.location = '/Common/Process/Edit/' + $scope.process.id + '?_=' + Math.random();
+                    $.notify("El tramite se aprobo exitosamente", "success");
+                }, Utils.onAjaxError.bind(this, " al aprobar el tramite"));
+        }
+
+        function onRejectClicked() {
+            var model = {
+                reviewNotes: $scope.process.reviewNotes,
+                id: $scope.process.id
+            };
+            $http.post("/Common/Process/Reject", model)
+                .then(function (response) {
+                    window.location = '/Common/Process/Edit/' + $scope.process.id + '?_=' + Math.random();
+                    $.notify("El tramite se rechazo exitosamente", "success");
+                }, Utils.onAjaxError.bind(this, " al rechazar el tramite"));
         }
     }
 

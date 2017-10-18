@@ -16,7 +16,7 @@ using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
 {
-    [Authorize]
+	[Authorize]
 	public class ProcessController : Controller
 	{
 		// GET DbContext from container
@@ -195,7 +195,7 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 		// GET: Process/Assign/{id}?userId={userId}
 		public async Task<ActionResult> Assign(int id, string userId)
 		{
-            await this.ProcessService.AssignAgentAsync(id, userId);
+			await this.ProcessService.AssignAgentAsync(id, userId);
 			return Redirect(this.Request.UrlReferrer.ToString());
 		}
 
@@ -207,10 +207,26 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 		}
 
 		// POST: Process/Send/{id}
-        [HttpPost]
+		[HttpPost]
 		public async Task<ActionResult> Send(int id)
 		{
 			await this.ProcessService.ChangeStatusAsync(id, ProcessStatus.Submitted);
+			return this.JsonNet(new { ok = true });
+		}
+
+		// POST: Process/Approve/{id}
+		[HttpPost]
+		public async Task<ActionResult> Approve(int id, string reviewNotes)
+		{
+			await this.ProcessService.ChangeStatusAsync(id, ProcessStatus.Approved, reviewNotes);
+			return this.JsonNet(new { ok = true });
+		}
+
+		// POST: Process/Reject/{id}
+		[HttpPost]
+		public async Task<ActionResult> Reject(int id, string reviewNotes)
+		{
+			await this.ProcessService.ChangeStatusAsync(id, ProcessStatus.Rejected, reviewNotes);
 			return this.JsonNet(new { ok = true });
 		}
 
