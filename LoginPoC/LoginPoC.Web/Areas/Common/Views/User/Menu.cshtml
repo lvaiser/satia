@@ -1,0 +1,54 @@
+﻿@using LoginPoC.Web.Areas.Common.Models
+@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
+@using LoginPoC.Core.User
+@model UserViewModel
+@{
+    this.Layout = null;
+}
+
+@using (Html.BeginForm("logOff", "Account", new { Area = "Security" }, FormMethod.Post, new { id = "logoutForm", @class = "hidden" }))
+{
+    @Html.AntiForgeryToken()
+}
+
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        <a href="javascript:;" class="dropdown-toggle header-btn-link" data-toggle="dropdown" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false" >
+
+            @if (string.IsNullOrEmpty(Model.PictureUrl))
+            {
+                <img src="/Content/Images/user-no-picture.png" alt="User picture" class="img-thumbnail">
+            }
+            else
+            {
+                <img src="@Model.PictureUrl" alt="User picture" class="img-thumbnail">
+            }
+
+            @Model.FirstName @Model.LastName 
+            <span class="caret"></span>
+        </a>
+            
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                
+            @if (User.IsInRole(ApplicationUserRoles.User))
+            {
+                <li>@Html.ActionLink("Mi Perfil", "MyAccount", "User", new { Area = "Common" }, htmlAttributes: new { title = "Mi Perfil" })</li>
+            }
+
+            @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+            {
+                <li>@Html.ActionLink("Ver Como...", "Impersonate", "Account", new { Area = "Security" }, htmlAttributes: new { title = "Mi Usuario" })</li>
+            }
+
+            @if (HttpContext.Current.User.IsImpersonating())
+            {
+                <li>@Html.ActionLink("Volver a mi usuario", "RevertImpersonation", "Account", new { Area = "Security" }, htmlAttributes: new { title = "Volver a mi usuario" })</li>
+            }
+                
+            <li role="separator" class="divider"></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesi&oacute;n</a></li>
+            
+        </ul>
+    </li>
+</ul>
