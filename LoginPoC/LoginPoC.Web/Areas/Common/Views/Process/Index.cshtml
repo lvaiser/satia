@@ -27,29 +27,34 @@
 
                 @{  
                     var status = "fa-circle-o";
+                    var title = "Pendiente";
                     if (item.Status == LoginPoC.Model.Process.ProcessStatus.Approved.ToString())
                     {
                         status = "fa-check-circle";
+                        title = "Aprobado";
                     }
                     else if (item.Status == LoginPoC.Model.Process.ProcessStatus.Rejected.ToString())
                     {
                         status = "fa-times-circle";
+                        title = "Rechazado";
                     }
                 }
 
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
-                    <span class="fa @status" style="vertical-align: middle;"></span> @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
+                    <span class="fa @status" style="vertical-align: middle;" title="@title"></span> @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
                 </span>
         
-                @if (item.AssignedAgent?.Id == User.Identity.GetUserId<string>())
+                @if (this.User.IsInRole(ApplicationUserRoles.Agent))
                 {
+                    if (item.AssignedAgent?.Id == User.Identity.GetUserId<string>())
+                    {
                     <a href="@Url.Action("Deassign", new { id = item.Id })"><span class='badge pull-right' style="background-color: #fff; color: #777; margin-left: 10px;">Desasignarme</span></a>
+                    }
+                    else if (item.AssignedAgent == null)
+                    {
+                    <a href="@Url.Action("Assign", new { id = item.Id, userId = this.User.Identity.GetUserId<string>() })"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignarme</span></a>   
+                    }
                 }
-                else if(item.AssignedAgent == null)
-                {
-                    <a href="@Url.Action("Assign", new { id = item.Id, userId = this.User.Identity.GetUserId<string>()})"><span class='badge pull-right' style="background-color: #0095c1; margin-left: 10px;">Asignarme</span></a>   
-                }
-
                 <a href="@Url.Action("Edit", new { id = item.Id })"><span class='fa fa-eye tipoTramite-itemBtn'></span></a>
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
