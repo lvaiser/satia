@@ -74,7 +74,12 @@ namespace LoginPoC.Web
                 {
                     OnAuthenticated = context =>
                     {
-                        context.Identity.AddClaim(new Claim(ClaimTypes.Gender, context.User.GetValue("gender").ToString()));
+                        var gender = context.User["gender"];
+                        if (gender != null)
+                        {
+                            context.Identity.AddClaim(new Claim(ClaimTypes.Gender, gender.ToString()));
+                        }
+
                         return Task.FromResult(0);
                     }
                 }
