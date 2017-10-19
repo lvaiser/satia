@@ -5,6 +5,7 @@
     function controller($scope, $http) {
         $scope.processTypeFields = [];
         $scope.processTypeDocuments = [];
+        $scope.editAvailable = false;
  
         $scope.emptyProcessTypeField = {
             name: null,
@@ -20,7 +21,8 @@
         $scope.emptyProcessType = {
             name: null,
             description: null,
-            urlVideo: null
+            urlVideo: null,
+            isAvailable: false
         }
 
         $scope.events = {
@@ -41,9 +43,13 @@
             } else {
                 $scope.processType = $scope.emptyProcessType
             }
+            $scope.editAvailable = !$scope.processType.isAvailable;
         }
 
         function onSaveClicked() {
+            if (!$scope.myform.$valid) {
+                return;
+            };
             $scope.processType.documents = $scope.processTypeDocuments;
             $scope.processType.fields = $scope.processTypeFields;
 
@@ -63,6 +69,12 @@
 
         function newField() {
             $scope.processTypeFields = $scope.processTypeFields.concat(angular.copy($scope.emptyProcessTypeField));
+        }
+
+        $scope.changeRequired = function (field) {
+            if ($scope.editAvailable) {
+                field.isRequired = !field.isRequired;
+            }
         }
 
         function newDocument() {

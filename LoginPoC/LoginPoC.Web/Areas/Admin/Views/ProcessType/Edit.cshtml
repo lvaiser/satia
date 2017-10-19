@@ -14,104 +14,103 @@
 <h2 class="tituloPrincipal">Tipo de Tr&aacute;mite</h2>
 <hr class="tituloPrincipal" />
 <div ng-controller="ProcessType.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @Html.Raw(fieldTypes))'>
-    <div class="form-horizontal">
-        <div class="form-group row">
-            <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                <label>Nombre</label>
-                <input ng-model="processType.name"
-                       class="form-control" type="text" name="name"
-                       required
-                       uib-popover="El nombre del tipo de documento es requerido" popover-trigger="'mouseenter'"
-                       placeholder="Ingrese el nombre del tramite" />
+    <form name='myform'>
+        <div class="form-horizontal">
+            <div class="form-group row">
+                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                    <label>Nombre</label>
+                    <input ng-model="processType.name"
+                           class="form-control" type="text" name="name"
+                           required
+                           uib-popover="El nombre del tipo de documento es requerido" popover-trigger="'mouseenter'"
+                           placeholder="Ingrese el nombre del tramite" />
 
-            </div>
-            <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Material de Soporte</div>
-            <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                <label>Información adicional</label>
-                <textarea ng-model="processType.description"
-                       class="form-control" type="text" name="description"
-                       required
-                       uib-popover="La descripcion del tipo de trámite es requerido" popover-trigger="'mouseenter'"
-                       placeholder="Ingrese información adicional para asistir al usuario en el llenado del tramite">
+                </div>
+                <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Material de Soporte</div>
+                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                    <label>Información adicional</label>
+                    <textarea ng-model="processType.description"
+                              class="form-control" type="text" name="description"
+                              required
+                              uib-popover="La descripcion del tipo de trámite es requerido" popover-trigger="'mouseenter'"
+                              placeholder="Ingrese información adicional para asistir al usuario en el llenado del tramite">
                 </textarea>
-            </div>
-            <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                <label>Video Instructivo</label>
-                <input ng-model="processType.urlVideo"
-                       class="form-control" type="text" name="name"
-                       uib-popover="Ingresar la URL del videotutorial de Youtube"
-                       placeholder="Ingrese la URL del video" />
+                </div>
+                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                    <label>Video Instructivo</label>
+                    <input ng-model="processType.urlVideo"
+                           class="form-control" type="text" name="name"
+                           uib-popover="Ingresar la URL del videotutorial de Youtube"
+                           placeholder="Ingrese la URL del video" />
 
-            </div>
-            <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                <label>Disponible para tramitante</label>
-                <input ng-model="processType.isAvailable"
-                       class="form-control" type="checkbox" name="isAvailable"/>
+                </div>
+                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                    <label>Disponible para tramitante</label>
+                    <input ng-model="processType.isAvailable" ng-disabled="!editAvailable"
+                           class="form-control" type="checkbox" name="isAvailable" />
 
-            </div>
-            <div>
-                <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Formulario</div>
+                </div>
+                <div>
+                    <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Formulario</div>
+                    <div class="col-md-offset-2 col-md-8">
+                        <h4>Campos</h4>
+                        <hr />
+                    </div>
+                    <div ng-repeat="field in processTypeFields track by $index">
+                        <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                            <div class="col-md-4">
+                                <input ng-model="field.name" ng-disabled="!editAvailable"
+                                       class="form-control" type="text" name="name"
+                                       required
+                                       uib-popover="El nombre del campo es requerido" popover-trigger="'mouseenter'"
+                                       placeholder="Nombre" />
+
+                            </div>
+                            <div class="col-md-4">
+                                <select class="tipoTramite-tipoDeDatos"
+                                        name="fieldTypes"
+                                        ng-model="field.type" ng-disabled="!editAvailable"
+                                        ng-options="item.key as item.value for item in fieldTypes"></select>
+
+                            </div>
+                            <div class="col-md-3 tipoTramite-botonera">
+                                <span class="fa fa-asterisk" ng-click="changeRequired(field)" ng-class="{asteriscoActivo : field.isRequired}"></span>
+                                <span class="fa fa-trash" ng-click="events.deleteField(field)" ng-if="editAvailable"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-offset-2 col-md-8">
+                        <button class="btn btn-primary pull-right" ng-click="events.newField();" ng-if="editAvailable">Nuevo Campo</button>
+                    </div>
+                </div>
                 <div class="col-md-offset-2 col-md-8">
-                    <h4>Campos</h4>
+                    <h4>Documentos a adjuntar</h4>
                     <hr />
                 </div>
-                <div ng-repeat="field in processTypeFields track by $index">
+                <div ng-repeat="document in processTypeDocuments track by $index">
                     <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                        <div class="col-md-4">
-                            <input ng-model="field.name"
+                        <div class="col-md-3">
+                            <input ng-model="document.name" ng-disabled="!editAvailable"
                                    class="form-control" type="text" name="name"
                                    required
-                                   uib-popover="El nombre del campo es requerido" popover-trigger="'mouseenter'"
+                                   uib-popover="El nombre del documento es requerido" popover-trigger="'mouseenter'"
                                    placeholder="Nombre" />
 
                         </div>
-                        <div class="col-md-4">
-                            <select class="tipoTramite-tipoDeDatos"
-                                    name="fieldTypes" 
-                                    ng-model="field.type"
-                                    ng-options="item.key as item.value for item in fieldTypes">
-                            </select>
-
-                        </div>
-                        <div class="col-md-3 tipoTramite-botonera">
-                            <span class="fa fa-asterisk" ng-click="field.isRequired = !field.isRequired" ng-class="{asteriscoActivo : field.isRequired}"></span>
-                            <span class="fa fa-trash" ng-click="events.deleteField(field)"></span>
+                        <div class="col-md-2 tipoTramite-botonera">
+                            <span class="fa fa-trash" ng-click="events.deleteDocument(document)" ng-if="editAvailable"></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-offset-2 col-md-8">
-                    <button class="btn btn-primary pull-right" ng-click="events.newField();">Nuevo Campo</button>
+                    <button class="btn btn-primary pull-right" ng-click="events.newDocument();" ng-if="editAvailable">Nuevo Documento</button>
                 </div>
-            </div>
-            <div class="col-md-offset-2 col-md-8">
-                <h4>Documentos a adjuntar</h4>
                 <hr />
-            </div>
-            <div ng-repeat="document in processTypeDocuments track by $index">
-                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                    <div class="col-md-3">
-                        <input ng-model="document.name"
-                                class="form-control" type="text" name="name"
-                                required
-                                uib-popover="El nombre del documento es requerido" popover-trigger="'mouseenter'"
-                                placeholder="Nombre" />
-
-                    </div>
-                    <div class="col-md-2 tipoTramite-botonera">
-                        <span class="fa fa-asterisk" ng-click="document.isRequired = !document.isRequired" ng-class="{asteriscoActivo : document.isRequired}"></span>
-                        <span class="fa fa-trash" ng-click="events.deleteDocument(document)"></span>
-                    </div>
+                <div class="col-md-offset-5 col-md-2">
+                    <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
                 </div>
-            </div>
-            <div class="col-md-offset-2 col-md-8">
-                <button class="btn btn-primary pull-right" ng-click="events.newDocument();">Nuevo Documento</button>
-            </div>
-            <hr />
-            <div class="col-md-offset-5 col-md-2">
-                <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
-            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @section Scripts {
