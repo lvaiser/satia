@@ -96,3 +96,23 @@ angucomplete-alt .angucomplete-dropdown {
 	top: 39px;
 	width: 100%;
 }
+
+/*Hide google translate related content*/
+.skiptranslate iframe, #goog-gt-tt {
+	display: none !important;
+}
+
+font {
+	font-family: inherit;
+}
+
+font.goog-text-highlight {
+	background-color: inherit;
+	-webkit-box-shadow: inherit;
+	-moz-box-shadow: inherit;
+	box-shadow: inherit;
+	box-sizing: inherit;
+	-webkit-box-sizing: inherit;
+	-moz-box-sizing: inherit;
+	position: inherit;
+}

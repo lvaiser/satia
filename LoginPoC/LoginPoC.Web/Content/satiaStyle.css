@@ -4,6 +4,7 @@
 }
 body {
     padding-bottom: 0;
+	position: initial !important;
 }
 .body-content {
     min-height: calc(100vh - 57px - 50px);
@@ -32,7 +33,7 @@ div.header, footer {
     padding: 5px;
     margin-top: 15px;
     margin-right: 10px;
-    font-family: GoboldRegular;
+    font-family: GoboldRegular !important;
 }
 footer {
     height: 50px;
