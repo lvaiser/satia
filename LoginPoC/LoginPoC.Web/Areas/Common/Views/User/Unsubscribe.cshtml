@@ -1,0 +1,20 @@
+﻿@model LoginPoC.Web.Areas.Common.Models.ProcessViewModel
+
+@{
+    ViewBag.Title = "Desuscripcion";
+}
+
+<h2 class="tituloPrincipal">Desubscribirse</h2>
+<hr class="tituloPrincipal" />
+<h3>&iquest;Est&aacute; seguro que desea darse de baja?</h3>
+<div>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Continuar" class="btn btn-satia btn-rechazar" />
+            <a href="@Url.Action("MyAccount")" class="btn btn-satia btn-secundario">Volver</a>
+        </div>
+    }
+</div>

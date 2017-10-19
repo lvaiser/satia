@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using LoginPoC.Core.User;
+using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Common.Models;
 using LoginPoC.Web.Helpers;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using System;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace LoginPoC.Web.Areas.Common.Controllers
@@ -14,6 +18,14 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 	{
 		private ApplicationUserManager UserManager;
 		private IMapper mapper;
+
+		private IAuthenticationManager AuthenticationManager
+		{
+			get
+			{
+				return HttpContext.GetOwinContext().Authentication;
+			}
+		}
 
 		public UserController(ApplicationUserManager userManager, IMapper mapper)
 		{
@@ -40,18 +52,31 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return this.JsonNet(vm);
 		}
 
-        [HttpPost]
-        public async Task<ActionResult> Unsubscribe(UserViewModel vm)
-        {
-            var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
+		[HttpGet]
+		public ActionResult Unsubscribe()
+		{
+			return View();
+		}
 
-            user.Disabled = true;
-            await this.UserManager.UpdateAsync(user);
 
-            return this.JsonNet(vm);
-        }
+		[HttpPost, ActionName("Unsubscribe")]
+		public async Task<ActionResult> UnsubscribeConfirmed()
+		{
+			if (!this.User.IsInRole(ApplicationUserRoles.User))
+			{
+				throw new Exception("Este usuario no puede desuscribirse");
+			}
 
-        public ActionResult Menu()
+			var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
+
+			user.Disabled = true;
+			await this.UserManager.UpdateAsync(user);
+
+			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+			return RedirectToAction("Index", "Home", new { area = "Common" });
+		}
+
+		public ActionResult Menu()
 		{
 			var user = UserManager.FindById(this.User.Identity.GetUserId());
 			var vm = mapper.Map<UserViewModel>(user);
