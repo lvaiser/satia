@@ -25,7 +25,16 @@
         @RenderBody()
     </div>
     <footer class="text-right">
-        <p>DIRECCI&Oacute;N 1234, CABA / (00 54 11) 1234-5678 / 12345 &copy; @DateTime.Now.Year - G407</p>
+        <div id="google_translate_element" style="float:left; margin: 12px 10px"></div>
+        <p>DIRECCI&Oacute;N 1234, CABA / (00 54 11) 1234-5678 / 12345 &copy; @DateTime.Now.Year - G407</p> 
+
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'es', includedLanguages: 'es,en,fr,mi', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     </footer>
 
     <script src="https://ft-polyfill-service.herokuapp.com/v2/polyfill.min.js"></script>
