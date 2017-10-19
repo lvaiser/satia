@@ -172,7 +172,7 @@
         }
 
         function fieldWithCompletionError(field) {
-            return field.isRequired && (angular.isUndefined(field.value) || field.value === '');
+            return field.isRequired && (angular.isUndefined(field.value) || field.value === '' || field.value === null);
         }
 
         function onApproveClicked()
