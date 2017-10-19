@@ -16,51 +16,56 @@
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @enableEdit.ToString().ToLower(), @enableReview.ToString().ToLower())'>
     <h2 class="tituloPrincipal"> {{ process.type.name }} </h2>
     <hr class="tituloPrincipal" />
-    <div class="row">
-        <div class="col-md-4">
-            <h3>Formulario</h3>
-        </div>
+    <div class="row">   
+        <div class="col-md-offset-2 col-md-8 tramite-seccion">Formulario</div>
     </div>
     <div class="row">
-        <div ng-repeat="field in process.fields track by $index" class="col-md-6 tramite">
-            <label>
-                {{ field.name }}
-                <span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020"></span>
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled"/>
+        <div class="col-md-2"></div>        
+        <div class="col-md-8">
+            <div ng-repeat="field in process.fields track by $index" class="col-md-6 tramite-campo">
+                <label>
+                    {{ field.name }}
+                </label>
+                <sup style="top:-1em"><span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020; font-size:8px;"></span></sup>
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled" />
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)" ng-disabled="!editEnabled"></textarea>
                 <select ng-model="field.selectedValue" ng-change="setSelectedValue(field)" ng-options="item as item.value for item in field.selectList track by item.key" class="form-control" ng-if="selectType(field.type)" ng-disabled="!editEnabled"></select>
-            </label>
+            </div>
         </div>
+        <div class="col-md-2"></div>
     </div>
     <br />
-    <p ng-if="completionError" style="color: #D92020">
-        Los siguientes campos son requeridos:
-        <div ng-repeat="field in uncompleteRequiredFields track by $index" style="color: #D92020">
-            {{ field.name | uppercase }}
-        </div>
-    </p>
     <div class="row">
-        <div class="col-md-4">
-            <h3>Documentos</h3>
+        <div class="col-md-offset-2 col-md-8">
+            <p ng-if="completionError" style="color: #D92020">
+                Los siguientes campos son requeridos:
+                <div ng-repeat="field in uncompleteRequiredFields track by $index" style="color: #D92020">
+                    {{ field.name | uppercase }}
+                </div>
+            </p>
         </div>
     </div>
-    <div class="row"> 
-        <div ng-repeat="document in process.documents track by $index" class="col-md-4 tramite">
-            <label>
-                {{ document.name }}
-                <input ng-model="document.isAvailable" class="" type="checkbox" ng-disabled="!editEnabled"/>
-            </label>
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8 tramite-seccion">Documentos</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div ng-repeat="document in process.documents track by $index" class="col-md-6 tramite-campo">
+                <label>
+                    {{ document.name }}
+                    <input ng-model="document.isAvailable" class="form-control" type="checkbox" ng-disabled="!editEnabled" />
+                </label>
+            </div>
         </div>
+        <div class="col-md-2"></div>
     </div>
 
     <div class="row" ng-show="reviewEnabled || !!process.reviewNotes">
-    <hr />
-        <div class="col-md-4">
-            <label>
-                Observaciones
-            </label>
+        <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Observaciones</div>
+        <div class="col-md-offset-2 col-md-8">
             <textarea class="form-control" ng-model="process.reviewNotes" ng-disabled="!reviewEnabled"></textarea>
         </div>
     </div>
@@ -69,13 +74,13 @@
     <hr />
 
         <div class="text-center" ng-if="reviewEnabled">
-            <button class="btn btn-danger text" ng-click="events.onRejectClicked();">Rechazar</button>
-            <button class="btn btn-success text" ng-click="events.onApproveClicked();">Aprobar</button>
+            <button class="btn btn-satia btn-rechazar" ng-click="events.onRejectClicked();">Rechazar</button>
+            <button class="btn btn-satia btn-aprobar" ng-click="events.onApproveClicked();">Aprobar</button>
         </div>
 
         <div class="text-center" ng-if="editEnabled">
-            <button class="btn btn-default text" ng-click="events.onSaveClicked();">Guardar Cambios</button>
-            <button class="btn btn-primary text" ng-click="events.onSendToReviewClicked();">Enviar a revisi&oacute;n</button>
+            <button class="btn btn-satia btn-secundario" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+            <button class="btn btn-satia btn-primario" ng-click="events.onSendToReviewClicked();">Enviar a revisi&oacute;n</button>
         </div>
     </div>
 </div>

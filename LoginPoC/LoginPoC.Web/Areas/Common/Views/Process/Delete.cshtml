@@ -1,36 +1,33 @@
 ﻿@model LoginPoC.Web.Areas.Common.Models.ProcessViewModel
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Trámite";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
+<hr class="tituloPrincipal" />
+<h3>&iquest;Est&aacute; seguro de eliminar el tr&aacute;mite?</h3>
 <div>
-    <h4>ProcessViewModel</h4>
-    <hr />
+
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
+            Fecha de Creaci&oacute;n
+            <!--@Html.DisplayNameFor(model => model.CreationDate)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.CreationDate)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.ReviewNotes)
+            Notas de Revisi&oacute;n
+            <!--@Html.DisplayNameFor(model => model.ReviewNotes)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ReviewNotes)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.ReviewDate)
+            Fecha de Revisi&oacute;n
+            <!--@Html.DisplayNameFor(model => model.ReviewDate)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ReviewDate)
         </dd>
@@ -41,8 +38,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-satia btn-rechazar" />
+            <a href="@Url.Action("MyProcesses")" class="btn btn-satia btn-secundario">Volver</a>
         </div>
     }
 </div>

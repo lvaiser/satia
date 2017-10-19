@@ -1,19 +1,18 @@
 ﻿@model LoginPoC.Web.Areas.Admin.Models.TeamViewModel
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Equipo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2 class="tituloPrincipal">@ViewBag.Title</h2>
+<hr class="tituloPrincipal" />
+<h3>&iquest;Est&aacute; seguro de eliminar el equipo?</h3>
 <div>
-    <h4>TeamViewModel</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre del Equipo
+            <!--@Html.DisplayNameFor(model => model.Name)-->
         </dt>
 
         <dd>
@@ -26,8 +25,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-satia btn-rechazar" />
+            <a href="@Url.Action("Index")" class="btn btn-satia btn-secundario">Volver</a>
         </div>
     }
 </div>

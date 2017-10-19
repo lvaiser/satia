@@ -9,16 +9,16 @@
 <h3>&iquest;Seguro desea eliminar el tipo de tr&aacute;mite?</h3>
 <div>
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
+        <dt>Nombre
+            <!--@Html.DisplayNameFor(model => model.Name)-->
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            Descripci&oacute;n
+            <!--@Html.DisplayNameFor(model => model.Description)-->
         </dt>
 
         <dd>
@@ -31,8 +31,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Cancelar", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-satia btn-rechazar" /> 
+            <div class="btn btn-satia btn-secundario">@Html.ActionLink("Cancelar", "Index")</div>
         </div>
     }
 </div>

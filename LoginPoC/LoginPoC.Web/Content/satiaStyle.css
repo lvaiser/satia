@@ -24,7 +24,25 @@ div.header, footer {
     color: white;
     border: none;
 }
-
+.btn-satia {
+    font-family: GoboldThin;
+    font-weight:100;
+    color: white;
+    border: 0;
+    border-radius: 0;
+}
+.btn-primario {
+    background-color: #008CC8;
+}
+.btn-secundario {
+    background-color: #adadad;
+}
+.btn-rechazar {
+    background-color: #ff0000
+}
+.btn-aprobar {
+    background-color: #5cb85c;
+}
 .navbar-inverse .navbar-nav > li > a.header-btn-link {
     color: #008CC8;
     background-color: white;
@@ -123,7 +141,7 @@ p.tipoTramite-descripcion {
     padding: 20px;
     background-color: white;
 }
-div.tipoTramite-seccion {
+div.tipoTramite-seccion, div.tramite-seccion{
     font-family: GoboldThin;
     background-color: #008CC8;
     color: white;
@@ -132,11 +150,14 @@ div.tipoTramite-seccion {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-div.tipoTramite-campo {
+div.tipoTramite-campo, div.tramite-campo{
    margin-bottom: 5px;
-}    
-div.tipoTramite-campo > label{
+}
+div.tipoTramite-campo > label, div.tramite-campo > label {
     font-family: GoboldThin;
+    color: #008CC8;
+    font-size: 1.4em;
+    font-weight: 100;
 }
 select.tipoTramite-tipoDeDatos {
     width: 100%;
@@ -154,6 +175,16 @@ span.fa.fa-asterisk {
 span.fa.fa-asterisk.asteriscoActivo {
     color: #008CC8;
 }
+input[type=checkbox].checkboxEdit {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    padding: 10px;
+    margin: 0 5px 5px 5px;
+
+}
 /*Detalles*/
 dl.dl-horizontal.tipoTramite-detalles dt {
     font-family: GoboldThin;
@@ -168,7 +199,7 @@ a.btn.btn-secondary {
     border: 1px solid #adadad;
     border-radius: 10%;
     font-family: GoboldLight;
-}
+}   
 /*Fin Tipos de Tramite*/
 /*Tramite*/
 div.tramite textarea, div.tramite input[type=text], div.tramite input[type=date] {

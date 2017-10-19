@@ -17,8 +17,8 @@
     <form name='myform'>
         <div class="form-horizontal">
             <div class="form-group row">
+                <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Nombre del Tr&aacute;mite</div>
                 <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                    <label>Nombre</label>
                     <input ng-model="processType.name"
                            class="form-control" type="text" name="name"
                            required
@@ -45,16 +45,17 @@
 
                 </div>
                 <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
-                    <label>Disponible para tramitante</label>
-                    <input ng-model="processType.isAvailable" ng-disabled="!editAvailable"
-                           class="form-control" type="checkbox" name="isAvailable" />
-
+                    <label style="width: 100%">
+                        <input ng-model="processType.isAvailable" ng-disabled="!editAvailable"
+                               type="checkbox" name="isAvailable" class="checkboxEdit"/>
+                        Disponible para tramitante
+                    </label>
                 </div>
                 <div>
                     <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Formulario</div>
-                    <div class="col-md-offset-2 col-md-8">
-                        <h4>Campos</h4>
-                        <hr />
+                    <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                        <label>Campos</label>
+                        <hr style="margin-top:0"/>
                     </div>
                     <div ng-repeat="field in processTypeFields track by $index">
                         <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
@@ -80,12 +81,12 @@
                         </div>
                     </div>
                     <div class="col-md-offset-2 col-md-8">
-                        <button class="btn btn-primary pull-right" ng-click="events.newField();" ng-if="editAvailable">Nuevo Campo</button>
+                        <button class="btn btn-satia btn-primario pull-right" ng-click="events.newField();" ng-if="editAvailable">Nuevo Campo</button>
                     </div>
                 </div>
-                <div class="col-md-offset-2 col-md-8">
-                    <h4>Documentos a adjuntar</h4>
-                    <hr />
+                <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
+                    <label>Documentos a adjuntar</label>
+                    <hr style="margin-top:0"/>
                 </div>
                 <div ng-repeat="document in processTypeDocuments track by $index">
                     <div class="col-md-offset-2 col-md-8 tipoTramite-campo">
@@ -103,12 +104,13 @@
                     </div>
                 </div>
                 <div class="col-md-offset-2 col-md-8">
-                    <button class="btn btn-primary pull-right" ng-click="events.newDocument();" ng-if="editAvailable">Nuevo Documento</button>
+                    <button class="btn btn-satia btn-primario pull-right" ng-click="events.newDocument();" ng-if="editAvailable">Nuevo Documento</button>
                 </div>
                 <hr />
                 <div class="col-md-offset-5 col-md-2">
-                    <button class="btn btn-primary pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+                    <button class="btn btn-satia btn-primario pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>
                 </div>
+            </div>
         </div>
     </form>
 </div>
