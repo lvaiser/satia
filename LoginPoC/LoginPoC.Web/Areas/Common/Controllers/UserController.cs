@@ -40,7 +40,18 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			return this.JsonNet(vm);
 		}
 
-		public ActionResult Menu()
+        [HttpPost]
+        public async Task<ActionResult> Unsubscribe(UserViewModel vm)
+        {
+            var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
+
+            user.Disabled = true;
+            await this.UserManager.UpdateAsync(user);
+
+            return this.JsonNet(vm);
+        }
+
+        public ActionResult Menu()
 		{
 			var user = UserManager.FindById(this.User.Identity.GetUserId());
 			var vm = mapper.Map<UserViewModel>(user);
