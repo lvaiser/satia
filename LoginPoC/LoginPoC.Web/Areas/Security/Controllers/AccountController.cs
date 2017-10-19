@@ -507,8 +507,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
 			{
 				this.ModelState.AddModelError("Email", "No se encontro un usuario con el email especificado");
 			}
-
-			if (!await this.UserManager.IsInRoleAsync(userToImpersonate.Id, ApplicationUserRoles.User))
+            else if (!await this.UserManager.IsInRoleAsync(userToImpersonate.Id, ApplicationUserRoles.User))
 			{
 				this.ModelState.AddModelError("Email", "No se puede ver como usuarios asesores o administradores.");
 			}
