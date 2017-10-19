@@ -14,6 +14,8 @@
         $scope.editEnabled = true;
         $scope.reviewEnabled = false;
         $scope.birdthDateRegex = /(\d{2})\/(\d{2})\/(\d{4})/;
+        $scope.completionError = false;
+        $scope.uncompleteRequiredFields = [];
 
         $scope.events = {
             onInit: onInit,
@@ -34,7 +36,7 @@
 
         $scope.preParseValues = function () {
             angular.forEach($scope.process.fields, function (field) {
-                if (field.type == 'Date' || field.type == 'BirthDate') {
+                if ((field.type == 'Date' || field.type == 'BirthDate') && field.value) {
                     var parsedValue = new Date(field.value);
                     if (parsedValue == 'Invalid Date' && field.value !== '') {
                         var birthDateArr = $scope.birdthDateRegex.exec(field.value);
@@ -51,10 +53,10 @@
                         return item.value == field.value;
                     })[0];
                 }
-                if (numberField(field.type)) {
+                if (numberField(field.type) && field.value) {
                     field.value = parseInt(field.value);
                 }
-                if (stepNumberField(field.type)) {
+                if (stepNumberField(field.type) && field.value) {
                     field.value = parseFloat(field.value.replace(',', '.'));
                 }
             });
@@ -120,8 +122,7 @@
             return $scope.decimalNumberFields.indexOf(dataType) !== -1;
         }
 
-        function save()
-        {
+        function save() {
             var action;
             if ($scope.process.id == 0) {
                 action = "Create";
@@ -138,20 +139,40 @@
 
         function onSaveClicked() {
             save().then(function (response) {
-                    window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
-                    $.notify("Los datos se actualizaron exitosamente", "success");
-                }, Utils.onAjaxError.bind(this, " al guardar los cambios"));
+                window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
+                $.notify("Los datos se actualizaron exitosamente", "success");
+            }, Utils.onAjaxError.bind(this, " al guardar los cambios"));
         }
 
-        function onSendToReviewClicked()
-        {
+        function onSendToReviewClicked() {
             save().then(function (response) {
-                return $http.post("/Common/Process/Send/" + response.data.id)
-                            .then(function () {
-                                window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
-                                $.notify("Los datos se actualizaron exitosamente", "success");
-                            }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+                if (!anyRequiredUncomplete()) {
+                    return $http.post("/Common/Process/Send/" + response.data.id)
+                        .then(function () {
+                            window.location = '/Common/Process/Edit/' + response.data.id + '?_=' + Math.random();
+                            $.notify("Los datos se actualizaron exitosamente", "success");
+                        }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+                } else {
+                    showCompletionError();
+                }
             }, Utils.onAjaxError.bind(this, " al guardar el documento"));
+        }
+
+        function anyRequiredUncomplete() {
+            return $scope.process.fields.some(function (field) {
+                return fieldWithCompletionError(field);
+            })
+        }
+
+        function showCompletionError() {
+            $scope.completionError = true;
+            $scope.uncompleteRequiredFields = $scope.process.fields.filter(function (field) {
+                return fieldWithCompletionError(field);
+            });
+        }
+
+        function fieldWithCompletionError(field) {
+            return field.isRequired && (angular.isUndefined(field.value) || field.value === '');
         }
 
         function onApproveClicked()

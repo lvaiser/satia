@@ -25,6 +25,7 @@
         <div ng-repeat="field in process.fields track by $index" class="col-md-6 tramite">
             <label>
                 {{ field.name }}
+                <span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020"></span>
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled"/>
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
@@ -33,6 +34,13 @@
             </label>
         </div>
     </div>
+    <br />
+    <p ng-if="completionError" style="color: #D92020">
+        Los siguientes campos son requeridos:
+        <div ng-repeat="field in uncompleteRequiredFields track by $index" style="color: #D92020">
+            {{ field.name | uppercase }}
+        </div>
+    </p>
     <div class="row">
         <div class="col-md-4">
             <h3>Documentos</h3>
