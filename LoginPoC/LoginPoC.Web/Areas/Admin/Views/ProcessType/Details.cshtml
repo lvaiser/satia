@@ -1,4 +1,5 @@
-﻿@model LoginPoC.Model.ProcessType.ProcessType
+﻿@using LoginPoC.Model.User
+@model LoginPoC.Model.ProcessType.ProcessType
 
 @{
     ViewBag.Title = "Details";
@@ -41,7 +42,15 @@
 </div>
 <div class="row">
     <div class="col-xs-offset-2 col-xs-1 text-center">
-        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+        @if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))
+        {
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-secondary" })
+        }
+        
+        @if (User.IsInRole(ApplicationUserRoles.User))
+        {
+            <a href="@Url.Action("Create", "Process", new { area = "Common", id = Model.Id } )" class="btn btn-default pull-right">Iniciar tramite</a>
+        }
     </div>
     <div class="col-xs-1 text-center">
         @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-secondary" })

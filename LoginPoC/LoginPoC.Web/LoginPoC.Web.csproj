@@ -910,6 +910,7 @@
     <Content Include="Scripts\lib\notifyjs\notify.jquery.json" />
     <Content Include="Scripts\lib\notifyjs\README.md" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
+    <Content Include="Areas\Common\Views\User\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

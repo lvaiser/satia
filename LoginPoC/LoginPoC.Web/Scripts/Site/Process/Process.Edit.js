@@ -189,6 +189,13 @@
         }
 
         function onRejectClicked() {
+
+            if (!$scope.process.reviewNotes)
+            {
+                $.notify("Es necesario que agrege en observaciones el motivo del rechazo.", "error");
+                return;
+            }
+
             var model = {
                 reviewNotes: $scope.process.reviewNotes,
                 id: $scope.process.id
