@@ -5,7 +5,7 @@
     {
         <li>@Html.ActionLink("Tipos de trámites", "Index", "ProcessType", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
 
-        if (User.IsInRole(ApplicationUserRoles.User) || User.IsInRole(ApplicationUserRoles.Administrator))
+        if (User.IsInRole(ApplicationUserRoles.User))
         {
             <li>@Html.ActionLink("Trámites Guardados", "MyProcesses", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
         }

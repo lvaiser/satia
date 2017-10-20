@@ -173,9 +173,19 @@ namespace LoginPoC.Core.Process
 				if (property != null)
 				{
 					value = property.GetValue(user);
-				}
 
-				ProcessField field = new ProcessField
+                    switch (ptField.Type)
+                    {
+                        case FieldType.Date:
+                        case FieldType.BirthDate:
+                            value = ((DateTime)value).ToString(@"dd\/MM\/yyyy");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                ProcessField field = new ProcessField
 				{
 					Name = ptField.Name,
 					IsRequired = ptField.IsRequired,
