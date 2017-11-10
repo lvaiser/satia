@@ -216,10 +216,24 @@ div.tramite input[type=date] {
 
 }   
 /*Fin Tramite*/
+/*Tramites Guardados*/
+table.tabla-tramitesGuardados thead {
+    padding: 2%;
+    color: white;
+    background-color:#008CC8;
+}
+table.tabla-tramitesGuardados th {
+    padding: 1%;
+    font-family: GoboldLight;
+}
+table.tabla-tramitesGuardados tbody td{
+    padding: 1%;
+}
+/*Fin Trámites Guardados*/
 /*Font Faces*/
 @font-face {
-	font-family: GoboldRegular;
-	src: url("../fonts/Gobold Regular.otf");
+    font-family: GoboldRegular;
+    src: url("../fonts/Gobold Regular.otf");
 }
 
 @font-face {

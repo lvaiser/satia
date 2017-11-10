@@ -30,7 +30,7 @@
     <br />
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
-            <table class="table-striped" style="width:100%">
+            <table class="table-striped tabla-tramitesGuardados" style="width:100%">
                 <thead>
                     <tr>
                         <td width="10%" ng-show="anyDeprecated()"></td>
@@ -46,7 +46,7 @@
                         <td width="10%" ng-if="anyDeprecated()">
                             <div ng-hide="process.type.isActive">DEPRECADO</div>
                         </td>
-                        <td width="40%">{{ process.type.name }}</td>
+                        <td width="40%" style="font-family:GoboldRegular">{{ process.type.name }}</td>
                         <td width="25%">{{ process.creationDate | date : "dd/MM/yyyy h:mm a" }}</td>
                         <td width="15%">{{ getStatusLabel(process.status) }}</td>
                         <td width="5%" class="text-center">

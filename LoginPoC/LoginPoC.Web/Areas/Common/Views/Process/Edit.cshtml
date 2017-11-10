@@ -27,7 +27,7 @@
                     {{ field.name }}
                 </label>
                 <sup style="top:-1em"><span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020; font-size:8px;"></span></sup>
-                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled" />
+                <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled"/>
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)" ng-disabled="!editEnabled"></textarea>
@@ -53,10 +53,10 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <div ng-repeat="document in process.documents track by $index" class="col-md-6 tramite-campo">
+            <div ng-repeat="document in process.documents track by $index" class="col-md-6">
                 <label>
+                    <input ng-model="document.isAvailable" class="checkboxEdit" type="checkbox" ng-disabled="!editEnabled" />
                     {{ document.name }}
-                    <input ng-model="document.isAvailable" class="form-control" type="checkbox" ng-disabled="!editEnabled" />
                 </label>
             </div>
         </div>
