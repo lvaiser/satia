@@ -40,7 +40,7 @@ namespace LoginPoC.Web.Areas.Security.Controllers
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-            ViewBag.ReturnUrl = returnUrl;
+			ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
@@ -414,6 +414,15 @@ namespace LoginPoC.Web.Areas.Security.Controllers
 			switch (result)
 			{
 				case SignInStatus.Success:
+					var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+					var user = await UserManager.FindByIdAsync(userId);
+					if (user.Disabled)
+					{
+						AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+						ModelState.AddModelError("", "El usuario fue dado de baja");
+						return View("Login", new LoginViewModel());
+					}
+
 					return RedirectToLocal(returnUrl);
 				case SignInStatus.LockedOut:
 					return View("Lockout");
@@ -677,8 +686,8 @@ namespace LoginPoC.Web.Areas.Security.Controllers
 			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.GivenName, myInfo.first_name));
 			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Surname, myInfo.last_name));
 			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Gender, myInfo.gender));
-			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Locality, myInfo.location.location.city));
-			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Country, myInfo.location.location.country));
+			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Locality, myInfo.location?.location?.city ?? ""));
+			loginInfo.ExternalIdentity.AddClaim(new Claim(ClaimTypes.Country, myInfo.location?.location?.country ?? ""));
 		}
 
 		internal class ChallengeResult : HttpUnauthorizedResult
