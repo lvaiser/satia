@@ -7,6 +7,8 @@
             onInit: onInit
         };
 
+        $scope.filtered = {};
+
         function onInit(model) {
             $scope.processes = model.processes;
             $scope.processTypes = model.processTypes;
@@ -33,7 +35,9 @@
 
             if (status == "Rejected")
                 return "Rechazado";
-
+        
+            if (status == "Archived")
+                return "Archivado";
             return "";
         }
     }
