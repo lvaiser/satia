@@ -1,4 +1,5 @@
-﻿using LoginPoC.Core.ProcessType;
+﻿using LoginPoC.Core.Helpers;
+using LoginPoC.Core.ProcessType;
 using LoginPoC.Core.User;
 using LoginPoC.DAL;
 using LoginPoC.Model.Process;
@@ -16,14 +17,17 @@ namespace LoginPoC.Core.Process
 	public class EfProcessService : EfGenericCrudService<Model.Process.Process>, IProcessService
 	{
 		private IProcessTypeService ProcessTypeService { get; set; }
+        private ICountryService CountryService { get; set; }
 		private ApplicationUserManager UserManager { get; set; }
 
 		public EfProcessService(
 			ApplicationDbContext context, 
 			IProcessTypeService processTypeService,
+            ICountryService countryService,
 			ApplicationUserManager userManager) : base(context)
 		{
 			this.ProcessTypeService = processTypeService;
+            this.CountryService = countryService;
 			this.UserManager = userManager;
 		}
 
@@ -179,6 +183,15 @@ namespace LoginPoC.Core.Process
                         case FieldType.Date:
                         case FieldType.BirthDate:
                             value = ((DateTime)value).ToString(@"dd\/MM\/yyyy");
+                            break;
+                        case FieldType.Gender:
+                            value = EnumHelper<Gender>.GetDisplayValue((Gender)Enum.Parse(typeof(Gender), value.ToString()));
+                            break;
+                        case FieldType.MaritalStatus:
+                            value = EnumHelper<MaritalStatus>.GetDisplayValue((MaritalStatus)Enum.Parse(typeof(MaritalStatus), value.ToString()));
+                            break;
+                        case FieldType.Country:
+                            value = user.CountryId.HasValue ? this.CountryService.GetById(user.CountryId.Value).Name : null;
                             break;
                         default:
                             break;

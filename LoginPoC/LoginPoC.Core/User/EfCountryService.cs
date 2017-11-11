@@ -20,5 +20,10 @@ namespace LoginPoC.Core.User
         {
             return await this.Context.Countries.ToListAsync();
         }
+
+        public Country GetById(int countryId)
+        {
+            return this.Context.Countries.SingleOrDefault(c => c.Id == countryId);
+        }
     }
 }
