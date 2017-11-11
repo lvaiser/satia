@@ -12,7 +12,7 @@
     <div class="row">
         @using (Html.BeginForm("MyProcesses", "Process", FormMethod.Get, new { area = "Common" }))
         {
-            <div class="col-xs-6 tipoTramite-buscar">
+            <div class="col-xs-8 col-xs-offset-2 tipoTramite-buscar">
                 <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
                 <button type="submit" class="fa fa-search"></button>
             </div>

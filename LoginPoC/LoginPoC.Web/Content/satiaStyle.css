@@ -186,6 +186,9 @@ input[type=checkbox].checkboxEdit {
 	margin: 0 5px 5px 5px;
 
 }
+.tramite-campo input[type=checkbox] {
+    width: 30px;
+}
 /*Detalles*/
 dl.dl-horizontal.tipoTramite-detalles dt {
 	font-family: GoboldThin;
