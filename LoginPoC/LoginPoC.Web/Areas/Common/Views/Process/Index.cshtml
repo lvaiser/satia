@@ -28,20 +28,23 @@
                 @{  
                     var status = "fa-circle-o";
                     var title = "Pendiente";
+                    var estilo = "";
                     if (item.Status == LoginPoC.Model.Process.ProcessStatus.Approved.ToString())
                     {
                         status = "fa-check-circle";
+                        estilo = "color: green";
                         title = "Aprobado";
                     }
                     else if (item.Status == LoginPoC.Model.Process.ProcessStatus.Rejected.ToString())
                     {
                         status = "fa-times-circle";
                         title = "Rechazado";
+                        estilo = "color: red";
                     }
                 }
 
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
-                    <span class="fa @status" style="vertical-align: middle;" title="@title"></span> @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
+                    <span class="fa @status" style="vertical-align: middle; @estilo" title="@title"></span> @item.Type.Name - @item.Creator.FirstName @item.Creator.LastName
                 </span>
         
                 @if (this.User.IsInRole(ApplicationUserRoles.Agent))
