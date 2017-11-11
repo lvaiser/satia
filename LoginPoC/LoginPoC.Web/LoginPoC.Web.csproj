@@ -269,6 +269,7 @@
     </Compile>
     <Compile Include="Areas\Security\Models\AccountViewModels.cs" />
     <Compile Include="Areas\Security\Models\ManageViewModels.cs" />
+    <Compile Include="Helpers\IdentityExtensions.cs" />
     <Compile Include="Helpers\ModelErrorHelper.cs" />
     <Compile Include="Helpers\ModelStateDictionaryHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />

@@ -5,25 +5,25 @@
     ViewBag.Title = "Details";
 }
 
-<h2 class="tituloPrincipal">Detalles de Tipo de Tr&aacute;mite</h2>
+<h2 class="tituloPrincipal readable">Detalles de Tipo de Tr&aacute;mite</h2>
 <hr class="tituloPrincipal" />
 <div>
     <dl class="dl-horizontal tipoTramite-detalles">
-        <dt>
+        <dt class="readable">
             Nombre
             <!--@Html.DisplayNameFor(model => model.Name)-->
         </dt>
-        <dd>
+        <dd class="readable">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt>
+        <dt class="readable">
             Descripci&oacute;n
             <!--@Html.DisplayNameFor(model => model.Description)-->
         </dt>
-        <dd>
+        <dd class="readable">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt>
+        <dt class="readable">
             VideoTutorial
         </dt>
         <dd>
@@ -33,7 +33,7 @@
             }
             else
             {
-                <span>Sin VideoTutorial</span>
+                <span class="readable">Sin VideoTutorial</span>
             }
             
         </dd>
@@ -49,10 +49,10 @@
         
         @if (User.IsInRole(ApplicationUserRoles.User))
         {
-            <a href="@Url.Action("Create", "Process", new { area = "Common", id = Model.Id } )" class="btn btn-satia btn-primario pull-right">Iniciar tramite</a>
+            <a href="@Url.Action("Create", "Process", new { area = "Common", id = Model.Id } )" class="readable btn btn-satia btn-primario pull-right">Iniciar tramite</a>
         }
     </div>
-    <div class="col-xs-1 text-center">
+    <div class="col-xs-1 text-center readable">
         @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-satia btn-secundario" })
     </div>
 </div>
