@@ -19,7 +19,6 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 	[Authorize]
 	public class ProcessController : Controller
 	{
-		// GET DbContext from container
 		private IProcessTypeService ProcessTypeService { get; set; }
 		private IProcessService ProcessService { get; set; }
 		private ICountryService CountryService { get; set; }
