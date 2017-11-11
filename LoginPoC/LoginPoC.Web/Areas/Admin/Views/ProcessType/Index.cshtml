@@ -6,7 +6,7 @@
     ViewBag.Title = "Tipos de Tramites";
 }
 
-<h2 class="tituloPrincipal">Tipos de Tr&aacute;mite</h2>
+<h2 class="tituloPrincipal readable">Tipos de Tr&aacute;mite</h2>
 <hr class="tituloPrincipal" />
 <div class="row">
     @using (Html.BeginForm("Index", "ProcessType", FormMethod.Get, new { area = "Admin" }))
@@ -34,7 +34,7 @@
     {
         <div class="col-xs-6">
             <p class="tipoTramite-item">
-                <span class="tipoTramite-nombre">
+                <span class="tipoTramite-nombre readable">
                     @Html.DisplayFor(modelItem => item.Name)
                 </span>
                 <a href="#"><span class='fa fa-caret-down tipoTramite-itemBtn' id="tipoTramite-@item.Id"></span></a>
@@ -48,7 +48,7 @@
                 }
             </p>
             <div hidden class="tipoTramite-descripcion" id="tipoTramite-@item.Id">
-                <p class="tipoTramite-descripcion">
+                <p class="tipoTramite-descripcion readable" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; max-height: 119px;">
                     @Html.DisplayFor(modelItem => item.Description)
                 </p>
                 @if (!String.IsNullOrEmpty(item.URLVideo))
@@ -56,10 +56,10 @@
                     <iframe class="col-xs-12" height="297" style="padding: 5px 90px 15px 90px" src=@item.URLVideo frameborder="0" allowfullscreen></iframe>
                 }
                 <p class="tipoTramite-descripcion">
-                    <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-satia btn-primario">Ver Detalles del trámite</a>
+                    <a href="@Url.Action("Details",new { id = item.Id })" class="btn btn-satia btn-primario readable">Ver Detalles del trámite</a>
                     @if (User.IsInRole(ApplicationUserRoles.User))
                     {
-                        <a href="@Url.Action("Create", "Process", new { area = "Common", id = item.Id } )" class="btn btn-satia btn-secundario pull-right">Iniciar tramite</a>
+                        <a href="@Url.Action("Create", "Process", new { area = "Common", id = item.Id } )" class="readable btn btn-satia btn-secundario pull-right">Iniciar tramite</a>
                     }
                 </p>
             </div>

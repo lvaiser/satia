@@ -11,6 +11,7 @@ namespace LoginPoC.Model.Process
         Draft,
         Submitted,
         Approved,
-        Rejected
+        Rejected,
+        Archived
     }
 }

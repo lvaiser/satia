@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using LoginPoC.Core.Process;
 using LoginPoC.Core.User;
 using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Common.Models;
 using LoginPoC.Web.Helpers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -18,8 +21,10 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 	{
 		private ApplicationUserManager UserManager;
 		private IMapper mapper;
+        private SignInManager<ApplicationUser, string> SignInManager;
+        private IProcessService ProcessService { get; set; }
 
-		private IAuthenticationManager AuthenticationManager
+        private IAuthenticationManager AuthenticationManager
 		{
 			get
 			{
@@ -27,9 +32,15 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 			}
 		}
 
-		public UserController(ApplicationUserManager userManager, IMapper mapper)
+		public UserController(
+            ApplicationUserManager userManager,
+            SignInManager<ApplicationUser, string> signInManager,
+            IProcessService processService,
+            IMapper mapper)
 		{
 			this.UserManager = userManager;
+            this.ProcessService = processService;
+            this.SignInManager = signInManager;
 			this.mapper = mapper;
 		}
 
@@ -48,14 +59,18 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
 			mapper.Map(vm, user);
 			await this.UserManager.UpdateAsync(user);
-
-			return this.JsonNet(vm);
+            AuthenticationManager.SignOut();
+            await SignInManager.SignInAsync(user, true, true);
+            return this.JsonNet(vm);
 		}
 
 		[HttpGet]
-		public ActionResult Unsubscribe()
+		public async Task<ActionResult> Unsubscribe()
 		{
-			return View();
+            var pendingProcesses = await this.ProcessService.SearchMyProcessesAsync(string.Empty, this.User.Identity.GetUserId());
+            ViewBag.PendingProcessesCount = pendingProcesses.Count(x => x.Status == Model.Process.ProcessStatus.Draft || x.Status == Model.Process.ProcessStatus.Submitted);
+
+            return View();
 		}
 
 
@@ -67,7 +82,11 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 				throw new Exception("Este usuario no puede desuscribirse");
 			}
 
-			var user = await UserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            var userId = this.User.Identity.GetUserId();
+
+            await this.ProcessService.ArchiveProcessesInProgressAsync(userId);
+
+			var user = await UserManager.FindByIdAsync(userId);
 
 			user.Disabled = true;
 			await this.UserManager.UpdateAsync(user);

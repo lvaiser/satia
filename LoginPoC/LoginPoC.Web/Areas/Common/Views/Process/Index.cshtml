@@ -41,6 +41,11 @@
                         title = "Rechazado";
                         estilo = "color: red";
                     }
+                    else if (item.Status == LoginPoC.Model.Process.ProcessStatus.Archived.ToString())
+                    {
+                        status = "fa-ban";
+                        title = "Archivado";
+                    }
                 }
 
                 <span class="tipoTramite-nombre" style="cursor: pointer;">
