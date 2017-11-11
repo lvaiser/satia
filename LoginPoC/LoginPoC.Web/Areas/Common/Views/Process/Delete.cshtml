@@ -4,31 +4,31 @@
     ViewBag.Title = "Eliminar Trámite";
 }
 
-<h2 class="tituloPrincipal">@ViewBag.Title</h2>
-<hr class="tituloPrincipal" />
-<h3>&iquest;Est&aacute; seguro de eliminar el tr&aacute;mite?</h3>
+<h2 class="tituloPrincipal readable">@ViewBag.Title</h2>
+<hr class="tituloPrincipal readable" />
+<h3 class="readable">&iquest;Est&aacute; seguro de eliminar el tr&aacute;mite?</h3>
 <div>
 
     <dl class="dl-horizontal">
-        <dt>
+        <dt class="readable">
             Fecha de Creaci&oacute;n
             <!--@Html.DisplayNameFor(model => model.CreationDate)-->
         </dt>
-        <dd>
+        <dd class="readable">
             @Html.DisplayFor(model => model.CreationDate)
         </dd>
-        <dt>
+        <dt class="readable">
             Notas de Revisi&oacute;n
             <!--@Html.DisplayNameFor(model => model.ReviewNotes)-->
         </dt>
-        <dd>
+        <dd class="readable">
             @Html.DisplayFor(model => model.ReviewNotes)
         </dd>
-        <dt>
+        <dt class="readable">
             Fecha de Revisi&oacute;n
             <!--@Html.DisplayNameFor(model => model.ReviewDate)-->
         </dt>
-        <dd>
+        <dd class="readable">
             @Html.DisplayFor(model => model.ReviewDate)
         </dd>
 
@@ -38,8 +38,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-satia btn-rechazar" />
-            <a href="@Url.Action("MyProcesses")" class="btn btn-satia btn-secundario">Volver</a>
+            <button type="submit" value="Eliminar" class="btn btn-satia btn-rechazar readable">Eliminar</button>
+            <a href="@Url.Action("MyProcesses")" class="btn btn-satia btn-secundario readable">Volver</a>
         </div>
     }
 </div>

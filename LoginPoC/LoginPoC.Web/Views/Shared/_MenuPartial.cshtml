@@ -3,11 +3,11 @@
 <ul class="nav navbar-nav">
     @if (User.Identity.IsAuthenticated)
     {
-        <li>@Html.ActionLink("Tipos de trámites", "Index", "ProcessType", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
+        <li class="readable">@Html.ActionLink("Tipos de trámites", "Index", "ProcessType", new { area = "Admin" }, new { @class = "header-btn-link" })</li>
 
         if (User.IsInRole(ApplicationUserRoles.User))
         {
-            <li>@Html.ActionLink("Trámites Guardados", "MyProcesses", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
+            <li class="readable">@Html.ActionLink("Trámites Guardados", "MyProcesses", "Process", new { area = "Common" }, new { @class = "header-btn-link" })</li>
         }
 
         if (User.IsInRole(ApplicationUserRoles.Agent) || User.IsInRole(ApplicationUserRoles.Administrator))

@@ -27,13 +27,13 @@
                         <div style="display:inline;">
                             <img ng-src="{{form.pictureUrl}}" alt="User picture" class="img-thumbnail" style="max-width:130px; max-height:130px;"
                                  ngf-select="events.onFileSelected($file)" accept="image/*" ngf-max-height="1000" ngf-max-size="3MB"/>
-                            <label><span class="glyphicon glyphicon-edit"></span> Editar</label>
+                            <label><span class="glyphicon glyphicon-edit readable"></span> Editar</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 form-group has-feedback">
+                    <div class="col-md-6 form-group has-feedback readable">
                         <label>Nombre</label>
                         <input ng-model="user.firstName" 
                                class="form-control" 
@@ -44,7 +44,7 @@
                                placeholder="Nombre..."/>
                         <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.firstName.$invalid && pageForm.firstName.$dirty"></span>
                     </div>
-                    <div class="col-md-6 form-group has-feedback">
+                    <div class="col-md-6 form-group has-feedback readable">
                         <label>Apellido</label>
                         <input ng-model="user.lastName" 
                                class="form-control" type="text" name="lastName" 
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 form-group has-feedback">
+                    <div class="col-md-12 form-group has-feedback readable">
                         <label>Email</label>
                         <input ng-model="user.email" 
                                class="form-control" type="email" name="email" 
@@ -77,12 +77,12 @@
         <div class="panel panel-info">
             <div class="panel-body">
 
-                <h3>Datos Personales</h3>
+                <h3 class="readable">Datos Personales</h3>
                 <hr />
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Genero</label>
                             <select class="form-control" 
                                     name="gender"
@@ -90,7 +90,7 @@
                                     ng-options="item.key as item.value for item in form.data.genders"></select>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.gender.$invalid && pageForm.gender.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Pais de origen</label>
                             <select class="form-control"
                                     name="country"
@@ -98,7 +98,7 @@
                                     ng-options="item.id as item.name for item in form.data.countries"></select>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.country.$invalid && pageForm.country.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Ciudad de origen</label>
                             <input ng-model="user.city" 
                                    class="form-control" 
@@ -108,12 +108,12 @@
                                    uib-popover="La ciudad de origen es requerido" popover-trigger="'mouseenter'" popover-enable="pageForm.city.$invalid && pageForm.city.$dirty"/>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.city.$invalid && pageForm.city.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Número de Teléfono</label>
                             <input ng-model="user.phoneNumber" class="form-control" type="text" name="phoneNumber" />
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.phoneNumber.$invalid && pageForm.phoneNumber.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Estado Civil</label>
                             <select class="form-control"
                                     name="maritalStatuses"
@@ -121,7 +121,7 @@
                                     ng-options="item.key as item.value for item in form.data.maritalStatuses"></select>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.maritalStatuses.$invalid && pageForm.maritalStatuses.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             @*<br />*@
                             <div class="checkbox">
                                 <label>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Fecha de nacimiento</label>
                             <input ng-model="user.birthDate"
                                    name="birthDate"
@@ -143,7 +143,7 @@
                                    uib-popover="Su fecha de nacimiento es requerida" popover-trigger="'mouseenter'" popover-enable="pageForm.birthDate.$invalid && pageForm.birthDate.$dirty"/>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.birthDate.$invalid && pageForm.birthDate.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Provincia / Estado de origen</label>
                             <input ng-model="user.stateProvince" 
                                    class="form-control" 
@@ -152,7 +152,7 @@
                                    required />
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.stateProvince.$invalid && pageForm.stateProvince.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Dirección actual</label>
                             <input ng-model="user.address" 
                                    class="form-control" 
@@ -162,18 +162,10 @@
                                    uib-popover="Su direccion es requerida" popover-trigger="'mouseenter'" popover-enable="pageForm.address.$invalid && pageForm.address.$dirty"/>
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.address.$invalid && pageForm.address.$dirty"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <div class="form-group has-feedback readable">
                             <label>Ocupación</label>
                             <input ng-model="user.occupation" class="form-control" type="text" name="occupation" />
                             <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.occupation.$invalid && pageForm.occupation.$dirty"></span>
-                        </div>
-                        <div class="form-group has-feedback">
-                            <label>Idioma principal</label>
-                            <select class="form-control"
-                                    name="culture"
-                                    ng-model="user.cultureName"
-                                    ng-options="item.id as item.displayName for item in form.data.cultures"></select>
-                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" ng-show="pageForm.culture.$invalid && pageForm.culture.$dirty"></span>
                         </div>
                     </div>
                 </div>
@@ -183,8 +175,8 @@
 
         <div class="panel panel-info">
             <div class="panel-body">
-                <button class="btn btn-satia btn-rechazar pull-left"  ng-click="events.onUnsubscribeClicked();">Desuscribirme</button>
-                <button class="btn btn-satia btn-primario pull-right" ng-click="events.onSaveClicked();">Guardar Cambios</button>            </div>
+                <button class="btn btn-satia btn-rechazar pull-left readable" ng-click="events.onUnsubscribeClicked();">Desuscribirme</button>
+                <button class="btn btn-satia btn-primario pull-right readable" ng-click="events.onSaveClicked();">Guardar Cambios</button>            </div>
         </div>
 
     </div>

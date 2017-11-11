@@ -14,16 +14,16 @@
 }
 
 <div ng-controller="Process.Edit" ng-init='events.onInit(@Html.Raw(jsonModel), @enableEdit.ToString().ToLower(), @enableReview.ToString().ToLower())'>
-    <h2 class="tituloPrincipal"> {{ process.type.name }} </h2>
+    <h2 class="tituloPrincipal readable"> {{ process.type.name }} </h2>
     <hr class="tituloPrincipal" />
     <div class="row">   
-        <div class="col-md-offset-2 col-md-8 tramite-seccion">Formulario</div>
+        <div class="col-md-offset-2 col-md-8 tramite-seccion readable">Formulario</div>
     </div>
     <div class="row">
         <div class="col-md-2"></div>        
         <div class="col-md-8">
             <div ng-repeat="field in process.fields track by $index" class="col-md-6 tramite-campo">
-                <label>
+                <label class="readable">
                     {{ field.name }}
                 </label>
                 <sup style="top:-1em"><span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020; font-size:8px;"></span></sup>
@@ -39,22 +39,22 @@
     <br />
     <div class="row">
         <div class="col-md-offset-2 col-md-8">
-            <p ng-if="completionError" style="color: #D92020">
+            <p  class="readable" ng-if="completionError" style="color: #D92020">
                 Los siguientes campos son requeridos:
-                <div ng-repeat="field in uncompleteRequiredFields track by $index" style="color: #D92020">
+                <div class="readable" ng-repeat="field in uncompleteRequiredFields track by $index" style="color: #D92020">
                     {{ field.name | uppercase }}
                 </div>
             </p>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-offset-2 col-md-8 tramite-seccion">Documentos</div>
+        <div class="col-md-offset-2 col-md-8 tramite-seccion readable">Documentos</div>
     </div>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <div ng-repeat="document in process.documents track by $index" class="col-md-6">
-                <label>
+                <label class="readable">
                     <input ng-model="document.isAvailable" class="checkboxEdit" type="checkbox" ng-disabled="!editEnabled" />
                     {{ document.name }}
                 </label>
@@ -64,9 +64,9 @@
     </div>
 
     <div class="row" ng-show="reviewEnabled || !!process.reviewNotes">
-        <div class="col-md-offset-2 col-md-8 tipoTramite-seccion">Observaciones</div>
+        <div class="col-md-offset-2 col-md-8 tipoTramite-seccion readable">Observaciones</div>
         <div class="col-md-offset-2 col-md-8">
-            <textarea class="form-control" ng-model="process.reviewNotes" ng-disabled="!reviewEnabled"></textarea>
+            <textarea class="form-control readable" ng-model="process.reviewNotes" ng-disabled="!reviewEnabled"></textarea>
         </div>
     </div>
 
@@ -74,13 +74,13 @@
     <hr />
 
         <div class="text-center" ng-if="reviewEnabled">
-            <button class="btn btn-satia btn-rechazar" ng-click="events.onRejectClicked();">Rechazar</button>
-            <button class="btn btn-satia btn-aprobar" ng-click="events.onApproveClicked();">Aprobar</button>
+            <button class="btn btn-satia btn-rechazar readable" ng-click="events.onRejectClicked();">Rechazar</button>
+            <button class="btn btn-satia btn-aprobar readable" ng-click="events.onApproveClicked();">Aprobar</button>
         </div>
 
         <div class="text-center" ng-if="editEnabled">
-            <button class="btn btn-satia btn-secundario" ng-click="events.onSaveClicked();">Guardar Cambios</button>
-            <button class="btn btn-satia btn-primario" ng-click="events.onSendToReviewClicked();">Enviar a revisi&oacute;n</button>
+            <button class="btn btn-satia btn-secundario readable" ng-click="events.onSaveClicked();">Guardar Cambios</button>
+            <button class="btn btn-satia btn-primario readable" ng-click="events.onSendToReviewClicked();">Enviar a revisi&oacute;n</button>
         </div>
     </div>
 </div>
