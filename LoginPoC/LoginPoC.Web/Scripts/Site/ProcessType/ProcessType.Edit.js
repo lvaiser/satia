@@ -50,6 +50,7 @@
             if (!$scope.myform.$valid) {
                 return;
             };
+            $scope.processType.urlVideo = $scope.processType.urlVideo.replace('watch?v=', 'embed/')
             $scope.processType.documents = $scope.processTypeDocuments;
             $scope.processType.fields = $scope.processTypeFields;
 
