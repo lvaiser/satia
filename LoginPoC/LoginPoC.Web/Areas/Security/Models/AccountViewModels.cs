@@ -120,7 +120,6 @@ namespace LoginPoC.Web.Areas.Security.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-		[
 		[Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
