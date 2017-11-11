@@ -7,5 +7,6 @@ namespace LoginPoC.Core.User
     public interface ICountryService
     {
         Task<IEnumerable<Country>> GetCountriesAsync();
+        Country GetById(int countryId);
     }
 }
