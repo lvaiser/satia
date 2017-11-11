@@ -19,5 +19,7 @@ namespace LoginPoC.Core.Process
 		Task DeassignAsync(int processId);
 
 		Task ChangeStatusAsync(int processId, ProcessStatus status, string reviewNotes = null);
-	}
+
+        Task ArchiveProcessesInProgressAsync(string userId);
+    }
 }

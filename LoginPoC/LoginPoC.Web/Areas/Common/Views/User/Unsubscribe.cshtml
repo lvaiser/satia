@@ -1,12 +1,19 @@
-﻿@model LoginPoC.Web.Areas.Common.Models.ProcessViewModel
-
-@{
+﻿@{
     ViewBag.Title = "Desuscripcion";
 }
 
 <h2 class="tituloPrincipal readable">Desubscribirse</h2>
 <hr class="tituloPrincipal" />
 <h3 class="readable">&iquest;Est&aacute; seguro que desea darse de baja?</h3>
+@if (ViewBag.PendingProcessesCount > 0)
+{
+    <div><p class="readable">Advertencia: Tiene @ViewBag.PendingProcessesCount 
+        @string.Format("{0}{1}", "trámite", ViewBag.PendingProcessesCount > 1 ? "s" : string.Empty) 
+        en curso. Si continúa 
+        @string.Format("{0}{1}", "será", ViewBag.PendingProcessesCount > 1 ? "n" : string.Empty)
+        @string.Format("{0}{1}", "archivado", ViewBag.PendingProcessesCount > 1 ? "s" : string.Empty).</p></div>
+}
+
 <div>
 
     @using (Html.BeginForm()) {

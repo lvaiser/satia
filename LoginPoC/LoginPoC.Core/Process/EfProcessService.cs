@@ -215,5 +215,16 @@ namespace LoginPoC.Core.Process
 
 			return process;
 		}
-	}
+
+        public async Task ArchiveProcessesInProgressAsync(string userId)
+        {
+            var processes = this.context.Processes.Where(
+                p => p.CreatorId == userId && 
+                (p.Status == ProcessStatus.Draft || p.Status == ProcessStatus.Submitted));
+
+            await processes.ForEachAsync(p => p.Status = ProcessStatus.Archived);
+
+            await this.context.SaveChangesAsync();
+        }
+    }
 }
