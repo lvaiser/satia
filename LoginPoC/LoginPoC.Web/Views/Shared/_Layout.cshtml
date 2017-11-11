@@ -1,10 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+@using LoginPoC.Model.User
+@using AutoMapper;
+@using LoginPoC.Core.User;
+@using LoginPoC.Web.Areas.Common.Models;
+@using LoginPoC.Web.Helpers;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.Owin.Security;
+@using System;
+@using System.Threading.Tasks;
+@using System.Web;
+@using System.Web.Mvc;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using Newtonsoft.Json;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta fa
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SATIA</title>
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     
@@ -26,11 +44,43 @@
     </div>
     <footer class="text-right">
         <div id="google_translate_element" style="float:left; margin: 12px 10px"></div>
-        <p>DIRECCI&Oacute;N 1234, CABA / (00 54 11) 1234-5678 / 12345 &copy; @DateTime.Now.Year - G407</p> 
+        <p class="readable">DIRECCI&Oacute;N 1234, CABA / (00 54 11) 1234-5678 / 12345 &copy; @DateTime.Now.Year - G407</p> 
 
+            
         <script type="text/javascript">
             function googleTranslateElementInit() {
-                new google.translate.TranslateElement({ pageLanguage: 'es', includedLanguages: 'es,en,fr,mi', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+                new google.translate.TranslateElement({ pageLanguage: 'es', includedLanguages: 'es,en,fr', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+            }
+            function readCookie(name) {
+                var c = document.cookie.split('; '),
+                    cookies = {}, i, C;
+
+                for (i = c.length - 1; i >= 0; i--) {
+                    C = c[i].split('=');
+                    cookies[C[0]] = C[1];
+                }
+
+                return cookies[name];
+            }
+
+            function languageToRead(selectedGoogleLanguage) {
+                if (selectedGoogleLanguage == undefined) {
+                    return 'Spanish Latin American Female';
+                }
+                switch (selectedGoogleLanguage.substr(4)) {
+                    case 'en':
+                        return 'UK English Female';
+                    case 'es':
+                        return 'Spanish Latin American Female';
+                    case 'fr':
+                        return 'French Female';
+                }
+            }
+
+            if (@JsonConvert.SerializeObject(User.Identity.GetCanRead()) && @JsonConvert.SerializeObject(User.Identity.IsAuthenticated)) {
+                $(document).on('mouseover', '.readable', function (e) {
+                    responsiveVoice.speak($('.readable:hover').text(), languageToRead(readCookie('googtrans')));
+                });
             }
         </script>
         <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

@@ -17,6 +17,41 @@
         $scope.completionError = false;
         $scope.uncompleteRequiredFields = [];
 
+        $scope.datePickerOptions = {
+            "singleDatePicker": true,
+            "autoApply": true,
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "fromLabel": "Desde",
+                "toLabel": "Hasta",
+                "daysOfWeek": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            }
+        };
+
         $scope.events = {
             onInit: onInit,
             onSaveClicked: onSaveClicked,
@@ -63,7 +98,11 @@
         };
 
         $scope.simpleInputType = function (dataType) {
-            return textField(dataType) || numberField(dataType) || dateField(dataType) || radioField(dataType);
+            return textField(dataType) || numberField(dataType) || radioField(dataType);
+        };
+
+        $scope.dateInputType = function (dataType) {
+            return dateField(dataType);
         };
 
         $scope.stepInputType = function (dataType) {

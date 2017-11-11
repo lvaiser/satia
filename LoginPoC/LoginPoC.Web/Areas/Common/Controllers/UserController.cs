@@ -5,6 +5,7 @@ using LoginPoC.Model.User;
 using LoginPoC.Web.Areas.Common.Models;
 using LoginPoC.Web.Helpers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Linq;
@@ -19,10 +20,11 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 	public class UserController : Controller
 	{
 		private ApplicationUserManager UserManager;
+		private IMapper mapper;
+        private SignInManager<ApplicationUser, string> SignInManager;
         private IProcessService ProcessService { get; set; }
-        private IMapper mapper;
 
-		private IAuthenticationManager AuthenticationManager
+        private IAuthenticationManager AuthenticationManager
 		{
 			get
 			{
@@ -32,11 +34,13 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
 		public UserController(
             ApplicationUserManager userManager,
+            SignInManager<ApplicationUser, string> signInManager,
             IProcessService processService,
             IMapper mapper)
 		{
 			this.UserManager = userManager;
             this.ProcessService = processService;
+            this.SignInManager = signInManager;
 			this.mapper = mapper;
 		}
 
@@ -55,8 +59,9 @@ namespace LoginPoC.Web.Areas.Common.Controllers
 
 			mapper.Map(vm, user);
 			await this.UserManager.UpdateAsync(user);
-
-			return this.JsonNet(vm);
+            AuthenticationManager.SignOut();
+            await SignInManager.SignInAsync(user, true, true);
+            return this.JsonNet(vm);
 		}
 
 		[HttpGet]
