@@ -13,13 +13,13 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        <label class="col-md-2 control-label">Correo</label>
+        <label class="col-md-2 control-label">Correo <sup><span class="fa fa-asterisk" style="color: #D92020; font-size:8px;"></span></sup></label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Contrase&ntilde;a</label>
+        <label class="col-md-2 control-label">Contrase&ntilde;a <sup><span class="fa fa-asterisk" style="color: #D92020; font-size:8px;"></span></sup></label>
         <div class="col-md-5">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
@@ -31,80 +31,69 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Nombre</label>
+        <label class="col-md-2 control-label">Nombre <sup><span class="fa fa-asterisk" style="color: #D92020; font-size:8px;"></span></sup></label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Apellido</label>
+        <label class="col-md-2 control-label">Apellido <sup><span class="fa fa-asterisk" style="color: #D92020; font-size:8px;"></span></sup></label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Tel&eacute;fono</label>
         <div class="col-md-5">
             @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(m => m.PhoneNumber)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Fecha de Nacimiento</label>
         <div class="col-md-5">
-            @Html.EditorFor(m => m.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(m => m.BirthDate)
+            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", datepicker = "" })
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Sexo</label>
         <div class="col-md-5">
             @Html.EnumDropDownListFor(m => m.Gender, "Seleccione una alternativa", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Gender)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Estado Civil</label>
         <div class="col-md-5">
             @Html.EnumDropDownListFor(m => m.MaritalStatus, "Seleccione una alternativa", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.MaritalStatus)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Pa&iacute;s</label>
         <div class="col-md-5">
             @Html.DropDownListFor(m => m.Country.Id, Model.Countries, "Seleccione una alternativa", new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Country)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Provincia</label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.StateProvince, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.StateProvince)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Ciudad</label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.City)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Direcci&oacute;n</label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Address)
         </div>
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">Ocupaci&oacute;n</label>
         <div class="col-md-5">
             @Html.TextBoxFor(m => m.Occupation, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Occupation)
         </div>
     </div>
     <div class="form-group">
@@ -124,4 +113,42 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $('input[datepicker]').daterangepicker({
+            "singleDatePicker": true,
+            "autoApply": true,
+            "maxDate": "@DateTime.Now.ToString("dd/MM/yyyy")",
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "fromLabel": "Desde",
+                "toLabel": "Hasta",
+                "daysOfWeek": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            }
+        });
+    </script>
 }
