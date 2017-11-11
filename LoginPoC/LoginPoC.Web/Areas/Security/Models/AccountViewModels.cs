@@ -76,7 +76,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 		[Required]
 		public string Provider { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "El codigo de verificacion es requerido")]
 		[Display(Name = "Code")]
 		public string Code { get; set; }
 		public string ReturnUrl { get; set; }
@@ -89,7 +89,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class ForgotViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El correo es requerido")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 	}
@@ -112,26 +112,26 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class RegisterViewModel : ExternalLoginConfirmationViewModel
 	{
-		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[Required(ErrorMessage = "La contraseña es requerida")]
+		[StringLength(100, ErrorMessage = "La contraseña debe tener al menos {2} caracteres.", MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
 		public string Password { get; set; }
 
 		[DataType(DataType.Password)]
 		[Display(Name = "Confirm password")]
-		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+		[Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
 		public string ConfirmPassword { get; set; }
 	}
 
 	public class ResetPasswordViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El email es requerido")]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "La contraseña es requerida")]
 		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
@@ -147,7 +147,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class ForgotPasswordViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El email es requerido")]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
