@@ -76,7 +76,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 		[Required]
 		public string Provider { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "El codigo de verificacion es requerido")]
 		[Display(Name = "Code")]
 		public string Code { get; set; }
 		public string ReturnUrl { get; set; }
@@ -89,7 +89,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class ForgotViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El correo es requerido")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 	}
@@ -112,7 +112,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class RegisterViewModel : ExternalLoginConfirmationViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "La contraseña es requerida")]
 		[StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.", MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Password")]
@@ -120,18 +120,19 @@ namespace LoginPoC.Web.Areas.Security.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "La contraseña y la confirmación no coinciden.")]
+		[
+		[Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
 	public class ResetPasswordViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El email es requerido")]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 
-        [Required]
+		[Required(ErrorMessage = "La contraseña es requerida")]
         [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -147,7 +148,7 @@ namespace LoginPoC.Web.Areas.Security.Models
 
 	public class ForgotPasswordViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "El email es requerido")]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }

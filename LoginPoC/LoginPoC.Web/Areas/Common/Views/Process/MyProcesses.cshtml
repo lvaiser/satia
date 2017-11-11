@@ -17,6 +17,14 @@
                 <button type="submit" class="fa fa-search"></button>
             </div>
         }
+        <select name="filteredStatus" ng-model="filtered.status">
+            <option value="">Todos</option>
+            <option value="Draft">Borrador</option>
+            <option value="Approved">Aprobado</option>
+            <option value="Submitted">Enviado</option>
+            <option value="Archived">Archivado</option>
+            <option value="Rejected">Rechazado</option>
+        </select>
     </div>
     <br />
     <div class="row">
@@ -33,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="process in processes">
+                    <tr ng-repeat="process in processes | filter:filtered:strict">
                         <td width="10%" ng-if="anyDeprecated()">
                             <div class="readable" ng-hide="process.type.isActive">DEPRECADO</div>
                         </td>
