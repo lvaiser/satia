@@ -28,7 +28,12 @@
                 </label>
                 <sup style="top:-1em"><span class="fa fa-asterisk" ng-if="field.isRequired" style="color: #D92020; font-size:8px;"></span></sup>
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="simpleInputType(field.type)" ng-disabled="!editEnabled"/>
-                <input ng-model="field.value" class="form-control" type="text" date-range-picker options="datePickerOptions" placeholder="dd/mm/yyyy" ng-if="dateInputType(field.type)" ng-disabled="!editEnabled" />
+
+                <div class="input-group" ng-if="dateInputType(field.type)">
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                    <input ng-model="field.value" class="form-control" type="text" date-range-picker options="datePickerOptions" placeholder="dd/mm/aaaa" ng-disabled="!editEnabled" />
+                </div>
+
                 <input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" step="0.01" ng-if="stepInputType(field.type)" ng-disabled="!editEnabled">
                 <input non-digit-input ng-model="field.value" class="form-control" type="{{ inputType(field) }}" ng-if="noNumbersInputType(field.type)" ng-disabled="!editEnabled">
                 <textarea ng-model="field.value" class="form-control" ng-if="textAreaType(field.type)" ng-disabled="!editEnabled"></textarea>
