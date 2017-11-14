@@ -77,9 +77,9 @@ div.home-boton {
 
 
 /*Tipos de Tramite*/
-div.tipoTramite-buscar input[type=text] {
-	width: 100%;
-	padding:2% 0 2% 0;
+div.tipoTramite-buscar input[type=text], div.tipoTramite-buscar select {
+    width: 100%;
+    padding: 2% 0 2% 0;
 }
 
 div.tipoTramite-buscar button[type=submit] {
