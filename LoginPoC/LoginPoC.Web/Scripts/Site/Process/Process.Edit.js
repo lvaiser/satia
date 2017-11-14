@@ -19,6 +19,7 @@
 
         $scope.datePickerOptions = {
             "singleDatePicker": true,
+            "showDropdowns": true,
             "autoApply": true,
             "locale": {
                 "format": "DD/MM/YYYY",

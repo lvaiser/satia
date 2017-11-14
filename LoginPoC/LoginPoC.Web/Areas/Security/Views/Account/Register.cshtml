@@ -51,7 +51,10 @@
     <div class="form-group">
         <label class="col-md-2 control-label">Fecha de Nacimiento</label>
         <div class="col-md-5">
-            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", datepicker = "" })
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", datepicker = "" })
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -67,7 +70,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-2 control-label">Pa&iacute;s</label>
+        <label class="col-md-2 control-label">Pa&iacute;s <sup><span class="fa fa-asterisk" style="color: #D92020; font-size:8px;"></span></sup></label>
         <div class="col-md-5">
             @Html.DropDownListFor(m => m.Country.Id, Model.Countries, "Seleccione una alternativa", new { @class = "form-control" })
         </div>
@@ -117,6 +120,7 @@
     <script type="text/javascript">
         $('input[datepicker]').daterangepicker({
             "singleDatePicker": true,
+            "showDropdowns": true,
             "autoApply": true,
             "maxDate": "@DateTime.Now.ToString("dd/MM/yyyy")",
             "locale": {
