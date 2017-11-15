@@ -16,11 +16,13 @@ namespace LoginPoC.Web.AutoMapper.Profiles
 
             CreateMap<ApplicationUser, RegisterViewModel>()
                 .ReverseMap()
-                .ForMember(u => u.UserName, opt => opt.MapFrom(vm => vm.Email));
+                .ForMember(u => u.UserName, opt => opt.MapFrom(vm => vm.Email))
+                .ForMember(u => u.Country, opt => opt.Ignore());
 
             CreateMap<ApplicationUser, ExternalLoginConfirmationViewModel>()
                 .ReverseMap()
-                .ForMember(u => u.UserName, opt => opt.ResolveUsing(vm => vm.Email));
+                .ForMember(u => u.UserName, opt => opt.ResolveUsing(vm => vm.Email))
+                .ForMember(u => u.Country, opt => opt.Ignore());
         }
     }
 }

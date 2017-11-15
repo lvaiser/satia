@@ -34,7 +34,8 @@ namespace LoginPoC.Core.ProcessType
                 query = query.Where(pt => pt.Name.Contains(name));
             }
 
-            return await query.ToListAsync();
+            return await query.OrderBy(p => p.Name)
+                              .ToListAsync();
         }
 
         public override Model.ProcessType.ProcessType GetById(int id)

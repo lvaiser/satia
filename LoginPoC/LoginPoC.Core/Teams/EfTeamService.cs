@@ -21,7 +21,8 @@ namespace LoginPoC.Core.Teams
                 query = query.Where(t => t.Name.Contains(name));
             }
 
-            return await query.ToListAsync();
+            return await query.OrderBy(p => p.Name)
+                              .ToListAsync();
         }
 
         public override Team GetById(int id)

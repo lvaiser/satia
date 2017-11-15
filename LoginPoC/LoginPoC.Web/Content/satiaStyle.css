@@ -60,6 +60,12 @@ footer p {
 	font-family: GoboldThinItalic;
 	padding: 15px 10px 0 0;
 }
+
+div.listado {
+	max-height: calc(100vh - 269px);
+	overflow: auto;
+}
+
 /*Fin Layout*/
 /*Index*/
 div.home-text {

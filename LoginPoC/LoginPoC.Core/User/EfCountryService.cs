@@ -1,8 +1,8 @@
 ﻿using LoginPoC.DAL;
 using LoginPoC.Model.User;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LoginPoC.Core.User
@@ -18,7 +18,8 @@ namespace LoginPoC.Core.User
 
         public async Task<IEnumerable<Country>> GetCountriesAsync()
         {
-            return await this.Context.Countries.ToListAsync();
+            return await this.Context.Countries.OrderBy(c => c.Name)
+                                               .ToListAsync();
         }
 
         public Country GetById(int countryId)

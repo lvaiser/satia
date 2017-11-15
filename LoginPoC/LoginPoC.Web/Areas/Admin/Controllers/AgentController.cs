@@ -31,7 +31,9 @@ namespace LoginPoC.Web.Areas.Admin.Controllers
         public async Task<ActionResult> Index(string name = null)
         {
             var agentRole = await this.roleManager.FindByNameAsync(ApplicationUserRoles.Agent);
-            var users = this.userManager.Users.Where(u => u.Roles.Any(r => r.RoleId == agentRole.Id));
+            IQueryable<ApplicationUser> users = this.userManager.Users.Where(u => u.Roles.Any(r => r.RoleId == agentRole.Id))
+                                                                      .OrderBy(u => u.LastName)
+                                                                      .ThenBy(u => u.FirstName);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
