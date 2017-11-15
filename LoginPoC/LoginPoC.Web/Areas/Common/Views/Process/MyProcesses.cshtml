@@ -12,19 +12,21 @@
     <div class="row">
         @using (Html.BeginForm("MyProcesses", "Process", FormMethod.Get, new { area = "Common" }))
         {
-            <div class="col-xs-8 col-xs-offset-2 tipoTramite-buscar">
+            <div class="col-xs-6 tipoTramite-buscar">
                 <input type="text" placeholder="Buscar trámite" name="name" id="name" value="@Model.SearchByName" />
                 <button type="submit" class="fa fa-search"></button>
             </div>
         }
-        <select name="filteredStatus" ng-model="filtered.status">
-            <option value="">Todos</option>
-            <option value="Draft">Borrador</option>
-            <option value="Approved">Aprobado</option>
-            <option value="Submitted">Enviado</option>
-            <option value="Archived">Archivado</option>
-            <option value="Rejected">Rechazado</option>
-        </select>
+        <div class="col-xs-6 tipoTramite-buscar">
+            <select name="filteredStatus" ng-model="filtered.status">
+                <option value="" style="color:#C7C7CD">Filtrar Estado de Tr&aacute;mites</option>
+                <option value="Draft">Borrador</option>
+                <option value="Approved">Aprobado</option>
+                <option value="Submitted">Enviado</option>
+                <option value="Archived">Archivado</option>
+                <option value="Rejected">Rechazado</option>
+            </select>
+        </div>
     </div>
     <br />
     <div class="row">
